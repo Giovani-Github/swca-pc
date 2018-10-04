@@ -37,16 +37,12 @@
 
             <Submenu name="4">
               <template slot="title">
-                <Icon type="ios-stats"/>
-                个人中心
+                <!-- 用户头像取用户名第一个字母大写 -->
+                <Avatar :style="{background: userColor}">{{userName.charAt(0).toUpperCase()}}</Avatar>
+                <span>{{userName}}</span>
               </template>
-              <MenuGroup title="电脑保修">
-                <MenuItem name="3-1">提交保修订单</MenuItem>
-                <MenuItem name="3-2">报修管理</MenuItem>
-              </MenuGroup>
-              <MenuItem name="3-4">课表查询</MenuItem>
-              <MenuItem name="3-5">公交路线</MenuItem>
-              <MenuItem name="3-5">成绩查询</MenuItem>
+              <MenuItem name="3-4">个人中心</MenuItem>
+              <MenuItem name="3-5">退出登录</MenuItem>
             </Submenu>
           </div>
         </Col>
@@ -56,8 +52,21 @@
 </template>
 
 <script>
+  const ColorList = ['#19CAAD', '#8CC7B5', '#A0EEE1', '#BEE7E9', '#BEEDC7', '#D6D5B7', '#D1BA74', '#E6CEAC', '#ECAD9E', '#F4606C'];
+
   export default {
-    name: "header-sw"
+    name: "header-sw",
+    data() {
+      return {
+        userName: 'Giovani',
+        userColor: ColorList[0] // 用户头像颜色
+      }
+    },
+    created() {
+      // 每次刷新页面，随机更换一次头像的颜色
+      this.userColor = ColorList[Math.floor(Math.random() * 10)];
+    }
+
   }
 </script>
 
@@ -73,5 +82,9 @@
     width: 520px;
     margin: 0 auto;
     margin-right: 20px;
+  }
+
+  span {
+    margin-left: 8px;
   }
 </style>

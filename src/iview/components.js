@@ -19,7 +19,8 @@ import {
   TabPane,
   Radio,
   RadioGroup,
-  Layout
+  Layout,
+  Avatar
 } from 'iview';
 
 const iview = {
@@ -41,8 +42,9 @@ const iview = {
     Vue.component('Tabs', Tabs);
     Vue.component('TabPane', TabPane);
     Vue.component('Radio', Radio);
-    Vue.component('RadioGroup', RadioGroup)
-    Vue.component('Layout', Layout)
+    Vue.component('RadioGroup', RadioGroup);
+    Vue.component('Layout', Layout);
+    Vue.component('Avatar', Avatar);
   }
 }
 
