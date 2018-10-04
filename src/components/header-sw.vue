@@ -1,48 +1,50 @@
 <template>
   <Header :style="{position: 'fixed', width: '100%'}">
 
-    <Menu mode="horizontal" active-name="1">
+    <Menu mode="horizontal" :active-name="activeName" @on-select="onSelect">
       <Row type="flex" justify="start" class="code-row-bg">
-        <Col :sm="1" offset="1">
-          <a href="">
-            <img src="../assets/swca-logo.png" alt="" class="layout-logo">
-          </a>
+        <Col :sm="1" offset="1" class="home">
+          <router-link to="/">
+            <img @click="homeClick" src="../assets/swca-logo.png" alt="" class="layout-logo">
+          </router-link>
         </Col>
 
-        <Col :sm="6" offset="1">
-          <Input placeholder="Enter something..." style="width: 300px"/>
+        <Col :sm="6" offset="1" class="search">
+          <Input @on-search="onSearch" search enter-button placeholder="Enter something..."/>
         </Col>
 
         <Col :sm="7" offset="7" :xs="0">
           <div class="layout-nav">
             <router-link to="/course">
               <MenuItem name="2">
-                <Icon type="ios-people"/>
+                <Icon class="icon" type="md-book"/>
                 计算机教程
               </MenuItem>
             </router-link>
             <Submenu name="3">
               <template slot="title">
-                <Icon type="ios-stats"/>
+                <Icon class="icon" type="md-ionic"/>
                 工具
               </template>
-              <MenuGroup title="电脑保修">
-                <MenuItem name="3-1">提交保修订单</MenuItem>
-                <MenuItem name="3-2">报修管理</MenuItem>
+              <MenuGroup title="电脑报修">
+                <MenuItem name="3-1">申请维修</MenuItem>
+                <MenuItem name="3-2">维修进度</MenuItem>
               </MenuGroup>
-              <MenuItem name="3-4">课表查询</MenuItem>
-              <MenuItem name="3-5">公交路线</MenuItem>
-              <MenuItem name="3-5">成绩查询</MenuItem>
+              <MenuGroup title="其他">
+                <MenuItem name="3-4">课表查询</MenuItem>
+                <MenuItem name="3-5">公交路线</MenuItem>
+                <MenuItem name="3-6">成绩查询</MenuItem>
+              </MenuGroup>
             </Submenu>
 
             <Submenu name="4">
               <template slot="title">
                 <!-- 用户头像取用户名第一个字母大写 -->
                 <Avatar :style="{background: userColor}">{{userName.charAt(0).toUpperCase()}}</Avatar>
-                <span>{{userName}}</span>
+                <span class="userName">{{userName}}</span>
               </template>
-              <MenuItem name="3-4">个人中心</MenuItem>
-              <MenuItem name="3-5">退出登录</MenuItem>
+              <MenuItem name="4-1">个人中心</MenuItem>
+              <MenuItem name="4-2">退出登录</MenuItem>
             </Submenu>
           </div>
         </Col>
@@ -58,8 +60,26 @@
     name: "header-sw",
     data() {
       return {
+        activeName: 1, // 导航当前焦点
         userName: 'Giovani',
         userColor: ColorList[0] // 用户头像颜色
+      }
+    },
+    methods: {
+      // 点击logo时，把导航栏焦点清除
+      homeClick: function () {
+        this.activeName = 1;
+      },
+
+      // 选择菜单（MenuItem）时触发
+      onSelect: function (name) {
+        // 更改导航焦点
+        this.activeName = name;
+      },
+
+      // 点击搜索或按下回车，调用该方法
+      onSearch: function (value) {
+        console.log(value);
       }
     },
     created() {
@@ -71,6 +91,14 @@
 </script>
 
 <style scoped>
+
+  .search {
+    height: 60px;
+    display: flex; /*Flex布局*/
+    display: -webkit-flex; /* Safari */
+    align-items: center; /*指定垂直居中*/
+  }
+
   .layout-logo {
     width: 50px;
     height: 50px;
@@ -80,11 +108,13 @@
 
   .layout-nav {
     width: 520px;
-    margin: 0 auto;
-    margin-right: 20px;
   }
 
-  span {
+  .userName {
     margin-left: 8px;
+  }
+
+  .icon {
+    font-size: 20px;
   }
 </style>
