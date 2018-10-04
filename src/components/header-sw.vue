@@ -1,5 +1,5 @@
 <template>
-  <Header :style="{position: 'fixed', width: '100%'}">
+  <Header class="header" :style="{position: 'fixed', width: '100%'}">
 
     <Menu mode="horizontal" :active-name="activeName" @on-select="onSelect">
       <Row type="flex" justify="start" class="code-row-bg">
@@ -91,6 +91,9 @@
 </script>
 
 <style scoped>
+  .header {
+    z-index: 999;
+  }
 
   .search {
     height: 60px;

@@ -20,7 +20,9 @@ import {
   Radio,
   RadioGroup,
   Layout,
-  Avatar
+  Avatar,
+  Carousel,
+  CarouselItem
 } from 'iview';
 
 const iview = {
@@ -45,6 +47,8 @@ const iview = {
     Vue.component('RadioGroup', RadioGroup);
     Vue.component('Layout', Layout);
     Vue.component('Avatar', Avatar);
+    Vue.component('Carousel', Carousel);
+    Vue.component('CarouselItem', CarouselItem);
   }
 }
 

@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <header-sw></header-sw>
-    <Content :style="{margin: '66px 0px 20px 0px', minHeight: '500px'}">
+    <Content :style="{margin: '66px 0px 20px 0px'}">
       <router-view/>
     </Content>
     <footer-sw></footer-sw>
