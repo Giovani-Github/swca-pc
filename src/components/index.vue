@@ -27,7 +27,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="less">
 
   .demo-carousel {
     height: 400px;
@@ -37,8 +37,6 @@ export default {
     align-items: center;
   }
   .index {
-
-    background: #FFFFFF;
-    min-height: 500px;
+    min-height: 520px;
   }
 </style>

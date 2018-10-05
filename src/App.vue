@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <header-sw></header-sw>
-    <Content :style="{margin: '66px 0px 20px 0px'}">
+    <Content :style="{margin: '66px 0px 0px 0px', minHeight:'520px'}">
       <router-view/>
     </Content>
     <footer-sw></footer-sw>
@@ -18,6 +18,5 @@
 }
 </script>
 
-<style>
-
+<style lang="less">
 </style>
