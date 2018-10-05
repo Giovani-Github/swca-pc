@@ -1,7 +1,7 @@
 <template>
   <Header class="header" :style="{position: 'fixed', width: '100%'}">
 
-    <Menu mode="horizontal" :active-name="activeName" @on-select="onSelect">
+    <Menu class="menu" mode="horizontal" :active-name="activeName" @on-select="onSelect">
       <Row type="flex" justify="start" class="code-row-bg">
         <Col :sm="1" offset="1" class="home">
           <router-link to="/">
@@ -90,9 +90,18 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang='less'>
+  @import "../common/less/global";
+
   .header {
     z-index: 999;
+  }
+
+  .menu {
+    background-color: rgba(255, 255, 255, 0.94);
+    -moz-box-shadow: 0px 6px 10px #eee;
+    -webkit-box-shadow: 0px 6px 10px #eee;
+    box-shadow: 0px 4px 6px #eee;
   }
 
   .search {
@@ -106,7 +115,8 @@
     width: 50px;
     height: 50px;
     position: relative;
-    top: 6px;
+    top: 5px;
+
   }
 
   .layout-nav {
@@ -120,4 +130,10 @@
   .icon {
     font-size: 20px;
   }
+
+  // 导航下边框去除
+  .ivu-menu-horizontal.ivu-menu-light:after {
+    height: 0px;
+  }
+
 </style>

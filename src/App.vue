@@ -1,10 +1,10 @@
 <template>
-  <Layout>
+  <Layout class="layout">
     <header-sw></header-sw>
     <Content :style="{margin: '66px 0px 0px 0px', minHeight:'520px'}">
       <router-view/>
     </Content>
-    <footer-sw></footer-sw>
+    <footer-sw class="footer"></footer-sw>
   </Layout>
 </template>
 
@@ -19,4 +19,11 @@
 </script>
 
 <style lang="less">
+  .layout {
+    /*background: #eee;*/
+  }
+
+  .footer {
+
+  }
 </style>
