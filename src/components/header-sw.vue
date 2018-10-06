@@ -37,19 +37,40 @@
               </MenuGroup>
             </Submenu>
 
-            <Submenu name="4">
+            <MenuItem v-if="!isLog" name="4">
+              <Avatar style="margin-right: 6px" icon="ios-person"/>
+              登录/注册
+            </MenuItem>
+
+            <Submenu v-if="isLog" name="5">
               <template slot="title">
                 <!-- 用户头像取用户名第一个字母大写 -->
                 <Avatar :style="{background: userColor}">{{userName.charAt(0).toUpperCase()}}</Avatar>
                 <span class="userName">{{userName}}</span>
               </template>
-              <MenuItem name="4-1">个人中心</MenuItem>
-              <MenuItem name="4-2">退出登录</MenuItem>
+              <div v-if="!isLog">
+                <MenuItem name="5-1">登录</MenuItem>
+                <MenuItem name="5-2">注册</MenuItem>
+              </div>
+              <div v-if="isLog">
+                <MenuItem name="5-1">个人中心</MenuItem>
+                <MenuItem name="5-2">退出登录</MenuItem>
+              </div>
             </Submenu>
           </div>
         </Col>
       </Row>
     </Menu>
+
+    <Modal
+      v-model="modal1"
+      title="Common Modal dialog box title"
+      @on-ok="ok"
+      @on-cancel="cancel">
+      <p>Content of dialog</p>
+      <p>Content of dialog</p>
+      <p>Content of dialog</p>
+    </Modal>
   </Header>
 </template>
 
@@ -62,10 +83,21 @@
       return {
         activeName: 1, // 导航当前焦点
         userName: 'Giovani',
-        userColor: ColorList[0] // 用户头像颜色
+        userColor: ColorList[0], // 用户头像颜色
+        isLog: false, // 是否登录
+
+        modal1: false,
       }
     },
     methods: {
+
+      ok() {
+        this.$Message.info('Clicked ok');
+      },
+      cancel() {
+        this.$Message.info('Clicked cancel');
+      },
+
       // 点击logo时，把导航栏焦点清除
       homeClick: function () {
         this.activeName = 1;
@@ -75,6 +107,10 @@
       onSelect: function (name) {
         // 更改导航焦点
         this.activeName = name;
+
+        if (name == 4) {
+          this.modal1 = true;
+        }
       },
 
       // 点击搜索或按下回车，调用该方法
