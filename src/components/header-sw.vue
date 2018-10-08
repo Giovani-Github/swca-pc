@@ -62,40 +62,32 @@
       </Row>
     </Menu>
 
-    <Modal
-      v-model="modal1"
-      title="Common Modal dialog box title"
-      @on-ok="ok"
-      @on-cancel="cancel">
-      <p>Content of dialog</p>
-      <p>Content of dialog</p>
-      <p>Content of dialog</p>
-    </Modal>
+    <log-reg-panel :logRegPopup="logRegPopup" @on-logRegPopup-change="onLogRegPopupChange"></log-reg-panel>
   </Header>
 </template>
 
 <script>
+  import LogRegPanel from "./user/log-reg-panel";
+
   const ColorList = ['#19CAAD', '#8CC7B5', '#A0EEE1', '#BEE7E9', '#BEEDC7', '#D6D5B7', '#D1BA74', '#E6CEAC', '#ECAD9E', '#F4606C'];
 
   export default {
     name: "header-sw",
+    components: {LogRegPanel},
     data() {
       return {
         activeName: 1, // 导航当前焦点
         userName: 'Giovani',
         userColor: ColorList[0], // 用户头像颜色
         isLog: false, // 是否登录
-
-        modal1: false,
+        logRegPopup: false, // 登录注册面板是否弹出
       }
     },
     methods: {
 
-      ok() {
-        this.$Message.info('Clicked ok');
-      },
-      cancel() {
-        this.$Message.info('Clicked cancel');
+      // 注册登录面板中，myLogRegPopup属性值改变后，调用该方法
+      onLogRegPopupChange(val) {
+        this.logRegPopup = val;
       },
 
       // 点击logo时，把导航栏焦点清除
@@ -108,8 +100,10 @@
         // 更改导航焦点
         this.activeName = name;
 
+        // 弹出注册登录面板
         if (name == 4) {
-          this.modal1 = true;
+          // 需要使用组件的props双向绑定，请阅读错误总结.md
+          this.logRegPopup = true;
         }
       },
 
