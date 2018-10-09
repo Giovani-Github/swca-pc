@@ -2,8 +2,12 @@
   <Layout class="layout">
     <header-sw></header-sw>
     <Content :style="{margin: '66px 0px 0px 0px', minHeight:'520px'}">
-      <router-view/>
+      <transition name="bounce" enter-active-class="animated bounceInLeft"
+                  leave-active-class="animated bounceOutRight">
+        <router-view/>
+      </transition>
     </Content>
+
     <footer-sw class="footer"></footer-sw>
   </Layout>
 </template>

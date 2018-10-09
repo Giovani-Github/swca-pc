@@ -1,6 +1,6 @@
 <!-- 注册登录面板 -->
 <template>
-  <Modal class-name="logReg" :closable="false" v-model="myLogRegPopup" width="360">
+  <Modal class-name="logReg animated jackInTheBox" :closable="false" v-model="myLogRegPopup" width="360">
     <div slot="header" style="color:#f60;text-align:center">
       <Menu mode="horizontal" active-name="1">
         <router-link :to="{name: 'login'}">
@@ -16,13 +16,15 @@
       </Menu>
     </div>
     <div style="text-align:center">
-      <router-view name="logReg"></router-view>
+      <transition name="bounce" enter-active-class="animated bounceInLeft"
+                  leave-active-class="animated bounceOutRight">
+        <router-view name="logReg"></router-view>
+      </transition>
     </div>
     <div slot="footer">
       <Button type="error" size="large" long :loading="modal_loading" @click="del">Delete</Button>
     </div>
   </Modal>
-
 </template>
 
 <script>
