@@ -3,7 +3,7 @@
   <Modal class-name="logReg" :closable="false" v-model="myLogRegPopup" width="360">
     <div slot="header" style="color:#f60;text-align:center">
       <Menu mode="horizontal" active-name="1">
-        <router-link :to="{name: 'user'}">
+        <router-link :to="{name: 'login'}">
           <MenuItem name="1">
             登录
           </MenuItem>
