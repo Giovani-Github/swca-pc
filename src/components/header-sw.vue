@@ -4,7 +4,7 @@
     <Menu class="menu" mode="horizontal" :active-name="activeName" @on-select="onSelect">
       <Row type="flex" justify="start" class="code-row-bg">
         <Col :sm="1" offset="1" class="home">
-          <router-link to="/">
+          <router-link :to="{name:'index'}">
             <img @click="homeClick" src="../assets/swca-logo.png" alt="" class="layout-logo">
           </router-link>
         </Col>
@@ -15,7 +15,7 @@
 
         <Col :sm="7" offset="7" :xs="0">
           <div class="layout-nav">
-            <router-link to="/course">
+            <router-link :to="{name: 'course'}">
               <MenuItem name="2">
                 <Icon class="icon" type="md-book"/>
                 计算机教程
@@ -113,9 +113,11 @@
       }
     },
     created() {
+
       // 每次刷新页面，随机更换一次头像的颜色
       this.userColor = ColorList[Math.floor(Math.random() * 10)];
-    }
+
+    },
 
   }
 </script>
