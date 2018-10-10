@@ -1,28 +1,34 @@
 <!-- 注册登录面板 -->
 <template>
   <Modal class-name="logReg animated jackInTheBox" :closable="false" v-model="myLogRegPopup" width="360">
+
     <div slot="header" style="color:#f60;text-align:center">
       <Menu mode="horizontal" active-name="1">
+
         <router-link :to="{name: 'login'}">
           <MenuItem name="1">
             登录
           </MenuItem>
         </router-link>
+
         <router-link :to="{name:'register'}">
           <MenuItem name="2">
             注册
           </MenuItem>
         </router-link>
+
       </Menu>
     </div>
-    <div style="text-align:center">
-      <transition name="bounce" enter-active-class="animated bounceInLeft"
-                  leave-active-class="animated bounceOutRight">
+
+    <div style="padding: 0px; margin: 0px">
+      <transition name="bounce" enter-active-class="animated bounceInLeft fadeIn"
+                  leave-active-class="animated bounceOutRight fadeOut">
         <router-view name="logReg"></router-view>
       </transition>
     </div>
+
     <div slot="footer">
-      <Button type="error" size="large" long :loading="modal_loading" @click="del">Delete</Button>
+      <!--<Button type="error" size="large" long :loading="modal_loading" @click="del">Delete</Button>-->
     </div>
   </Modal>
 </template>
@@ -97,7 +103,7 @@
   .logReg {
     .full-center;
     .ivu-modal {
-      top: 0;
+      top: 0px;
     }
 
     .ivu-modal-header {
@@ -105,10 +111,14 @@
       padding: 0px 10px;
     }
 
+    .ivu-modal-body {
+      /*padding: 10px;*/
+    }
+
     .ivu-modal-footer {
       border-top: none;
-      padding: 12px 18px 12px 18px;
-      text-align: right;
+      padding: 0px;
+      margin: 0px;
     }
 
   }

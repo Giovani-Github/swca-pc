@@ -10,7 +10,6 @@ import {
   Input,
   Select,
   Option,
-  Form,
   Modal,
   MenuItem,
   MenuGroup,
@@ -24,6 +23,14 @@ import {
   Carousel,
   CarouselItem,
   Message,
+  // 表单(带验证)组件相关，测试，可删
+  Form,
+  FormItem,
+  DatePicker,
+  TimePicker,
+  CheckboxGroup,
+  Checkbox,
+
 } from 'iview';
 
 const iview = {
@@ -50,6 +57,12 @@ const iview = {
     Vue.component('Avatar', Avatar);
     Vue.component('Carousel', Carousel);
     Vue.component('CarouselItem', CarouselItem);
+    Vue.component('Form', Form);
+    Vue.component('FormItem', FormItem);
+    Vue.component('DatePicker', DatePicker);
+    Vue.component('TimePicker', TimePicker);
+    Vue.component('CheckboxGroup', CheckboxGroup);
+    Vue.component('Checkbox', Checkbox);
     Vue.prototype.$Message = Message;
   }
 }
