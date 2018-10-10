@@ -20,9 +20,9 @@
       </Menu>
     </div>
 
-    <div style="padding: 0px; margin: 0px">
-      <transition name="bounce" enter-active-class="animated bounceInLeft fadeIn"
-                  leave-active-class="animated bounceOutRight fadeOut">
+    <div style="text-align: center">
+      <transition name="fade" enter-active-class="animated  fadeIn"
+                  leave-active-class="animated  fadeOut">
         <router-view name="logReg"></router-view>
       </transition>
     </div>

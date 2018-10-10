@@ -1,15 +1,20 @@
 <template>
   <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="60">
-    <FormItem label="用户名" prop="username">
-      <Input type="text" v-model="formCustom.username"></Input>
+    <FormItem label="账号：" prop="phone">
+      <Input type="text" v-model="formCustom.phone" placeholder="请输入手机号码">
+        <Icon type="md-contact" slot="prefix"/>
+      </Input>
     </FormItem>
-    <FormItem label="密码" prop="password">
-      <Input type="password" v-model="formCustom.password"></Input>
+    <FormItem label="密码：" prop="password">
+      <Input type="password" v-model="formCustom.password" placeholder="请输入密码">
+        <Icon type="md-key" slot="prefix"/>
+      </Input>
     </FormItem>
-    <FormItem>
+    <FormItem :label-width="0">
       <Button type="primary" @click="handleSubmit('formCustom')">登录</Button>
-      <span>OR</span>
+      <!--<span>OR</span>-->
       <Button @click="handleReset('formCustom')" style="margin-left: 8px">微信</Button>
+      <Button @click="handleReset('formCustom')" style="margin-left: 8px">QQ</Button>
     </FormItem>
   </Form>
 </template>
@@ -18,11 +23,11 @@
   export default {
     name: "login",
     data() {
-      const validateUsername = (rule, value, callback) => {
+      const validatePhone = (rule, value, callback) => {
         if (value === '') {
-          callback(new Error('请输入用户名'));
+          callback(new Error('输入手机号码'));
         } else if (value !== this.formCustom.passwd) {
-          callback(new Error('用户名错误'));
+          callback(new Error('账号错误'));
         } else {
           callback();
         }
@@ -40,12 +45,12 @@
 
       return {
         formCustom: {
-          username: '',
+          phone: '',
           password: '',
         },
         ruleCustom: {
-          username: [
-            {validator: validateUsername, trigger: 'blur'}
+          phone: [
+            {validator: validatePhone, trigger: 'blur'}
           ],
           password: [
             {validator: validatePassword, trigger: 'blur'}
@@ -72,10 +77,5 @@
 
 <style scoped lang='less'>
   @import "../../common/less/global";
-
-  .ivu-form-item-content {
-    margin-left: 10px !important;
-
-  }
 
 </style>
