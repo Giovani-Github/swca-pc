@@ -34,7 +34,7 @@ npm run build --report
 
 ### src目录结构
 
-- 新增了 api 目录，用来存放网络处理相关代码
+- api 目录，用来存放网络处理相关代码
 - assets 目录用来存放一些图片、文件等资源
 - common 目录用来存放项目中的公共资源
 - components 目录用来存放模块、组件相关代码

@@ -26,8 +26,6 @@
       const validatePhone = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('输入手机号码'));
-        } else if (value !== this.formCustom.passwd) {
-          callback(new Error('账号错误'));
         } else {
           callback();
         }
@@ -36,18 +34,19 @@
       const validatePassword = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'));
-        } else if (value !== this.formCustom.passwd) {
-          callback(new Error('密码错误'));
         } else {
           callback();
         }
       };
 
       return {
+        isLogin: false,
+
         formCustom: {
           phone: '',
           password: '',
         },
+
         ruleCustom: {
           phone: [
             {validator: validatePhone, trigger: 'blur'}
@@ -60,14 +59,26 @@
     },
     methods: {
       handleSubmit(name) {
+
         this.$refs[name].validate((valid) => {
+
           if (valid) {
+
+            this.$api.user.login().then(res => {
+              console.log(res.data);
+            });
+
             this.$Message.success('Success!');
+
           } else {
+
             this.$Message.error('Fail!');
+
           }
-        })
+
+        });
       },
+
       handleReset(name) {
         this.$refs[name].resetFields();
       }
