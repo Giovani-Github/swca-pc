@@ -6,8 +6,12 @@
 import {BASE_URL, axios} from './base';
 
 const user = {
-  login() {
-    return axios.get(BASE_URL + '/user');
+  login(params) {
+    return axios.post(BASE_URL + '/auth/login', params);
+  },
+
+  reg(params) {
+    return axios.post(BASE_URL + '/auth/register', params);
   }
 };
 

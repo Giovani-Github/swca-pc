@@ -6,10 +6,12 @@
 
 // 用户模块接口
 import user from './user';
+import demo from './demo';
 // 其他模块的接口……
 
 // 导出接口
 export default {
   user,
+  demo,
 }
 
