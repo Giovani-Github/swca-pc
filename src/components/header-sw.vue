@@ -49,14 +49,8 @@
             <Submenu v-if="isLogin" name="5">
               <template slot="title">
                 <!-- 用户头像取用户名第一个字母大写 -->
-                <Avatar v-if="$store.state.user.userName != ''" :style="{background: userColor}">
-                  {{$store.state.user.userName.charAt(0).toUpperCase()}}
-                </Avatar>
-                <Avatar v-if="$store.state.user.phoneNum != ''" :style="{background: userColor}">
-                  {{$store.state.user.phoneNum.charAt(0)}}
-                </Avatar>
-                <span v-if="$store.state.user.userName != ''" class="userName">{{$store.state.user.userName}}</span>
-                <span v-if="$store.state.user.phoneNum != ''" class="userName">{{$store.state.user.phoneNum}}</span>
+                <Avatar :style="{background: userColor}">{{getUserInfo().charAt(0).toUpperCase()}}</Avatar>
+                <span v-if="$store.state.user.phoneNum != ''" class="userName">{{getUserInfo()}}</span>
               </template>
               <div v-if="isLogin">
                 <MenuItem name="5-1">个人中心</MenuItem>
@@ -92,6 +86,15 @@
       }
     },
     methods: {
+
+      // 获取用户信息
+      getUserInfo() {
+        if (this.$store.state.user.userName != '') {
+          return this.$store.state.user.userName;
+        } else {
+          return this.$store.state.user.phoneNum;
+        }
+      },
 
       // 登录面板中，myPanelPopup属性值改变后，调用该方法
       onLogPopupChange(val) {
