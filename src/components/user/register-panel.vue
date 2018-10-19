@@ -1,36 +1,42 @@
 <template>
-  <Form ref="formUser" :model="formUser" :rules="ruleUser" :label-width="60">
-    <FormItem label="账号：" prop="phoneNum">
-      <Input type="text" v-model="formUser.phoneNum" placeholder="请输入手机号码">
-        <Icon type="md-contact" slot="prefix"/>
-      </Input>
-    </FormItem>
-    <FormItem label="用户名：" prop="userName">
-      <Input type="text" v-model="formUser.userName" placeholder="请输入用户名 [可选]">
-        <Icon type="md-person" slot="prefix"/>
-      </Input>
-    </FormItem>
-    <FormItem label="密码：" prop="password">
-      <Input type="text" v-model="formUser.password" placeholder="字母开头6~18位只能包含字母数字下划线">
-        <Icon type="md-key" slot="prefix"/>
-      </Input>
-    </FormItem>
-    <FormItem label="确认密码：" prop="verifyPassword">
-      <Input type="text" v-model="formUser.verifyPassword" placeholder="确认密码">
-        <Icon type="md-key" slot="prefix"/>
-      </Input>
-    </FormItem>
 
-    <FormItem :label-width="0">
+  <Modal v-model="myPanelPopup" width="360">
+    <p slot="header" style="text-align:center">
+      <span>注册</span>
+    </p>
+    <div style="text-align:center">
+      <Form ref="formUser" :model="formUser" :rules="ruleUser" :label-width="60">
+        <FormItem label="账号：" prop="phoneNum">
+          <Input type="text" v-model="formUser.phoneNum" placeholder="请输入手机号码">
+            <Icon type="md-contact" slot="prefix"/>
+          </Input>
+        </FormItem>
+        <FormItem label="用户名：" prop="userName">
+          <Input type="text" v-model="formUser.userName" placeholder="请输入用户名 [可选]">
+            <Icon type="md-person" slot="prefix"/>
+          </Input>
+        </FormItem>
+        <FormItem label="密码：" prop="password">
+          <Input type="text" v-model="formUser.password" placeholder="字母开头6~18位只能包含字母数字下划线">
+            <Icon type="md-key" slot="prefix"/>
+          </Input>
+        </FormItem>
+        <FormItem label="确认密码：" prop="verifyPassword">
+          <Input type="text" v-model="formUser.verifyPassword" placeholder="确认密码">
+            <Icon type="md-key" slot="prefix"/>
+          </Input>
+        </FormItem>
+      </Form>
+    </div>
+    <div slot="footer" style="text-align:center">
       <Button type="primary" @click="handleSubmit('formUser')">注册</Button>
-
-    </FormItem>
-  </Form>
+    </div>
+  </Modal>
 </template>
 
 <script>
   export default {
-    name: "register",
+    name: "register-panel",
     data() {
       const validatePhoneNum = (rule, value, callback) => {
         // 手机号码正则
@@ -90,6 +96,9 @@
       };
 
       return {
+        // 是否打开面板
+        myPanelPopup: this.panelPopup,
+        modal_loading: false,
         formUser: {
           phoneNum: '',
           password: '',
@@ -127,6 +136,7 @@
               res => {
                 console.log(res.data);
                 this.$Message.success('注册成功');
+                this.myPanelPopup = false;
               }
             ).catch(
               error => {
@@ -143,10 +153,35 @@
       handleReset(name) {
         this.$refs[name].resetFields();
       }
+    },
+    props: {
+
+      // 注册面板是否弹出
+      panelPopup: {
+        type: Boolean,
+        default:
+          false,
+      },
+
+    },
+    watch: {
+
+      // 监测panelPopup属性的值是否改变，val：改变后的值
+      panelPopup(val) {
+        this.myPanelPopup = val;
+      },
+
+      // 监测myPanelPopup属性的值是否改变, val：改变后的值
+      myPanelPopup(val) {
+        // 通知父组件，调用on-panelPopup-change方法，传递val参数
+        this.$emit("on-panelPopup-change", val);
+      }
+
     }
   }
 </script>
 
-<style scoped>
+<style scoped lang="less">
+  @import "../../common/less/global";
 
 </style>

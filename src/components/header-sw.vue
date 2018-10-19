@@ -37,22 +37,28 @@
               </MenuGroup>
             </Submenu>
 
-            <MenuItem v-if="!isLog" name="4">
-              <Avatar style="margin-right: 6px" icon="ios-person"/>
-              登录/注册
-            </MenuItem>
+            <Submenu v-if="!isLogin" name="4">
+              <template slot="title">
+                <Icon class="icon" type="ios-contact"/>
+                登录/注册
+              </template>
+              <MenuItem name="4-1">登录</MenuItem>
+              <MenuItem name="4-2">注册</MenuItem>
+            </Submenu>
 
-            <Submenu v-if="isLog" name="5">
+            <Submenu v-if="isLogin" name="5">
               <template slot="title">
                 <!-- 用户头像取用户名第一个字母大写 -->
-                <Avatar :style="{background: userColor}">{{userName.charAt(0).toUpperCase()}}</Avatar>
-                <span class="userName">{{userName}}</span>
+                <Avatar v-if="$store.state.user.userName != ''" :style="{background: userColor}">
+                  {{$store.state.user.userName.charAt(0).toUpperCase()}}
+                </Avatar>
+                <Avatar v-if="$store.state.user.phoneNum != ''" :style="{background: userColor}">
+                  {{$store.state.user.phoneNum.charAt(0)}}
+                </Avatar>
+                <span v-if="$store.state.user.userName != ''" class="userName">{{$store.state.user.userName}}</span>
+                <span v-if="$store.state.user.phoneNum != ''" class="userName">{{$store.state.user.phoneNum}}</span>
               </template>
-              <div v-if="!isLog">
-                <MenuItem name="5-1">登录</MenuItem>
-                <MenuItem name="5-2">注册</MenuItem>
-              </div>
-              <div v-if="isLog">
+              <div v-if="isLogin">
                 <MenuItem name="5-1">个人中心</MenuItem>
                 <MenuItem name="5-2">退出登录</MenuItem>
               </div>
@@ -61,33 +67,43 @@
         </Col>
       </Row>
     </Menu>
-
-    <log-reg-panel :logRegPopup="logRegPopup" @on-logRegPopup-change="onLogRegPopupChange"></log-reg-panel>
+    <login-panel :panelPopup="logPanelPopup" @on-panelPopup-change="onLogPopupChange"
+                 @on-isLogin-change="onIsLoginChange"></login-panel>
+    <register-panel :panelPopup="regPanelPopup" @on-panelPopup-change="onRegPopupChange"></register-panel>
   </Header>
 </template>
 
 <script>
-  import LogRegPanel from "./user/log-reg-panel";
+  import LoginPanel from "./user/login-panel";
+  import RegisterPanel from "./user/register-panel";
 
   const ColorList = ['#19CAAD', '#8CC7B5', '#A0EEE1', '#BEE7E9', '#BEEDC7', '#D6D5B7', '#D1BA74', '#E6CEAC', '#ECAD9E', '#F4606C'];
 
   export default {
     name: "header-sw",
-    components: {LogRegPanel},
+    components: {RegisterPanel, LoginPanel},
     data() {
       return {
         activeName: 1, // 导航当前焦点
-        userName: 'Giovani',
         userColor: ColorList[0], // 用户头像颜色
-        isLog: false, // 是否登录
-        logRegPopup: false, // 登录注册面板是否弹出
+        isLogin: false, // 是否登录
+        logPanelPopup: false, // 登录面板是否弹出
+        regPanelPopup: false, // 注册面板是否弹出
       }
     },
     methods: {
 
-      // 注册登录面板中，myLogRegPopup属性值改变后，调用该方法
-      onLogRegPopupChange(val) {
-        this.logRegPopup = val;
+      // 登录面板中，myPanelPopup属性值改变后，调用该方法
+      onLogPopupChange(val) {
+        this.logPanelPopup = val;
+      },
+      // 注册面板中，myPanelPopup属性值改变后，调用该方法
+      onRegPopupChange(val) {
+        this.regPanelPopup = val;
+      },
+      // 登录面板中，IsLogin属性值改变后，调用该方法
+      onIsLoginChange(val) {
+        this.isLogin = val;
       },
 
       // 点击logo时，把导航栏焦点清除
@@ -100,23 +116,31 @@
         // 更改导航焦点
         this.activeName = name;
 
-        // 弹出注册登录面板
-        if (name == 4) {
+        // 弹出登录面板
+        if (name == "4-1") {
           // 需要使用组件的props双向绑定，请阅读错误总结.md
-          this.logRegPopup = true;
+          this.logPanelPopup = true;
+        }
+
+        // 弹出注册面板
+        if (name == "4-2") {
+          this.regPanelPopup = true;
+        }
+
+        // 退出登录
+        if (name == "5-2") {
+          this.isLogin = false;
+          // 清除token
+          this.$store.commit('setToken', '');
         }
       },
+      onSearch: function () {
 
-      // 点击搜索或按下回车，调用该方法
-      onSearch: function (value) {
-        console.log(value);
       }
     },
     created() {
-
       // 每次刷新页面，随机更换一次头像的颜色
       this.userColor = ColorList[Math.floor(Math.random() * 10)];
-
     },
 
   }

@@ -3,24 +3,20 @@
  * @Author Giovani
  * @Create: 2018/10/19 15:32
  */
+import router from '../router';
+
 export default {
   state: {
-    // 是否登录
-    isLogin: false,
-    // 登录注册面板是否弹出
-    logRegPopup: false
+    phoneNum: '',
+    userName: ''
   },
   mutations: {
-    setIsLogin(state, isLogin) {
-      state.isLosin = isLogin;
+    setPhoneNum(state, phoneNum) {
+      state.phoneNum = phoneNum;
     },
-    setLogRegPopup(state, logRegPopup) {
-      state.logRegPopup = logRegPopup;
-    }
-  },
-  getters: {
-    getLogRegPopup: (state) => {
-      return state.logRegPopup;
+    setUserName(state, userName) {
+      state.userName = userName;
     }
   }
+
 }

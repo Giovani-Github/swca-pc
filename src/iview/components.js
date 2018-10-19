@@ -64,6 +64,7 @@ const iview = {
     Vue.component('CheckboxGroup', CheckboxGroup);
     Vue.component('Checkbox', Checkbox);
     Vue.prototype.$Message = Message;
+    Vue.prototype.$Modal = Modal;
   }
 }
 

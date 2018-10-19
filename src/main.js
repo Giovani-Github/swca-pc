@@ -7,11 +7,13 @@ import iview from './iview/components';
 // 默认导入api目录下的index.js
 import api from './api';
 import store from './store'
+import {Base64} from 'js-base64';
 import 'iview/dist/styles/iview.css';
 import animated from 'animate.css';
 
 Vue.use(animated);
 Vue.use(iview);
+Vue.use(Base64);
 
 // 挂载到Vue原型上，方便组件中调用，通过this.$api访问
 Vue.prototype.$api = api;

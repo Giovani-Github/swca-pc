@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import index from '../components/index'
 import course from '../components/course'
-import register from '../components/user/register'
-import login from '../components/user/login'
+import register from '../components/user/register-panel'
+import login from '../components/user/login-panel'
 
 Vue.use(Router);
 
@@ -20,20 +20,6 @@ export default new Router({
       path: '/course',
       name: 'course',
       component: course
-    },
-    {
-      path: '/login',
-      name: 'login',
-      components: {
-        logReg: login
-      }
-    },
-    {
-      path: '/register',
-      name: 'register',
-      components: {
-        logReg: register
-      }
-    },
+    }
   ]
 })
