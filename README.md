@@ -45,3 +45,7 @@ npm run build --report
 
 * vue
 * iview
+* jwt
+
+
+
