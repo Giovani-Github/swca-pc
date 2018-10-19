@@ -72,7 +72,8 @@
               }
             ).then(
               res => {
-                console.log(res.data);
+                // 拿到jwt，存入vuex
+                this.$store.commit('setToken', res.data)
                 this.$Message.success(res.data);
               }
             ).catch(

@@ -3,6 +3,7 @@
  * @Author Administrator
  * @Create: 2018/10/13 21:38:37
  */
+import store from '../store'
 import Axios from "axios";
 import qs from "qs";
 
@@ -16,7 +17,7 @@ Axios.interceptors.request.use(
     config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
     // 请求时判断vuex中是合法存在token（即jwt），存在就带上
-    let token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIiLCJjcmVhdGVkIjoxNTM5OTIzODk4Njc0LCJwaG9uZU51bSI6IjE1MjE5MzMxNzc4IiwiZXhwIjoxNTQwNTI4Njk4fQ.vWPVTEVB6WAGViDPwq2X2UWNK6UNcIh4zQrfVYMK75Vx1FtzvJz_3rKJd5mvQn9Hk246CDQPgJlnPdLmkiT_IA";
+    let token = store.state.global.token;
     config.headers.Authorization = "Bearer " + token;
 
     // }
@@ -38,5 +39,5 @@ Axios.interceptors.response.use(function (response) {
 });
 
 // 导出axios以及HOST
-export const BASE_URL = '/swca_api'; // 跨域相关，在config/index.js中
+export const BASE_URL = store.state.global.BASE_URL; // 跨域相关，在config/index.js中
 export const axios = Axios; // 网络请求
