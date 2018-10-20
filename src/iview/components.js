@@ -30,6 +30,7 @@ import {
   TimePicker,
   CheckboxGroup,
   Checkbox,
+  Alert,
 
 } from 'iview';
 
@@ -63,6 +64,7 @@ const iview = {
     Vue.component('TimePicker', TimePicker);
     Vue.component('CheckboxGroup', CheckboxGroup);
     Vue.component('Checkbox', Checkbox);
+    Vue.component('Alert', Alert);
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
   }

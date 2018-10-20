@@ -2,8 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import index from '../components/index'
 import course from '../components/course'
-import register from '../components/user/register-panel'
-import login from '../components/user/login-panel'
+import commit from '../components/utils/repair/commit'
+
 
 Vue.use(Router);
 
@@ -20,6 +20,11 @@ export default new Router({
       path: '/course',
       name: 'course',
       component: course
+    },
+    {
+      path: '/commit',
+      name: 'commit',
+      component: commit
     }
   ]
 })

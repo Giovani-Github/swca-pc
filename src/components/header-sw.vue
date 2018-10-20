@@ -27,7 +27,9 @@
                 工具
               </template>
               <MenuGroup title="电脑报修">
-                <MenuItem name="3-1">申请维修</MenuItem>
+                <router-link :to="{name:'commit'}">
+                  <MenuItem name="3-1">申请维修</MenuItem>
+                </router-link>
                 <MenuItem name="3-2">维修进度</MenuItem>
               </MenuGroup>
               <MenuGroup title="其他">

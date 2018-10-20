@@ -14,7 +14,9 @@ export default {
       // 客户端的错误，如请求参数错误
       BAD_REQUEST: 400,
       // 成功
-      OK: 200
+      OK: 200,
+      // 没有权限访问
+      FORBIDDEN: 403
     }
   },
   mutations: {
