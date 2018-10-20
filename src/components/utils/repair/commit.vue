@@ -116,6 +116,12 @@
                     duration: 10,
                     closable: true
                   });
+                } else if (error.response.status === this.$store.state.global.status.INTERNAL_SERVER_ERROR) {
+                  this.$Message.error({
+                    content: error.response.data.msg,
+                    duration: 10,
+                    closable: true
+                  });
                 }
               }
             );

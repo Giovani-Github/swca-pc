@@ -14,6 +14,14 @@ const repair = {
   commit(params) {
     return axios.post(BASE_URL + '/repair', params);
   },
+
+  /**
+   * 查询当前用户所有维修订单
+   * @returns {AxiosPromise<any>}
+   */
+  findAllOrder() {
+    return axios.get(BASE_URL + "/repair");
+  }
 };
 
 export default repair;

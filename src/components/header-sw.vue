@@ -30,7 +30,9 @@
                 <router-link :to="{name:'commit'}">
                   <MenuItem name="3-1">申请维修</MenuItem>
                 </router-link>
-                <MenuItem name="3-2">维修进度</MenuItem>
+                <router-link :to="{name:'orderList'}">
+                  <MenuItem name="3-2">维修进度</MenuItem>
+                </router-link>
               </MenuGroup>
               <MenuGroup title="其他">
                 <MenuItem name="3-4">课表查询</MenuItem>

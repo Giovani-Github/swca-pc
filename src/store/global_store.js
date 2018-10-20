@@ -16,7 +16,9 @@ export default {
       // 成功
       OK: 200,
       // 没有权限访问
-      FORBIDDEN: 403
+      FORBIDDEN: 403,
+      // 服务器端错误
+      INTERNAL_SERVER_ERROR: 500,
     }
   },
   mutations: {
