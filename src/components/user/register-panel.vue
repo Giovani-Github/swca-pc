@@ -12,7 +12,7 @@
           </Input>
         </FormItem>
         <FormItem label="用户名：" prop="userName">
-          <Input type="text" v-model="formUser.userName" placeholder="请输入用户名 [可选]">
+          <Input type="text" v-model="formUser.userName" placeholder="中文、英文、数字包括下划线">
             <Icon type="md-person" slot="prefix"/>
           </Input>
         </FormItem>
@@ -53,8 +53,8 @@
 
       // 用户名是可选的，只有在填写的时候再进行校验
       const validateUserName = (rule, value, callback) => {
-        // 中文、英文、数字但不包括下划线等符号
-        let regexp = /^[\\u4E00-\\u9FA5A-Za-z0-9]+$/;
+        // 中文、英文、数字包括下划线
+        let regexp = /^[\u4E00-\u9FA5A-Za-z0-9_]+$/;
 
         if (!(value === '' || value === undefined)) {
           if (!regexp.test(value)) {
@@ -107,13 +107,13 @@
         },
         ruleUser: {
           phoneNum: [
-            {validator: validatePhoneNum, trigger: 'blur'}
+            {required: true, validator: validatePhoneNum, trigger: 'blur'}
           ],
           password: [
-            {validator: validatePassword, trigger: 'blur'}
+            {required: true, validator: validatePassword, trigger: 'blur'}
           ],
           verifyPassword: [
-            {validator: validateVerifyPassword, trigger: 'blur'}
+            {required: true, validator: validateVerifyPassword, trigger: 'blur'}
           ],
           userName: [
             {validator: validateUserName, trigger: 'blur'}
