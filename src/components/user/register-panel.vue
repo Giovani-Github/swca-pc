@@ -140,8 +140,9 @@
               }
             ).catch(
               error => {
-                console.log(error);
-                this.$Message.error(error);
+                if (error.response.status == this.$store.state.global.status.BAD_REQUEST) {
+                  this.$Message.error(error.response.data.msg);
+                }
               }
             );
 

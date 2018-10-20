@@ -133,8 +133,10 @@
         // 退出登录
         if (name == "5-2") {
           this.isLogin = false;
-          // 清除token
+          // 清除token,用户名，和手机号码
           this.$store.commit('setToken', '');
+          this.$store.commit('setPhoneNum', '');
+          this.$store.commit('setUserName', '');
         }
       },
       onSearch: function () {

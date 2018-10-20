@@ -82,23 +82,27 @@
             ).then(
               res => {
                 // 拿到jwt，存入vuex
-                this.$store.commit('setToken', res.data);
-
-                // 解析jwt，获取用户名和手机号码，存入vuex
-                let claims = res.data.split(".")[1];
+                // console.log(res.status);
+                this.$store.commit('setToken', res.data.jwt);
+                //
+                // // 解析jwt，获取用户名和手机号码，存入vuex
+                let claims = res.data.jwt.split(".")[1];
                 claims = JSON.parse(Base64.decode(claims));
                 this.$store.commit('setUserName', claims.userName);
                 this.$store.commit('setPhoneNum', claims.phoneNum);
 
                 this.myPanelPopup = false;
-                // 通知父组件，登录状态改变
+                // // 通知父组件，登录状态改变
                 this.$emit("on-isLogin-change", true);
                 this.$Message.success("登录成功");
 
               }
             ).catch(
               error => {
-                // this.$Message.error(error)
+                // 服务返回的错误状态码
+                if (error.response.status == this.$store.state.global.status.BAD_REQUEST) {
+                  this.$Message.error(error.response.data.msg);
+                }
               }
             );
           } else {
