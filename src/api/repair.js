@@ -19,8 +19,8 @@ const repair = {
    * 查询当前用户所有维修订单
    * @returns {AxiosPromise<any>}
    */
-  findAllOrder() {
-    return axios.get(BASE_URL + "/repair");
+  findAllOrder(data) {
+    return axios.get(BASE_URL + "/repair", {params: data});
   }
 };
 

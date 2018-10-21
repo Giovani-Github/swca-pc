@@ -17,7 +17,7 @@
         <span>联系电话 {{getAcceptByOrderId(order.acceptId).phoneNum}}</span>
       </p>
     </Card>
-    <!--<Page :total="100"/>-->
+    <Page :total="orderTotal" :page-size="pageSize" @on-change="pageChange"/>
   </div>
 </template>
 
@@ -28,10 +28,26 @@
       return {
         // 订单列表
         orderList: [],
-        acceptList: []
+        // 接单人列表，与订单列表的订单接收人id对应
+        acceptList: [],
+        // 当前页码
+        pageNum: 1,
+        // 每页条数
+        pageSize: 2,
+        // 订单总数
+        orderTotal: 1
       }
     },
     methods: {
+
+      /**
+       * 页码改变
+       * @param orderId
+       */
+      pageChange: function (currentPageNum) {
+        this.pageNum = currentPageNum;
+        this.getOrderList();
+      },
 
       /**
        * 根据订单状态获取接单步骤的标题内容
@@ -100,59 +116,76 @@
         } else {
           return "等待维修"
         }
-      }
-    },
-    created() {
+      },
 
-      this.$api.repair.findAllOrder().then(
-        res => {
+      /**
+       * 分页获取订单列表
+       * @param order
+       */
+      getOrderList() {
+        this.$api.repair.findAllOrder(
+          {
+            pageNum: this.pageNum,
+            pageSize: this.pageSize,
+          }
+        ).then(
+          res => {
 
-          // 判断是否查询到订单信息
-          if (res.data[0].list.length != 0) {
+            // 判断是否查询到订单信息
+            if (res.data[0].list.length != 0) {
 
-            // 保存订单信息
-            this.orderList = res.data[0].list;
+              console.log(res.data[0]);
 
-            for (var i = 0; i < this.orderList.length; i++) {
+              // 保存订单信息
+              this.orderList = res.data[0].list;
+              // 爆粗订单总条数
+              this.orderTotal = res.data[0].total;
 
-              // 如果是已经被接单的订单，获取到接单人的信息
-              if (this.orderList[i].acceptId != '' && this.orderList[i].acceptId != undefined) {
+              for (var i = 0; i < this.orderList.length; i++) {
 
-                this.$api.user.getUserByUserId(this.orderList[i].acceptId).then(
-                  res => {
+                // 如果是已经被接单的订单，获取到接单人的信息
+                if (this.orderList[i].acceptId != '' && this.orderList[i].acceptId != undefined) {
 
-                    // 保存接单人信息, 数组要用push，否则页面无法检测到数据已经更新，导致书信数据
-                    this.acceptList.push(res.data.user)
-                  }
-                ).catch(
-                  error => {
-                    console.log(error);
-                  }
-                )
+                  this.$api.user.getUserByUserId(this.orderList[i].acceptId).then(
+                    res => {
+
+                      // 保存接单人信息, 数组要用push，否则页面无法检测到数据已经更新，导致书信数据
+                      this.acceptList.push(res.data.user)
+                    }
+                  ).catch(
+                    error => {
+                      console.log(error);
+                    }
+                  )
+                }
+
               }
 
+            } else {
+              this.$Message.info({
+                content: "您未申请过维修",
+                duration: 10,
+                closable: true
+              });
             }
+          }
+        ).catch(
+          error => {
+            console.log(error);
+            if (error.response.status === this.$store.state.global.status.FORBIDDEN) {
+              this.$Message.warning({
+                content: "请登录后再查看",
+                duration: 10,
+                closable: true
+              });
+            }
+          }
+        )
+      }
 
-          } else {
-            this.$Message.info({
-              content: "您未申请过维修",
-              duration: 10,
-              closable: true
-            });
-          }
-        }
-      ).catch(
-        error => {
-          console.log(error);
-          if (error.response.status === this.$store.state.global.status.FORBIDDEN) {
-            this.$Message.warning({
-              content: "请登录后再查看",
-              duration: 10,
-              closable: true
-            });
-          }
-        }
-      )
+    },
+    created() {
+      this.getOrderList();
     }
   }
 </script>
