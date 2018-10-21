@@ -14,6 +14,9 @@ const user = {
     return axios.post(BASE_URL + '/auth/register', params);
   },
 
+  getUserByUserId(userId) {
+    return axios.get(BASE_URL + '/users/' + userId);
+  }
 
 };
 

@@ -19,6 +19,10 @@ export default {
       FORBIDDEN: 403,
       // 服务器端错误
       INTERNAL_SERVER_ERROR: 500,
+      // 请求超时
+      GATEWAY_TIMEOUT: 504,
+      // 服务器端没有找到内容
+      NO_CONTENT: 204
     }
   },
   mutations: {

@@ -13,11 +13,11 @@
 
       <p style="margin-top: 10px;" v-if="order.state >= 1 && order.state != 3">
         <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg"/>
-        <span>维修人员 李庆旺  {{order.accept.userName}}</span>
-        <span>联系电话 15219331778</span>
+        <span>维修人员 {{order.accept.userName}}</span>
+        <span>联系电话 {{order.accept.phoneNum}}</span>
       </p>
     </Card>
-    <Page :total="100"/>
+    <!--<Page :total="100"/>-->
   </div>
 </template>
 
@@ -54,8 +54,18 @@
 
           // 如果已经接单，查询出接单者详细信息
           if (order.acceptId !== '' && order.acceptId !== undefined) {
-
+            this.$api.user.getUserByUserId(order.acceptId).then(
+              res => {
+                order.accept = res.data.user;
+                console.log(order.accept);
+              }
+            ).catch(
+              error => {
+                console.log(error);
+              }
+            )
           }
+
           return new Date(order.acceptTime).toLocaleString();
 
         } else if (order.state === 3) {
