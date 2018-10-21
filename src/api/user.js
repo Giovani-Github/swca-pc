@@ -12,7 +12,9 @@ const user = {
 
   reg(params) {
     return axios.post(BASE_URL + '/auth/register', params);
-  }
+  },
+
+
 };
 
 export default user;

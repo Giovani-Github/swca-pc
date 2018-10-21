@@ -31,7 +31,9 @@ import {
   CheckboxGroup,
   Checkbox,
   Alert,
-
+  Steps,
+  Step,
+  Page,
 } from 'iview';
 
 const iview = {
@@ -65,6 +67,9 @@ const iview = {
     Vue.component('CheckboxGroup', CheckboxGroup);
     Vue.component('Checkbox', Checkbox);
     Vue.component('Alert', Alert);
+    Vue.component('Steps', Steps);
+    Vue.component('Step', Step);
+    Vue.component('Page', Page);
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
   }

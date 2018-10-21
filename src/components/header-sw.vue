@@ -141,6 +141,7 @@
           this.$store.commit('setToken', '');
           this.$store.commit('setPhoneNum', '');
           this.$store.commit('setUserName', '');
+          this.$router.push({name: 'index'})
         }
       },
       onSearch: function () {
