@@ -13,8 +13,8 @@
 
       <p style="margin-top: 10px;" v-if="order.state >= 1 && order.state != 3">
         <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg"/>
-        <span>维修人员 {{order.accept.userName}}</span>
-        <span>联系电话 {{order.accept.phoneNum}}</span>
+        <span>维修人员 {{getAcceptByOrderId(order.acceptId).userName}}</span>
+        <span>联系电话 {{getAcceptByOrderId(order.acceptId).phoneNum}}</span>
       </p>
     </Card>
     <!--<Page :total="100"/>-->
@@ -26,10 +26,25 @@
     name: "orderList",
     data() {
       return {
+        // 订单列表
         orderList: [],
+        acceptList: []
       }
     },
     methods: {
+
+      /**
+       * 根据订单状态获取接单步骤的标题内容
+       * @param orderId
+       */
+      getAcceptByOrderId(acceptId) {
+        for (var i = 0; i < this.acceptList.length; i++) {
+          if (this.acceptList[i].userId == acceptId) {
+            return this.acceptList[i];
+          }
+        }
+      },
+
       /**
        * 根据订单状态获取接单步骤的标题内容
        * @param state
@@ -50,21 +65,6 @@
        */
       getAcceptStepContent(order) {
         if (order.state >= 1 && order.state != 3) {
-
-
-          // 如果已经接单，查询出接单者详细信息
-          if (order.acceptId !== '' && order.acceptId !== undefined) {
-            this.$api.user.getUserByUserId(order.acceptId).then(
-              res => {
-                order.accept = res.data.user;
-                console.log(order.accept);
-              }
-            ).catch(
-              error => {
-                console.log(error);
-              }
-            )
-          }
 
           return new Date(order.acceptTime).toLocaleString();
 
@@ -106,11 +106,32 @@
 
       this.$api.repair.findAllOrder().then(
         res => {
-          console.log(res.data[0])
 
-          if (res.data[0].length !== 0) {
+          // 判断是否查询到订单信息
+          if (res.data[0].list.length != 0) {
 
-            this.orderList = res.data[0];
+            // 保存订单信息
+            this.orderList = res.data[0].list;
+
+            for (var i = 0; i < this.orderList.length; i++) {
+
+              // 如果是已经被接单的订单，获取到接单人的信息
+              if (this.orderList[i].acceptId != '' && this.orderList[i].acceptId != undefined) {
+
+                this.$api.user.getUserByUserId(this.orderList[i].acceptId).then(
+                  res => {
+
+                    // 保存接单人信息, 数组要用push，否则页面无法检测到数据已经更新，导致书信数据
+                    this.acceptList.push(res.data.user)
+                  }
+                ).catch(
+                  error => {
+                    console.log(error);
+                  }
+                )
+              }
+
+            }
 
           } else {
             this.$Message.info({
@@ -122,6 +143,7 @@
         }
       ).catch(
         error => {
+          console.log(error);
           if (error.response.status === this.$store.state.global.status.FORBIDDEN) {
             this.$Message.warning({
               content: "请登录后再查看",
