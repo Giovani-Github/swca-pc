@@ -34,6 +34,10 @@ import {
   Steps,
   Step,
   Page,
+  Sider,
+  Breadcrumb,
+  BreadcrumbItem,
+  Header,
 } from 'iview';
 
 const iview = {
@@ -70,6 +74,10 @@ const iview = {
     Vue.component('Steps', Steps);
     Vue.component('Step', Step);
     Vue.component('Page', Page);
+    Vue.component('Sider', Sider);
+    Vue.component('Breadcrumb', Breadcrumb);
+    Vue.component('BreadcrumbItem', BreadcrumbItem);
+    Vue.component('Header', Header);
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
   }
