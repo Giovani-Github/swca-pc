@@ -23,7 +23,7 @@
 
 <script>
   export default {
-    name: "orderList",
+    name: "order-list",
     data() {
       return {
         // 订单列表

@@ -5,7 +5,8 @@ import adminIndex from '../components/admin/admin-index'
 import index from '../components/index'
 import course from '../components/course'
 import commit from '../components/utils/repair/commit'
-import orderList from '../components/utils/repair/orderList'
+import orderList from '../components/utils/repair/order-list'
+import repairAdmin from '../components/admin/repair-admin'
 
 
 Vue.use(Router);
@@ -51,7 +52,14 @@ export default new Router({
     {
       path: '/admin',
       name: 'admin',
-      component: adminIndex
+      component: adminIndex,
+      children: [
+        {
+          path: "/repairAdmin",
+          name: 'repairAdmin',
+          component: repairAdmin
+        }
+      ]
     },
 
   ]

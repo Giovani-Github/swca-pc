@@ -1,5 +1,5 @@
 <template>
-  <Header class="header" :style="{position: 'fixed', width: '100%'}">
+  <div class="header" :style="{position: 'fixed', width: '100%'}">
 
     <Menu class="menu" mode="horizontal" :active-name="activeName" @on-select="onSelect">
       <Row type="flex" justify="start" class="code-row-bg">
@@ -68,7 +68,7 @@
     <login-panel :panelPopup="logPanelPopup" @on-panelPopup-change="onLogPopupChange"
                  @on-isLogin-change="onIsLoginChange"></login-panel>
     <register-panel :panelPopup="regPanelPopup" @on-panelPopup-change="onRegPopupChange"></register-panel>
-  </Header>
+  </div>
 </template>
 
 <script>
