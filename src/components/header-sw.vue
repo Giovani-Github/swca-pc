@@ -1,3 +1,4 @@
+<!-- 前台主框架，头部导航 -->
 <template>
   <div class="header" :style="{position: 'fixed', width: '100%'}">
 

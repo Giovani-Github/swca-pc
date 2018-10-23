@@ -1,5 +1,5 @@
+<!-- 用户注册面板 -->
 <template>
-
   <Modal v-model="myPanelPopup" width="360">
     <p slot="header" style="text-align:center">
       <span>注册</span>

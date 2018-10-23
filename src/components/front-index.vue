@@ -1,3 +1,4 @@
+<!-- 前台主框架 -->
 <template>
   <Layout class="layout">
     <header-sw></header-sw>

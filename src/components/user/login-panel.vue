@@ -1,3 +1,4 @@
+<!-- 用户登录面板 -->
 <template>
   <Modal v-model="myPanelPopup" width="360">
     <p slot="header" style="text-align:center">

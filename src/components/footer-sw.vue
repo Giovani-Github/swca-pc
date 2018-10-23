@@ -1,3 +1,4 @@
+<!-- 前台主框架，页脚 -->
 <template>
   <div class="footer">
     <div style="padding: 0px 30px 10px 30px">

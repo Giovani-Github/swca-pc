@@ -1,3 +1,4 @@
+<!-- 维修进度查询（维修订单列表） -->
 <template>
   <div style="padding: 30px;">
     <Card :bordered="false" :key="index" v-for="(order, index) in orderList" style="margin-bottom: 30px;">

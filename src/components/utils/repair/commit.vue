@@ -1,3 +1,4 @@
+<!-- 申请维修 -->
 <template>
   <div class="full-center">
     <div style="padding: 40px; width: 80%">

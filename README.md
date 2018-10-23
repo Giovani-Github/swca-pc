@@ -38,12 +38,18 @@ npm run build --report
 - assets 目录用来存放一些图片、文件等资源
 - common 目录用来存放项目中的公共资源
 - components 目录用来存放模块、组件相关代码
+  - admin 后台管理相关
+  - user 用户模块
+  - utils 工具模块
+    - repair 维修
 - router 目录用来存放路由配置
 - store 目录用来存放 vuex 配置
+- iview 按需引入iview组件
 
 ## 所用技术
 
 * vue
+* axios
 * iview
 * jwt
 
