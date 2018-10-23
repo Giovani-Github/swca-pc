@@ -38,6 +38,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   Header,
+  Tag,
 } from 'iview';
 
 const iview = {
@@ -78,6 +79,7 @@ const iview = {
     Vue.component('Breadcrumb', Breadcrumb);
     Vue.component('BreadcrumbItem', BreadcrumbItem);
     Vue.component('Header', Header);
+    Vue.component('Tag', Tag);
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
   }
