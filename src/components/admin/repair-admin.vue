@@ -43,7 +43,7 @@
                       type: 'md-female',
                     },
                     style: {
-                      fontSize: '20px',
+                      fontSize: '18px',
                       color: '#FF6666'
                     }
                   }),
@@ -55,7 +55,7 @@
                       type: 'md-male',
                     },
                     style: {
-                      fontSize: '20px',
+                      fontSize: '18px',
                       color: '#2b85e4'
                     }
                   }),
@@ -68,7 +68,79 @@
             align: 'center',
             title: '状态',
             key: 'state',
-            width: 100
+            width: 120,
+            render: (h, params) => {
+              if (params.row.state === this.$store.state.global.repairState.COMMIT_INIT) {
+                return h('div', [
+                  h('Icon', {
+                    props: {
+                      type: 'ios-water',
+                    },
+                    style: {
+                      fontSize: '18px',
+                      color: '#FF6666'
+                    }
+                  }),
+                  h('span', {
+                    style: {
+                      marginLeft: '6px'
+                    }
+                  }, "已提交")
+                ]);
+              } else if (params.row.state === this.$store.state.global.repairState.ACCEPT) {
+                return h('div', [
+                  h('Icon', {
+                    props: {
+                      type: 'ios-water',
+                    },
+                    style: {
+                      fontSize: '18px',
+                      color: '#2b85e4'
+                    }
+                  }),
+                  h('span', {
+                    style: {
+                      marginLeft: '6px'
+                    }
+                  }, "已被接单")
+                ]);
+              } else if (params.row.state === this.$store.state.global.repairState.SUCCESS) {
+                return h('div', [
+                  h('Icon', {
+                    props: {
+                      type: 'ios-water',
+                    },
+                    style: {
+                      fontSize: '18px',
+                      color: '#2b85e4'
+                    }
+                  }),
+                  h('span', {
+                    style: {
+                      marginLeft: '6px'
+                    }
+                  }, "维修完成")
+                ]);
+              } else if (params.row.state === this.$store.state.global.repairState.CANCEL) {
+                return h('div', [
+                  h('Icon', {
+                    props: {
+                      type: 'ios-water',
+                    },
+                    style: {
+                      fontSize: '18px',
+                      color: '#2b85e4'
+                    }
+                  }),
+                  h('span', {
+                    style: {
+                      marginLeft: '6px'
+                    }
+                  }, "已取消")
+                ]);
+              }
+
+            }
           },
           {
             align: 'center',
@@ -100,19 +172,38 @@
             title: '申请者id',
             key: 'userId',
             width: 100,
+            render: (h, params) => {
+              return h('div', [
+                h('Tooltip', {
+                  props: {
+                    content: this.getUserNameByUserId(),
+                  },
+                }, params.row.userId)
+              ]);
+            }
           },
           {
             align: 'center',
             title: '维修者id',
             key: 'acceptId',
             width: 100,
+            render: (h, params) => {
+              return h('div', [
+                h('p', {}, new Date(params.row.submitTime).toLocaleString())
+              ]);
+            }
           },
 
           {
             align: 'center',
             title: '申请时间',
             key: 'submitTime',
-            width: 180
+            width: 180,
+            render: (h, params) => {
+              return h('div', [
+                h('p', {}, new Date(params.row.submitTime).toLocaleString())
+              ]);
+            }
           },
           {
             align: 'center',
@@ -164,6 +255,12 @@
           }
         ],
         orderList: []
+      }
+    },
+    methods: {
+
+      getUserNameByUserId() {
+        return 'ssss'
       }
     },
     created() {

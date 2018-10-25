@@ -1,4 +1,3 @@
-<!-- 维修进度查询（维修订单列表） -->
 <template>
   <div style="padding: 30px;">
     <Card :bordered="false" :key="index" v-for="(order, index) in orderList" style="margin-bottom: 30px;">
@@ -14,8 +13,8 @@
 
       <p style="margin-top: 10px;" v-if="order.state >= 1 && order.state != 3">
         <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg"/>
-        <span>维修人员 {{getAcceptByOrderId(order.acceptId).userName}}</span>
-        <span>联系电话 {{getAcceptByOrderId(order.acceptId).phoneNum}}</span>
+        <!--<span>维修人员 {{getAcceptByOrderId(order.acceptId).userName}}</span>-->
+        <!--<span>联系电话 {{getAcceptByOrderId(order.acceptId).phoneNum}}</span>-->
       </p>
     </Card>
     <Page :total="orderTotal" :page-size="pageSize" @on-change="pageChange"/>
@@ -28,7 +27,7 @@
     data() {
       return {
         // 订单列表
-        orderColumns: [],
+        orderList: [],
         // 接单人列表，与订单列表的订单接收人id对应
         acceptList: [],
         // 当前页码
@@ -40,7 +39,6 @@
       }
     },
     methods: {
-
       /**
        * 页码改变
        * @param orderId
@@ -49,7 +47,6 @@
         this.pageNum = currentPageNum;
         this.getOrderList();
       },
-
       /**
        * 根据订单状态获取接单步骤的标题内容
        * @param orderId
@@ -61,7 +58,6 @@
           }
         }
       },
-
       /**
        * 根据订单状态获取接单步骤的标题内容
        * @param state
@@ -75,23 +71,19 @@
           return "待接单";
         }
       },
-
       /**
        * 根据订单，获取接单步骤的详细内容
        * @param order
        */
       getAcceptStepContent(order) {
         if (order.state >= 1 && order.state != 3) {
-
           return new Date(order.acceptTime).toLocaleString();
-
         } else if (order.state === 3) {
           return "你已经取消订单";
         } else {
           return "等待维修人员接单维修"
         }
       },
-
       /**
        * 根据订单状态获取完成步骤的标题内容
        * @param state
@@ -118,7 +110,6 @@
           return "等待维修"
         }
       },
-
       /**
        * 分页获取订单列表
        * @param order
@@ -131,25 +122,18 @@
           }
         ).then(
           res => {
-
             // 判断是否查询到订单信息
             if (res.data[0].list.length != 0) {
-
               console.log(res.data[0]);
-
               // 保存订单信息
               this.orderList = res.data[0].list;
               // 爆粗订单总条数
               this.orderTotal = res.data[0].total;
-
-              for (var i = 0; i < this.orderColumns.length; i++) {
-
+              for (var i = 0; i < this.orderList.length; i++) {
                 // 如果是已经被接单的订单，获取到接单人的信息
-                if (this.orderColumns[i].acceptId != '' && this.orderColumns[i].acceptId != undefined) {
-
-                  this.$api.user.getUserByUserId(this.orderColumns[i].acceptId).then(
+                if (this.orderList[i].acceptId != '' && this.orderList[i].acceptId != undefined) {
+                  this.$api.user.getUserByUserId(this.orderList[i].acceptId).then(
                     res => {
-
                       // 保存接单人信息, 数组要用push，否则页面无法检测到数据已经更新，导致书信数据
                       this.acceptList.push(res.data.user)
                     }
@@ -159,9 +143,7 @@
                     }
                   )
                 }
-
               }
-
             } else {
               this.$Message.info({
                 content: "您未申请过维修",
@@ -183,7 +165,6 @@
           }
         )
       }
-
     },
     created() {
       this.getOrderList();
@@ -193,7 +174,6 @@
 
 <style scoped lang='less'>
   @import "../../../common/less/global";
-
   span {
     margin-left: 10px;
   }

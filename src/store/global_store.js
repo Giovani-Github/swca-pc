@@ -23,6 +23,17 @@ export default {
       GATEWAY_TIMEOUT: 504,
       // 服务器端没有找到内容
       NO_CONTENT: 204
+    },
+    // 订单维修状态
+    repairState: {
+      // 已提交
+      COMMIT_INIT: 0,
+      // 已接受维修
+      ACCEPT: 1,
+      // 已维修完成
+      SUCCESS: 2,
+      // 已取消
+      CANCEL: 3
     }
   },
   mutations: {
