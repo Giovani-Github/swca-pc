@@ -8,6 +8,7 @@
 import user from './user';
 import demo from './demo';
 import repair from './repair';
+import repairAdmin from './admin/repair-admin';
 // 其他模块的接口……
 
 // 导出接口
@@ -15,5 +16,7 @@ export default {
   user,
   demo,
   repair,
+  repairAdmin,
+
 }
 

@@ -28,7 +28,7 @@
     data() {
       return {
         // 订单列表
-        orderList: [],
+        orderColumns: [],
         // 接单人列表，与订单列表的订单接收人id对应
         acceptList: [],
         // 当前页码
@@ -142,12 +142,12 @@
               // 爆粗订单总条数
               this.orderTotal = res.data[0].total;
 
-              for (var i = 0; i < this.orderList.length; i++) {
+              for (var i = 0; i < this.orderColumns.length; i++) {
 
                 // 如果是已经被接单的订单，获取到接单人的信息
-                if (this.orderList[i].acceptId != '' && this.orderList[i].acceptId != undefined) {
+                if (this.orderColumns[i].acceptId != '' && this.orderColumns[i].acceptId != undefined) {
 
-                  this.$api.user.getUserByUserId(this.orderList[i].acceptId).then(
+                  this.$api.user.getUserByUserId(this.orderColumns[i].acceptId).then(
                     res => {
 
                       // 保存接单人信息, 数组要用push，否则页面无法检测到数据已经更新，导致书信数据
