@@ -15,6 +15,7 @@
     name: "repair-admin",
     data() {
       return {
+        userName: '',
         orderColumns: [
           {
             align: 'center',
@@ -26,6 +27,7 @@
           {
             align: 'center',
             title: '姓名',
+            tooltip: true,
             key: 'name',
             width: 120,
             fixed: 'left'
@@ -74,11 +76,11 @@
                 return h('div', [
                   h('Icon', {
                     props: {
-                      type: 'ios-water',
+                      type: 'ios-radio-button-on',
                     },
                     style: {
-                      fontSize: '18px',
-                      color: '#FF6666'
+                      fontSize: '14px',
+                      color: '#2b85e4'
                     }
                   }),
                   h('span', {
@@ -91,45 +93,45 @@
                 return h('div', [
                   h('Icon', {
                     props: {
-                      type: 'ios-water',
+                      type: 'ios-radio-button-on',
                     },
                     style: {
-                      fontSize: '18px',
-                      color: '#2b85e4'
+                      fontSize: '14px',
+                      color: '#FF9900'
                     }
                   }),
                   h('span', {
                     style: {
                       marginLeft: '6px'
                     }
-                  }, "已被接单")
+                  }, "已接单")
                 ]);
               } else if (params.row.state === this.$store.state.global.repairState.SUCCESS) {
                 return h('div', [
                   h('Icon', {
                     props: {
-                      type: 'ios-water',
+                      type: 'ios-radio-button-on',
                     },
                     style: {
-                      fontSize: '18px',
-                      color: '#2b85e4'
+                      fontSize: '14px',
+                      color: '#99CC33'
                     }
                   }),
                   h('span', {
                     style: {
                       marginLeft: '6px'
                     }
-                  }, "维修完成")
+                  }, "已完成")
                 ]);
               } else if (params.row.state === this.$store.state.global.repairState.CANCEL) {
                 return h('div', [
                   h('Icon', {
                     props: {
-                      type: 'ios-water',
+                      type: 'ios-radio-button-on',
                     },
                     style: {
-                      fontSize: '18px',
-                      color: '#2b85e4'
+                      fontSize: '14px',
+                      color: '#CC3333'
                     }
                   }),
                   h('span', {
@@ -145,6 +147,7 @@
           {
             align: 'center',
             title: '地址',
+            tooltip: true,
             key: 'addres',
             width: 100
           },
@@ -176,8 +179,15 @@
               return h('div', [
                 h('Tooltip', {
                   props: {
-                    content: this.getUserNameByUserId(),
+                    content: this.userName,
+
                   },
+                  on: {
+                    // Tooltip显示时调用
+                    'on-popper-show': (event) => {
+                      this.getUserName(params.row.userId);
+                    }
+                  }
                 }, params.row.userId)
               ]);
             }
@@ -188,9 +198,21 @@
             key: 'acceptId',
             width: 100,
             render: (h, params) => {
-              return h('div', [
-                h('p', {}, new Date(params.row.submitTime).toLocaleString())
-              ]);
+              if (params.row.acceptId != '' && params.row.acceptId != undefined) {
+                return h('Tooltip', {
+                  props: {
+                    content: this.userName,
+                  },
+                  on: {
+                    // Tooltip显示时调用
+                    'on-popper-show': (event) => {
+                      this.getUserName(params.row.acceptId);
+                    }
+                  }
+                }, params.row.acceptId);
+              } else {
+                return h('p', {}, '未接单');
+              }
             }
           },
 
@@ -200,22 +222,39 @@
             key: 'submitTime',
             width: 180,
             render: (h, params) => {
-              return h('div', [
-                h('p', {}, new Date(params.row.submitTime).toLocaleString())
-              ]);
+              if (params.row.submitTime != '' && params.row.submitTime != undefined) {
+                return h('p', {}, new Date(params.row.submitTime).toLocaleString())
+              } else {
+                return h('p', {}, "申请未提交")
+              }
             }
           },
           {
             align: 'center',
-            title: '接受时间',
+            title: '接单时间',
             key: 'acceptTime',
-            width: 180
+            width: 180,
+            render: (h, params) => {
+              if (params.row.acceptTime != '' && params.row.acceptTime != undefined) {
+                return h('p', {}, new Date(params.row.acceptTime).toLocaleString())
+              } else {
+                return h('p', {}, "未接单")
+              }
+            }
           },
           {
             align: 'center',
             title: '维修完成时间',
             key: 'successTime',
-            width: 180
+            width: 180,
+            render: (h, params) => {
+              if (params.row.successTime != '' && params.row.successTime != undefined) {
+                return h('p', {}, new Date(params.row.successTime).toLocaleString())
+              } else {
+                return h('p', {}, '维修未完成');
+              }
+
+            }
           },
           {
             title: '操作',
@@ -241,7 +280,7 @@
                 }, '接受'),
                 h('Button', {
                   props: {
-                    type: 'error',
+                    type: 'success',
                     size: 'small'
                   },
                   on: {
@@ -249,7 +288,7 @@
                       this.remove(params.index)
                     }
                   }
-                }, '维修完成')
+                }, '完成维修')
               ]);
             }
           }
@@ -259,8 +298,20 @@
     },
     methods: {
 
-      getUserNameByUserId() {
-        return 'ssss'
+      /**
+       * 获取用户名
+       * @param userId
+       */
+      getUserName(userId) {
+        this.$api.user.getUserNameByUserId(userId).then(
+          res => {
+            this.userName = res.data.userName;
+          }
+        ).catch(
+          error => {
+            console.log(error);
+          }
+        );
       }
     },
     created() {

@@ -6,16 +6,35 @@
 import {BASE_URL, axios} from './base';
 
 const user = {
+  /**
+   * 登录
+   * @param params
+   * @returns {AxiosPromise<any>}
+   */
   login(params) {
     return axios.post(BASE_URL + '/auth/login', params);
   },
 
+  /**
+   * 注册
+   * @param params
+   * @returns {AxiosPromise<any>}
+   */
   reg(params) {
     return axios.post(BASE_URL + '/auth/register', params);
   },
 
+  /**
+   * 根据用户id查询用户信息
+   * @param userId
+   * @returns {AxiosPromise<any>}
+   */
   getUserByUserId(userId) {
     return axios.get(BASE_URL + '/users/' + userId);
+  },
+
+  getUserNameByUserId(userId) {
+    return axios.get(BASE_URL + "/users/userName/" + userId);
   }
 
 };
