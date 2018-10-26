@@ -25,6 +25,14 @@ const user = {
   },
 
   /**
+   * 后台登录
+   * @param params
+   */
+  loginAdmin(params) {
+    return axios.post(BASE_URL + '/auth/loginAdmin', params);
+  },
+
+  /**
    * 根据用户id查询用户信息
    * @param userId
    * @returns {AxiosPromise<any>}
@@ -33,6 +41,11 @@ const user = {
     return axios.get(BASE_URL + '/users/' + userId);
   },
 
+  /**
+   * 根据用户id查询用户名
+   * @param userId
+   * @returns {AxiosPromise<any>}
+   */
   getUserNameByUserId(userId) {
     return axios.get(BASE_URL + "/users/userName/" + userId);
   }

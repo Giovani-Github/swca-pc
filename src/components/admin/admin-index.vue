@@ -5,7 +5,7 @@
       <div class="user-admin">
         <Avatar size="large" class="avatar" src="https://i.loli.net/2017/08/21/599a521472424.jpg"/>
         <div class="user-name-admin">
-          你真好看
+          <span v-if="$store.state.user.phoneNum != ''" class="userName">{{getUserInfo()}}</span>
         </div>
         <Tag color="orange">管理员</Tag>
         <div>
@@ -45,7 +45,7 @@
     </Sider>
     <Layout :style="{marginLeft: '200px'}">
       <Content :style="{padding: '0 16px 16px', marginTop:'10px'}">
-        <Card style="min-height: 600px">
+        <Card style="min-height: 100%">
           <router-view></router-view>
         </Card>
       </Content>
@@ -59,7 +59,17 @@
     data() {
       return {};
     },
-    computed: {}
+    computed: {},
+    methods: {
+      // 获取用户信息
+      getUserInfo() {
+        if (this.$store.state.user.userName != '') {
+          return this.$store.state.user.userName;
+        } else {
+          return this.$store.state.user.phoneNum;
+        }
+      },
+    }
 
   }
 </script>
