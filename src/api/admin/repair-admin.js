@@ -10,8 +10,8 @@ const repairAdmin = {
    * 查询所有维修订单
    * @returns {AxiosPromise<any>}
    */
-  findAllOrder() {
-    return axios.get(BASE_URL + "/admin/repair");
+  findAllOrder(data) {
+    return axios.get(BASE_URL + "/admin/repair", {params: data});
   }
 };
 

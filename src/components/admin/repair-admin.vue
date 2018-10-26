@@ -4,7 +4,7 @@
     <Table highlight-row border :columns="orderColumns" :data="orderList"></Table>
     <div style="margin: 10px;overflow: hidden">
       <div style="float: right;">
-        <!--<Page :total="100" :current="1" @on-change="changePage"></Page>-->
+        <Page :total="orderTotal" :page-size="pageSize" @on-change="pageChange"></Page>
       </div>
     </div>
   </div>
@@ -15,6 +15,13 @@
     name: "repair-admin",
     data() {
       return {
+        // 当前页码
+        pageNum: 1,
+        // 每页条数
+        pageSize: 2,
+        // 订单总数
+        orderTotal: 1,
+        // 根据Userid查询出来的用户名
         userName: '',
         orderColumns: [
           {
@@ -299,6 +306,16 @@
     methods: {
 
       /**
+       * 页码改变
+       * @param orderId
+       */
+      pageChange: function (currentPageNum) {
+        this.pageNum = currentPageNum;
+        this.getOrderList();
+      },
+
+
+      /**
        * 获取用户名
        * @param userId
        */
@@ -312,19 +329,29 @@
             console.log(error);
           }
         );
+      },
+
+      getOrderList() {
+        this.$api.repairAdmin.findAllOrder(
+          {
+            pageNum: this.pageNum,
+            pageSize: this.pageSize,
+          }
+        ).then(
+          res => {
+            console.log(res.data[0].list);
+            this.orderTotal = res.data[0].total;
+            this.orderList = res.data[0].list;
+          }
+        ).catch(
+          error => {
+            console.log(error);
+          }
+        )
       }
     },
     created() {
-      this.$api.repairAdmin.findAllOrder().then(
-        res => {
-          console.log(res.data[0]);
-          this.orderList = res.data[0];
-        }
-      ).catch(
-        error => {
-          console.log(error);
-        }
-      )
+      this.getOrderList();
     }
   }
 </script>

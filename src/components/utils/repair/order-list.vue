@@ -127,7 +127,7 @@
               console.log(res.data[0]);
               // 保存订单信息
               this.orderList = res.data[0].list;
-              // 爆粗订单总条数
+              // 保存订单总条数
               this.orderTotal = res.data[0].total;
               for (var i = 0; i < this.orderList.length; i++) {
                 // 如果是已经被接单的订单，获取到接单人的信息
