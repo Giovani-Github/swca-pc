@@ -18,7 +18,7 @@
         // 当前页码
         pageNum: 1,
         // 每页条数
-        pageSize: 2,
+        pageSize: 6,
         // 订单总数
         orderTotal: 1,
         // 根据Userid查询出来的用户名
@@ -281,7 +281,7 @@
                   },
                   on: {
                     click: () => {
-                      this.show(params.index)
+                      this.accept(params.row.orderId)
                     }
                   }
                 }, '接受'),
@@ -292,7 +292,7 @@
                   },
                   on: {
                     click: () => {
-                      this.remove(params.index)
+                      this.success(params.row.orderId)
                     }
                   }
                 }, '完成维修')
@@ -304,6 +304,35 @@
       }
     },
     methods: {
+      success: function (orderId) {
+        this.$api.repairAdmin.success(orderId).then(
+          res => {
+            if (res.status == this.$store.state.global.status.OK) {
+              // 刷新当前页面
+              this.$router.go(0);
+            }
+          }
+        ).catch(
+          error => {
+            console.log(error);
+          }
+        )
+      },
+
+      accept: function (orderId) {
+        this.$api.repairAdmin.accept(orderId).then(
+          res => {
+            if (res.status == this.$store.state.global.status.OK) {
+              // 刷新当前页面
+              this.$router.go(0);
+            }
+          }
+        ).catch(
+          error => {
+            console.log(error);
+          }
+        )
+      },
 
       /**
        * 页码改变

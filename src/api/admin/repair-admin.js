@@ -12,7 +12,26 @@ const repairAdmin = {
    */
   findAllOrder(data) {
     return axios.get(BASE_URL + "/admin/repair", {params: data});
+  },
+
+  /**
+   * 接受订单
+   * @param data
+   * @returns {AxiosPromise<any>}
+   */
+  accept(data) {
+    return axios.put(BASE_URL + "/admin/accept/" + data);
+  },
+
+  /**
+   * 完成维修
+   * @param data
+   * @returns {AxiosPromise<any>}
+   */
+  success(data) {
+    return axios.put(BASE_URL + "/admin/success/" + data);
   }
+
 };
 
 export default repairAdmin;
