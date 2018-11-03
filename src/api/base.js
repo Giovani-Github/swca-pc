@@ -3,9 +3,10 @@
  * @Author Administrator
  * @Create: 2018/10/13 21:38:37
  */
-import store from '../store'
+import store from '../store';
 import Axios from "axios";
 import qs from "qs";
+import {Message} from "iview"
 
 // 添加请求拦截器
 Axios.interceptors.request.use(
@@ -24,19 +25,57 @@ Axios.interceptors.request.use(
     return config;
   },
   function (error) {
+
+    console.log("超时");
+    Message.error({message: '请求超时!'});
+
     // 对请求错误做些什么
     return Promise.reject(error);
   }
 );
 
 // 添加响应拦截器
-Axios.interceptors.response.use(function (response) {
-  // 对响应数据做点什么
-  return response;
-}, function (error) {
-  // 对响应错误做点什么
-  return Promise.reject(error);
-});
+Axios.interceptors.response.use(
+  function (response) {
+    // 对响应数据做点什么
+    return response;
+  },
+  function (error) {
+    if (error.response.status == store.state.global.status.GATEWAY_TIMEOUT || error.response.status == store.state.global.status.NOT_FOUND) {
+      Message.error({
+        content: '服务器被吃了⊙﹏⊙∥',
+        duration: 10,
+        closable: true
+      });
+    } else if (error.response.status == store.state.global.status.FORBIDDEN) {
+      Message.error({
+        content: '权限不足或未登陆',
+        duration: 10,
+        closable: true
+      });
+
+    } else if (error.response.status == store.state.global.status.BAD_REQUEST) {
+      Message.error({
+        content: error.response.data.msg,
+        duration: 10,
+        closable: true
+      });
+    } else if (error.response.status == store.state.global.status.INTERNAL_SERVER_ERROR) {
+      Message.error({
+        content: error.response.data.msg,
+        duration: 10,
+        closable: true
+      });
+    } else if (error.response.status == store.state.global.status.NO_CONTENT) {
+      Message.error({
+        content: error.response.data.msg,
+        duration: 10,
+        closable: true
+      });
+    }
+    // 对响应错误做点什么
+    return Promise.reject(error);
+  });
 
 // 导出axios以及HOST
 export const BASE_URL = store.state.global.BASE_URL; // 跨域相关，在config/index.js中

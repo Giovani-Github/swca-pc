@@ -137,11 +137,7 @@
                       // 保存接单人信息, 数组要用push，否则页面无法检测到数据已经更新，导致书信数据
                       this.acceptList.push(res.data.user)
                     }
-                  ).catch(
-                    error => {
-                      console.log(error);
-                    }
-                  )
+                  );
                 }
               }
             } else {
@@ -152,18 +148,7 @@
               });
             }
           }
-        ).catch(
-          error => {
-            console.log(error);
-            if (error.response.status === this.$store.state.global.status.FORBIDDEN) {
-              this.$Message.warning({
-                content: "请登录后再查看",
-                duration: 10,
-                closable: true
-              });
-            }
-          }
-        )
+        );
       }
     },
     created() {

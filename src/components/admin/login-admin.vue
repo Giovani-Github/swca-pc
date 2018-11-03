@@ -102,13 +102,6 @@
                 this.$router.replace({name: 'admin'})
 
               }
-            ).catch(
-              error => {
-                // 服务返回的错误状态码
-                if (error.response.status == this.$store.state.global.status.BAD_REQUEST) {
-                  this.$Message.error(error.response.data.msg);
-                }
-              }
             );
           } else {
             this.$Message.error('登录失败');

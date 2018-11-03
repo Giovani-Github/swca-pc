@@ -353,10 +353,6 @@
           res => {
             this.userName = res.data.userName;
           }
-        ).catch(
-          error => {
-            console.log(error);
-          }
         );
       },
 
@@ -372,11 +368,7 @@
             this.orderTotal = res.data[0].total;
             this.orderList = res.data[0].list;
           }
-        ).catch(
-          error => {
-            console.log(error);
-          }
-        )
+        );
       }
     },
     created() {

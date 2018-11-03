@@ -138,14 +138,7 @@
                 this.$Message.success('注册成功');
                 this.myPanelPopup = false;
               }
-            ).catch(
-              error => {
-                if (error.response.status == this.$store.state.global.status.BAD_REQUEST) {
-                  this.$Message.error(error.response.data.msg);
-                }
-              }
             );
-
           } else {
             this.$Message.error('注册失败');
           }

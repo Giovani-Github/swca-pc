@@ -106,26 +106,9 @@
                   duration: 10,
                   closable: true
                 });
-
                 this.$refs[name].resetFields();
               }
-            ).catch(
-              error => {
-                if (error.response.status === this.$store.state.global.status.FORBIDDEN) {
-                  this.$Message.error({
-                    content: '请先登陆后在提交',
-                    duration: 10,
-                    closable: true
-                  });
-                } else if (error.response.status === this.$store.state.global.status.INTERNAL_SERVER_ERROR) {
-                  this.$Message.error({
-                    content: error.response.data.msg,
-                    duration: 10,
-                    closable: true
-                  });
-                }
-              }
-            );
+            )
           } else {
             this.$Message.error({
               content: '提交失败，请重新提交',

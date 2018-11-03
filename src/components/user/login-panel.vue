@@ -82,8 +82,8 @@
               }
             ).then(
               res => {
+
                 // 拿到jwt，存入vuex
-                // console.log(res.status);
                 this.$store.commit('setToken', res.data.jwt);
                 //
                 // // 解析jwt，获取用户名和手机号码，存入vuex
@@ -97,13 +97,6 @@
                 this.$emit("on-isLogin-change", true);
                 this.$Message.success("登录成功");
 
-              }
-            ).catch(
-              error => {
-                // 服务返回的错误状态码
-                if (error.response.status == this.$store.state.global.status.BAD_REQUEST) {
-                  this.$Message.error(error.response.data.msg);
-                }
               }
             );
           } else {
