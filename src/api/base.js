@@ -25,10 +25,7 @@ Axios.interceptors.request.use(
     return config;
   },
   function (error) {
-
-    console.log("超时");
     Message.error({message: '请求超时!'});
-
     // 对请求错误做些什么
     return Promise.reject(error);
   }

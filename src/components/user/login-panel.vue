@@ -86,7 +86,7 @@
                 // 拿到jwt，存入vuex
                 this.$store.commit('setToken', res.data.jwt);
                 //
-                // // 解析jwt，获取用户名和手机号码，存入vuex
+                // 解析jwt，获取用户名和手机号码，存入vuex
                 let claims = res.data.jwt.split(".")[1];
                 claims = JSON.parse(Base64.decode(claims));
                 this.$store.commit('setUserName', claims.userName);

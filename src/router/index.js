@@ -9,6 +9,8 @@ import orderList from '../components/utils/repair/order-list'
 import repairAdmin from '../components/admin/repair-admin'
 import loginAdmin from '../components/admin/login-admin'
 import store from '../store';
+import api from '../api';
+import {Message} from "iview";
 
 Vue.use(Router);
 
@@ -88,9 +90,40 @@ const router = new Router({
  */
 router.beforeEach((to, from, next) => {
 
+
   if (to.matched.some((r) => r.meta.requireAuth)) {
     if (store.state.global.token) {   //判断是否已经登录
-      next();
+
+      // 获取登录用户的手机号码
+      let claims = store.state.global.token.split(".")[1];
+      claims = JSON.parse(Base64.decode(claims));
+
+      // 获取该用户的所有权限列表
+      api.user.getUserByPhoneNum(claims.phoneNum).then(
+        res => {
+          let isAdmin = false;
+
+          // 循环查找是否有admin权限
+          for (var i = 0; i < res.data.roles.length; i++) {
+            if (res.data.roles[i] === "ROLE_ADMIN") {
+              isAdmin = true;
+            }
+          }
+
+          if (isAdmin) {
+            next();
+          } else {
+            Message.error({
+              content: "非管理员",
+              duration: 10,
+              closable: true
+            });
+          }
+
+        }
+      );
+
+
     } else {
       next({
         path: '/loginAdmin',

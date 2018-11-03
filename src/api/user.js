@@ -6,6 +6,16 @@
 import {BASE_URL, axios} from './base';
 
 const user = {
+
+  /**
+   * 根据手机号码查询用户
+   * @param userId
+   * @returns {AxiosPromise<any>}
+   */
+  getUserByPhoneNum(phoneNum) {
+    return axios.get(BASE_URL + '/users/roles/' + phoneNum);
+  },
+
   /**
    * 登录
    * @param params
@@ -48,7 +58,9 @@ const user = {
    */
   getUserNameByUserId(userId) {
     return axios.get(BASE_URL + "/users/userName/" + userId);
-  }
+  },
+
+
 
 };
 
