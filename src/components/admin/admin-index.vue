@@ -5,12 +5,12 @@
       <div class="user-admin">
         <Avatar size="large" class="avatar" src="https://i.loli.net/2017/08/21/599a521472424.jpg"/>
         <div class="user-name-admin">
-          <span v-if="$store.state.user.phoneNum != ''" class="userName">{{getUserInfo()}}</span>
+          <span class="userName">{{getUserInfo()}}</span>
         </div>
         <Tag color="orange">管理员</Tag>
         <div>
           <Button type="success">个人中心</Button>
-          <Button type="error">退出</Button>
+          <Button type="error" @click="logout()">退出</Button>
         </div>
       </div>
       <Menu active-name="1" theme="dark" width="auto" :open-names="['1']">
@@ -61,12 +61,21 @@
     },
     computed: {},
     methods: {
+      // 退出登陆
+      logout: function () {
+        // 清除token,用户名，和手机号码
+        sessionStorage.clear('token');
+        sessionStorage.clear('userName');
+        sessionStorage.clear('phoneNum');
+        this.$router.push({name: 'index'})
+      },
+
       // 获取用户信息
       getUserInfo() {
-        if (this.$store.state.user.userName != '') {
-          return this.$store.state.user.userName;
+        if (sessionStorage.getItem('userName') != '') {
+          return sessionStorage.getItem('userName');
         } else {
-          return this.$store.state.user.phoneNum;
+          return sessionStorage.getItem('phoneNum');
         }
       },
     }

@@ -55,7 +55,7 @@
               <template slot="title">
                 <!-- 用户头像取用户名第一个字母大写 -->
                 <Avatar :style="{background: userColor}">{{getUserInfo().charAt(0).toUpperCase()}}</Avatar>
-                <span v-if="$store.state.user.phoneNum != ''" class="userName">{{getUserInfo()}}</span>
+                <span class="userName">{{getUserInfo()}}</span>
               </template>
               <div v-if="isLogin">
                 <MenuItem name="5-1">个人中心</MenuItem>
@@ -94,10 +94,10 @@
 
       // 获取用户信息
       getUserInfo() {
-        if (this.$store.state.user.userName != '') {
-          return this.$store.state.user.userName;
+        if (sessionStorage.getItem('userName') != '') {
+          return sessionStorage.getItem('userName');
         } else {
-          return this.$store.state.user.phoneNum;
+          return sessionStorage.getItem('phoneNum');
         }
       },
 
@@ -139,9 +139,9 @@
         if (name == "5-2") {
           this.isLogin = false;
           // 清除token,用户名，和手机号码
-          this.$store.commit('setToken', '');
-          this.$store.commit('setPhoneNum', '');
-          this.$store.commit('setUserName', '');
+          sessionStorage.clear('token');
+          sessionStorage.clear('userName');
+          sessionStorage.clear('phoneNum');
           this.$router.push({name: 'index'})
         }
       },
@@ -152,6 +152,11 @@
     created() {
       // 每次刷新页面，随机更换一次头像的颜色
       this.userColor = ColorList[Math.floor(Math.random() * 10)];
+
+      // 每次刷新页面，都判断用户是否已经登陆
+      if (sessionStorage.getItem('token') != '' && sessionStorage.getItem('token') != undefined) {
+        this.isLogin = true;
+      }
     },
 
   }

@@ -91,11 +91,14 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
 
 
+
   if (to.matched.some((r) => r.meta.requireAuth)) {
-    if (store.state.global.token) {   //判断是否已经登录
+
+    if (sessionStorage.getItem('token')) {   //判断是否已经登录
+
 
       // 获取登录用户的手机号码
-      let claims = store.state.global.token.split(".")[1];
+      let claims = sessionStorage.getItem('token').split(".")[1];
       claims = JSON.parse(Base64.decode(claims));
 
       // 获取该用户的所有权限列表

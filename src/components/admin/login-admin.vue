@@ -86,15 +86,15 @@
               }
             ).then(
               res => {
-                // 拿到jwt，存入vuex
-                // console.log(res.status);
-                this.$store.commit('setToken', res.data.jwt);
+                // 拿到jwt，存入sessionStorage
+                sessionStorage.setItem('token', res.data.jwt);
                 //
-                // // 解析jwt，获取用户名和手机号码，存入vuex
+                // // 解析jwt，获取用户名和手机号码，存入sessionStorage
                 let claims = res.data.jwt.split(".")[1];
                 claims = JSON.parse(Base64.decode(claims));
-                this.$store.commit('setUserName', claims.userName);
-                this.$store.commit('setPhoneNum', claims.phoneNum);
+                sessionStorage.setItem('userName', claims.userName);
+                sessionStorage.setItem('phoneNum', claims.phoneNum);
+
 
                 this.$Message.success("登录成功");
 

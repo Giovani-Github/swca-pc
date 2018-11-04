@@ -6,10 +6,6 @@
 export default {
   state: {
     BASE_URL: '/swca_api',
-    /**
-     * 存放jwt
-     */
-    token: '',
 
     /**
      * 服务器响应状态码

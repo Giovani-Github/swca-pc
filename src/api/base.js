@@ -18,7 +18,7 @@ Axios.interceptors.request.use(
     config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
     // 请求时判断vuex中是合法存在token（即jwt），存在就带上
-    let token = store.state.global.token;
+    let token = sessionStorage.getItem('token');
     config.headers.Authorization = "Bearer " + token;
 
     // }
