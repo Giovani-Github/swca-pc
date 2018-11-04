@@ -3,18 +3,46 @@
     <Card :bordered="false" :key="index" v-for="(order, index) in orderList" style="margin-bottom: 30px;">
       <p slot="title">
         {{order.name}}
+      </p>
       <p>
-        <Steps :current="order.state === 3 ? 1 : order.state" :status="order.state === 3 ? 'error' : 'process'">
+        <!--
+          current: 当前进度条位置。
+            如果当前订单已取消，那么进度条就在第二个位置，并且样式未error。
+            如果当前订单没有取消，根据订单状态，选择进度条位置。订单状态和三个进度条位置对应。
+            0: 为取消订单
+            1：已接受
+            2：已完成
+            3: 取消
+        -->
+        <Steps :current="order.state === $store.state.global.repairState.CANCEL ? 1 : order.state"
+               :status="order.state === $store.state.global.repairState.CANCEL ? 'error' : 'process'">
           <Step title="已提交" :content="(new Date(order.submitTime)).toLocaleString()"></Step>
           <Step :title="getAcceptStepTitle(order.state)" :content="getAcceptStepContent(order)"></Step>
           <Step :title="getSuccessStepTile(order.state)" :content="getSuccessStepContent(order)"></Step>
         </Steps>
+
+        <!-- 判断当前订单状态是否是未取消或者未完成 -->
+        <span
+          v-if="order.state != $store.state.global.repairState.CANCEL && order.state != $store.state.global.repairState.SUCCESS"
+          class="ivu-tabs-nav-right">
+          <Button @click="cancel(order.orderId)" type="error" ghost>取消订单</Button>
+        </span>
+
       </p>
 
-      <p style="margin-top: 10px;" v-if="order.state >= 1 && order.state != 3">
-        <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg"/>
-        <!--<span>维修人员 {{getAcceptByOrderId(order.acceptId).userName}}</span>-->
-        <!--<span>联系电话 {{getAcceptByOrderId(order.acceptId).phoneNum}}</span>-->
+      <Divider orientation="left">问题描述</Divider>
+      <span>{{order.remark}}</span>
+
+      <!-- 判断当前订单状态是否是已接受或者已完成并且未取消 -->
+      <div
+        v-if="order.state >= $store.state.global.repairState.ACCEPT && order.state != $store.state.global.repairState.CANCEL">
+        <Divider orientation="left">接单信息</Divider>
+        <span>维修人员： <Tag color="primary">{{getAcceptByOrderId(order.acceptId).userName}}</Tag> </span>
+        <span>联系电话： <Tag color="success">{{getAcceptByOrderId(order.acceptId).phoneNum}}</Tag></span>
+
+      </div>
+
+      <p>
       </p>
     </Card>
     <Page :total="orderTotal" :page-size="pageSize" @on-change="pageChange"/>
@@ -39,6 +67,21 @@
       }
     },
     methods: {
+      /**
+       * 取消订单
+       * @param orderId
+       */
+      cancel: function (orderId) {
+        this.$api.repair.cancel(orderId).then(
+          res => {
+            if (res.status == this.$store.state.global.status.OK) {
+              // 刷新当前页面
+              this.$router.go(0);
+            }
+          }
+        );
+      },
+
       /**
        * 页码改变
        * @param orderId
@@ -160,6 +203,6 @@
 <style scoped lang='less'>
   @import "../../../common/less/global";
   span {
-    margin-left: 10px;
+    margin-left: 20px;
   }
 </style>

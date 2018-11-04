@@ -304,6 +304,10 @@
       }
     },
     methods: {
+      /**
+       * 维修完成
+       * @param orderId
+       */
       success: function (orderId) {
         this.$api.repairAdmin.success(orderId).then(
           res => {
@@ -319,6 +323,10 @@
         )
       },
 
+      /**
+       * 接受订单
+       * @param orderId
+       */
       accept: function (orderId) {
         this.$api.repairAdmin.accept(orderId).then(
           res => {

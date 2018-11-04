@@ -40,6 +40,7 @@ import {
   Header,
   Tag,
   Tooltip,
+  Divider,
 } from 'iview';
 
 const iview = {
@@ -82,6 +83,7 @@ const iview = {
     Vue.component('Header', Header);
     Vue.component('Tag', Tag);
     Vue.component('Tooltip', Tooltip);
+    Vue.component('Divider', Divider);
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
   }

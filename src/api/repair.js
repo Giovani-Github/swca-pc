@@ -21,6 +21,15 @@ const repair = {
    */
   findAllOrder(data) {
     return axios.get(BASE_URL + "/repair", {params: data});
+  },
+
+  /**
+   * 取消订单
+   * @param data
+   * @returns {AxiosPromise<any>}
+   */
+  cancel(data) {
+    return axios.put(BASE_URL + "/admin/cancel/" + data);
   }
 };
 
