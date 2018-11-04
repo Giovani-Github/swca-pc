@@ -397,6 +397,8 @@
     },
     created() {
       this.getOrderList();
+      // 设置当前侧边栏选择项是2
+      this.$store.commit('setAdminMenuActive', '2');
     }
   }
 </script>

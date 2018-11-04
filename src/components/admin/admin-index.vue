@@ -13,7 +13,7 @@
           <Button type="error" @click="logout()">退出</Button>
         </div>
       </div>
-      <Menu active-name="1" theme="dark" width="auto" :open-names="['1']">
+      <Menu :active-name="$store.state.global.adminMenuActive" theme="dark" width="auto" :open-names="['2']">
         <MenuItem name="1">
           <Icon type="ios-keypad"></Icon>
           成员管理

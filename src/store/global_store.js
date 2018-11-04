@@ -58,7 +58,12 @@ export default {
        * 已取消
        */
       CANCEL: 3
-    }
+    },
+
+    /**
+     * 后台左侧菜单当前选择项
+     */
+    adminMenuActive: '1',
   },
   mutations: {
     /**
@@ -68,6 +73,15 @@ export default {
      */
     setToken(state, token) {
       state.token = token;
+    },
+
+    /**
+     * 修改adminMenuActive，通过this.$store.commit('setAdminMenuActive', 'activeName')访问
+     * @param state
+     * @param activeName
+     */
+    setAdminMenuActive(state, activeName) {
+      state.adminMenuActive = activeName;
     }
   }
 }
