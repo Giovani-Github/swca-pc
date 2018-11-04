@@ -1,5 +1,9 @@
 <template>
   <div style="padding: 30px;">
+    <Spin fix v-if="spinShow">
+      <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+      <div>正在加载</div>
+    </Spin>
     <Card :bordered="false" :key="index" v-for="(order, index) in orderList" style="margin-bottom: 30px;">
       <p slot="title">
         {{order.name}}
@@ -63,7 +67,9 @@
         // 每页条数
         pageSize: 2,
         // 订单总数
-        orderTotal: 1
+        orderTotal: 1,
+        // 加载中是否显示
+        spinShow: false,
       }
     },
     methods: {
@@ -158,6 +164,8 @@
        * @param order
        */
       getOrderList() {
+        this.spinShow = true;
+
         this.$api.repair.findAllOrder(
           {
             pageNum: this.pageNum,
@@ -167,6 +175,9 @@
           res => {
             // 判断是否查询到订单信息
             if (res.data[0].list.length != 0) {
+
+              this.spinShow = false;
+
               console.log(res.data[0]);
               // 保存订单信息
               this.orderList = res.data[0].list;
@@ -183,13 +194,20 @@
                   );
                 }
               }
+
             } else {
               this.$Message.info({
                 content: "您未申请过维修",
                 duration: 10,
                 closable: true
               });
+              this.spinShow = false;
+
             }
+          }
+        ).catch(
+          error => {
+            this.spinShow = false;
           }
         );
       }

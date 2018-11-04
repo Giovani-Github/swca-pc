@@ -1,5 +1,10 @@
 <template>
   <Layout class="layout full-center" style="min-height: 620px">
+    <Spin fix v-if="spinShow">
+      <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+      <div>正在登录</div>
+    </Spin>
+
     <Card :bordered="false">
       <div slot="title" class="title">
         <router-link :to="{name:'index'}">
@@ -27,7 +32,7 @@
           </Form>
         </div>
         <div slot="footer" style="text-align:center">
-          <Button type="primary" @click="handleSubmit('formUser')">登录</Button>
+          <Button type="primary" @click="login('formUser')">登录</Button>
         </div>
       </div>
     </Card>
@@ -56,6 +61,8 @@
       };
 
       return {
+        // 加载中是否显示
+        spinShow: false,
         formUser: {
           phoneNum: '',
           password: '',
@@ -73,11 +80,17 @@
     },
     methods: {
 
-      handleSubmit(name) {
+      /**
+       * 登录
+       * @param name
+       */
+      login(name) {
 
         this.$refs[name].validate((valid) => {
 
           if (valid) {
+
+            this.spinShow = true;
 
             this.$api.user.loginAdmin(
               {
@@ -98,13 +111,20 @@
 
                 this.$Message.success("登录成功");
 
+                this.spinShow = false;
+
                 // 跳转到后台页面
                 this.$router.replace({name: 'admin'})
 
               }
+            ).catch(
+              error => {
+                this.spinShow = false;
+              }
             );
           } else {
             this.$Message.error('登录失败');
+            this.spinShow = false;
           }
         });
       },

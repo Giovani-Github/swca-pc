@@ -41,6 +41,8 @@ import {
   Tag,
   Tooltip,
   Divider,
+  LoadingBar,
+  Spin,
 } from 'iview';
 
 const iview = {
@@ -84,6 +86,8 @@ const iview = {
     Vue.component('Tag', Tag);
     Vue.component('Tooltip', Tooltip);
     Vue.component('Divider', Divider);
+    Vue.component('LoadingBar', LoadingBar);
+    Vue.component('Spin', Spin);
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
   }

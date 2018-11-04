@@ -1,6 +1,10 @@
 <!-- 用户登录面板 -->
 <template>
   <Modal v-model="myPanelPopup" width="360">
+    <Spin fix v-if="spinShow">
+      <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+      <div>正在登录</div>
+    </Spin>
     <p slot="header" style="text-align:center">
       <span>登录</span>
     </p>
@@ -19,7 +23,7 @@
       </Form>
     </div>
     <div slot="footer" style="text-align:center">
-      <Button type="primary" @click="handleSubmit('formUser')">登录</Button>
+      <Button type="primary" @click="login('formUser')">登录</Button>
       <Button @click="handleReset('formUser')" style="margin-left: 8px">微信</Button>
       <Button @click="handleReset('formUser')" style="margin-left: 8px">QQ</Button>
     </div>
@@ -51,7 +55,10 @@
         // 是否打开面板
         myPanelPopup: this.panelPopup,
         modal_loading: false,
-        oldRouter: "/", // 注册登录面板弹出之前的router
+        // 注册登录面板弹出之前的router
+        oldRouter: "/",
+        // 加载中是否显示
+        spinShow: false,
 
         formUser: {
           phoneNum: '',
@@ -69,12 +76,17 @@
       }
     },
     methods: {
-      handleSubmit(name) {
+      /**
+       * 登录
+       * @param name
+       */
+      login(name) {
 
         this.$refs[name].validate((valid) => {
 
           if (valid) {
 
+            this.spinShow = true;
             this.$api.user.login(
               {
                 phoneNum: this.formUser.phoneNum,
@@ -97,11 +109,17 @@
                 // // 通知父组件，登录状态改变
                 this.$emit("on-isLogin-change", true);
                 this.$Message.success("登录成功");
+                this.spinShow = false;
 
+              }
+            ).catch(
+              error => {
+                this.spinShow = false;
               }
             );
           } else {
             this.$Message.error('登录失败');
+            this.spinShow = false;
           }
         });
       },
@@ -124,6 +142,10 @@
       // 监测logRegPopup属性的值是否改变，val：改变后的值
       panelPopup(val) {
         this.myPanelPopup = val;
+
+        if (val === false) {
+          this.spinShow = false;
+        }
       },
 
       // 监测myLogRegPopup属性的值是否改变, val：改变后的值
@@ -137,5 +159,7 @@
 </script>
 
 <style scoped lang='less'>
-
+  .demo-spin-icon-load {
+    animation: ani-demo-spin 1s linear infinite;
+  }
 </style>

@@ -10,7 +10,7 @@ import repairAdmin from '../components/admin/repair-admin'
 import loginAdmin from '../components/admin/login-admin'
 import store from '../store';
 import api from '../api';
-import {Message} from "iview";
+import {Message, LoadingBar} from "iview";
 
 Vue.use(Router);
 
@@ -78,20 +78,14 @@ const router = new Router({
   ]
 });
 
-// 每次加载页面都会执行，即每次刷新时
-// 如果存在token，就重新获取token，以防刷新后丢失token
-// if (store.state.global.token) {
-//   console.log(store.state.global.token);
-// }
-// console.log(store.state.global.token);
-
-/**
- * 判断是否需要登录权限 以及是否登录
- */
+// 路由执行前
 router.beforeEach((to, from, next) => {
 
+  LoadingBar.start();
 
-
+  /**
+   * 判断是否需要登录权限 以及是否登录
+   */
   if (to.matched.some((r) => r.meta.requireAuth)) {
 
     if (sessionStorage.getItem('token')) {   //判断是否已经登录
@@ -130,12 +124,16 @@ router.beforeEach((to, from, next) => {
     } else {
       next({
         path: '/loginAdmin',
-        // query: {redirect: to.fullPath}   //登录成功后重定向到当前页面
       });
     }
   } else {
     next();
   }
+});
+
+// 路由执行后
+router.afterEach(route => {
+  LoadingBar.finish();
 });
 
 export default router;

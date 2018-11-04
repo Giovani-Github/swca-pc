@@ -1,6 +1,11 @@
 <!-- 维修订单管理 -->
 <template>
   <div>
+    <Spin fix v-if="spinShow">
+      <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+      <div>正在加载</div>
+    </Spin>
+
     <Table highlight-row border :columns="orderColumns" :data="orderList"></Table>
     <div style="margin: 10px;overflow: hidden">
       <div style="float: right;">
@@ -15,6 +20,8 @@
     name: "repair-admin",
     data() {
       return {
+        // 加载中是否显示
+        spinShow: true,
         // 当前页码
         pageNum: 1,
         // 每页条数
@@ -365,6 +372,9 @@
       },
 
       getOrderList() {
+
+        this.spinShow = true;
+
         this.$api.repairAdmin.findAllOrder(
           {
             pageNum: this.pageNum,
@@ -375,6 +385,12 @@
             console.log(res.data[0].list);
             this.orderTotal = res.data[0].total;
             this.orderList = res.data[0].list;
+
+            this.spinShow = false;
+          }
+        ).catch(
+          error => {
+            this.spinShow = false;
           }
         );
       }

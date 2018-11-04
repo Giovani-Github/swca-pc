@@ -1,6 +1,10 @@
 <!-- 申请维修 -->
 <template>
   <div class="full-center">
+    <Spin fix v-if="spinShow">
+      <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+      <div>正在提交</div>
+    </Spin>
     <div style="padding: 40px; width: 80%">
       <Card :bordered="false">
         <p slot="title">申请维修</p>
@@ -58,6 +62,8 @@
       };
 
       return {
+        // 加载中是否显示
+        spinShow: false,
         formOrder: {
           name: '',
           gender: '',
@@ -89,9 +95,15 @@
       }
     },
     methods: {
+      /**
+       * 提交订单
+       * @param name
+       */
       handleSubmit(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
+
+            this.spinShow = true;
 
             this.$api.repair.commit({
               name: this.formOrder.name,
@@ -101,20 +113,30 @@
               remark: this.formOrder.remark
             }).then(
               res => {
+
                 this.$Message.success({
                   content: '提交成功，请耐心等待工作人员上门维修',
                   duration: 10,
                   closable: true
                 });
                 this.$refs[name].resetFields();
+                this.spinShow = false;
+
               }
-            )
+            ).catch(
+              error => {
+                this.spinShow = false;
+              }
+            );
           } else {
+
             this.$Message.error({
               content: '提交失败，请重新提交',
               duration: 10,
               closable: true
             });
+
+            this.spinShow = false;
           }
         })
       }

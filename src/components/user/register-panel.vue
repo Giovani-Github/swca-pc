@@ -1,6 +1,12 @@
 <!-- 用户注册面板 -->
 <template>
   <Modal v-model="myPanelPopup" width="360">
+
+    <Spin fix v-if="spinShow">
+      <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+      <div>正在注册</div>
+    </Spin>
+
     <p slot="header" style="text-align:center">
       <span>注册</span>
     </p>
@@ -17,19 +23,19 @@
           </Input>
         </FormItem>
         <FormItem label="密码：" prop="password">
-          <Input type="text" v-model="formUser.password" placeholder="字母开头6~18位只能包含字母数字下划线">
+          <Input type="password" v-model="formUser.password" placeholder="字母开头6~18位只能包含字母数字下划线">
             <Icon type="md-key" slot="prefix"/>
           </Input>
         </FormItem>
         <FormItem label="确认密码：" prop="verifyPassword">
-          <Input type="text" v-model="formUser.verifyPassword" placeholder="确认密码">
+          <Input type="password" v-model="formUser.verifyPassword" placeholder="确认密码">
             <Icon type="md-key" slot="prefix"/>
           </Input>
         </FormItem>
       </Form>
     </div>
     <div slot="footer" style="text-align:center">
-      <Button type="primary" @click="handleSubmit('formUser')">注册</Button>
+      <Button type="primary" @click="register('formUser')">注册</Button>
     </div>
   </Modal>
 </template>
@@ -99,6 +105,9 @@
         // 是否打开面板
         myPanelPopup: this.panelPopup,
         modal_loading: false,
+        // 加载中是否显示
+        spinShow: false,
+
         formUser: {
           phoneNum: '',
           password: '',
@@ -122,9 +131,16 @@
       }
     },
     methods: {
-      handleSubmit(name) {
+      /**
+       * 注册
+       * @param name
+       */
+      register(name) {
         this.$refs[name].validate((valid) => {
           if (valid) {
+
+            this.spinShow = true;
+
             this.$api.user.reg({
 
               // 携带提交数据
@@ -137,10 +153,17 @@
                 console.log(res.data);
                 this.$Message.success('注册成功');
                 this.myPanelPopup = false;
+                this.spinShow = false;
+                this.$refs['formUser'].resetFields();
+              }
+            ).catch(
+              error => {
+                this.spinShow = false;
               }
             );
           } else {
             this.$Message.error('注册失败');
+            this.spinShow = false;
           }
         });
       },
@@ -163,6 +186,10 @@
       // 监测panelPopup属性的值是否改变，val：改变后的值
       panelPopup(val) {
         this.myPanelPopup = val;
+
+        if (val === false) {
+          this.spinShow = false;
+        }
       },
 
       // 监测myPanelPopup属性的值是否改变, val：改变后的值
