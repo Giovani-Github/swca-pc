@@ -49,7 +49,12 @@
       return {
         value2: 0
       }
+    },
+    created() {
+      // 设置后台侧边栏选择项是1
+      this.$store.commit('setAdminMenuActive', '1');
     }
+
   }
 </script>
 

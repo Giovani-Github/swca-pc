@@ -1,6 +1,6 @@
 <!-- 后台管理主框架 -->
 <template>
-  <div class="layout">
+  <div class="admin-index">
     <Sider :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">
       <div class="user-admin">
         <Avatar size="large" class="avatar" src="https://i.loli.net/2017/08/21/599a521472424.jpg"/>
@@ -14,48 +14,59 @@
         </div>
       </div>
       <Menu :active-name="$store.state.global.adminMenuActive" theme="dark" width="auto" :open-names="['2']">
-        <MenuItem name="1">
-          <Icon type="ios-keypad"></Icon>
-          成员管理
-        </MenuItem>
+        <router-link :to="{name:'personnelAdmin'}">
+          <MenuItem name="1">
+            <Icon class="icon" type="ios-people"/>
+            会员管理
+          </MenuItem>
+        </router-link>
         <router-link :to="{name:'repairAdmin'}">
           <MenuItem name="2">
-            <Icon type="ios-keypad"></Icon>
+            <Icon class="icon" type="ios-build"/>
             维修订单管理
           </MenuItem>
         </router-link>
         <Submenu name="3">
           <template slot="title">
-            <Icon type="ios-navigate"></Icon>
+            <Icon class="icon" type="ios-navigate"></Icon>
             首页管理
           </template>
-          <MenuItem name="3-1">轮播图</MenuItem>
-          <MenuItem name="3-2">新消息发布</MenuItem>
+          <router-link :to="{name:'slideAdmin'}">
+            <MenuItem name="3-1">轮播图</MenuItem>
+          </router-link>
+          <router-link :to="{name:'articlePublishAdmin'}">
+            <MenuItem name="3-2">文章发布</MenuItem>
+          </router-link>
+          <router-link :to="{name:'articleAdmin'}">
+            <MenuItem name="3-3">文章管理</MenuItem>
+          </router-link>
         </Submenu>
         <Submenu name="4">
           <template slot="title">
-            <Icon type="ios-keypad"></Icon>
+            <Icon type="ios-book"/>
             计算机教程
           </template>
-          <MenuItem name="4-1">教程管理</MenuItem>
-          <MenuItem name="4-2">教程发布</MenuItem>
+          <router-link :to="{name:'courseAdmin'}">
+            <MenuItem name="4-1">教程管理</MenuItem>
+          </router-link>
+          <router-link :to="{name:'coursePublishAdmin'}">
+            <MenuItem name="4-2">教程发布</MenuItem>
+          </router-link>
         </Submenu>
-
       </Menu>
     </Sider>
-    <Layout :style="{marginLeft: '200px'}">
-      <Content :style="{padding: '0 16px 16px', marginTop:'10px'}">
-        <Card style="min-height: 100%">
-          <router-view></router-view>
-        </Card>
-      </Content>
-    </Layout>
+    <div class="layout" :style="{marginLeft: '200px', padding:'20px'}">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
+  import FooterSw from "../footer-sw";
+
   export default {
     name: "admin-index",
+    components: {FooterSw},
     data() {
       return {};
     },
@@ -78,12 +89,18 @@
           return sessionStorage.getItem('phoneNum');
         }
       },
+    },
+    created() {
+      // 一到首页，就重新定位到会员管理
+      this.$router.push({name: 'personnelAdmin'})
     }
 
   }
 </script>
 
 <style scoped lang='less'>
+  @import "../../common/less/global";
+
   .user-admin {
     margin-top: 10px;
     margin-bottom: 10px;
@@ -98,17 +115,8 @@
     }
   }
 
-  .layout {
-    border: 1px solid #d7dde4;
-    background: #f5f7f9;
-    position: relative;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .layout-header-bar {
-    background: #fff;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+  .icon {
+    font-size: 20px;
   }
 
 </style>

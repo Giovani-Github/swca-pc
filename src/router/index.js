@@ -7,8 +7,13 @@ import course from '../components/course'
 import commit from '../components/utils/repair/commit'
 import orderList from '../components/utils/repair/order-list'
 import repairAdmin from '../components/admin/repair-admin'
+import articleAdmin from '../components/admin/article-admin'
+import articlePublishAdmin from '../components/admin/article-publish-admin'
+import courseAdmin from '../components/admin/course-admin'
+import coursePublishAdmin from '../components/admin/course-publish-admin'
+import personnelAdmin from '../components/admin/personnel-admin'
+import slideAdmin from '../components/admin/slide-admin'
 import loginAdmin from '../components/admin/login-admin'
-import store from '../store';
 import api from '../api';
 import {Message, LoadingBar} from "iview";
 
@@ -61,11 +66,48 @@ const router = new Router({
         requireAuth: true
       },
       children: [
+        // 维修订单管理
         {
           path: "/repairAdmin",
           name: 'repairAdmin',
           component: repairAdmin
-        }
+        },
+        // 文章管理
+        {
+          path: "/articleAdmin",
+          name: 'articleAdmin',
+          component: articleAdmin
+        },
+        // 文章发布
+        {
+          path: "/articlePublishAdmin",
+          name: 'articlePublishAdmin',
+          component: articlePublishAdmin
+        },
+        // 教程管理
+        {
+          path: "/courseAdmin",
+          name: 'courseAdmin',
+          component: courseAdmin
+        },
+        // 教程发布
+        {
+          path: "/coursePublishAdmin",
+          name: 'coursePublishAdmin',
+          component: coursePublishAdmin
+        },
+        // 会员管理
+        {
+          path: "/personnelAdmin",
+          name: 'personnelAdmin',
+          component: personnelAdmin
+        },
+        // 轮播图管理
+        {
+          path: "/slideAdmin",
+          name: 'slideAdmin',
+          component: slideAdmin
+        },
       ]
     },
     // 后台登录
@@ -89,7 +131,6 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((r) => r.meta.requireAuth)) {
 
     if (sessionStorage.getItem('token')) {   //判断是否已经登录
-
 
       // 获取登录用户的手机号码
       let claims = sessionStorage.getItem('token').split(".")[1];
@@ -119,7 +160,6 @@ router.beforeEach((to, from, next) => {
 
         }
       );
-
 
     } else {
       next({

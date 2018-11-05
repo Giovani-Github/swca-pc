@@ -1,17 +1,31 @@
 <!-- 维修订单管理 -->
 <template>
   <div>
-    <Spin fix v-if="spinShow">
-      <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
-      <div>正在加载</div>
-    </Spin>
+    <Card>
+      <Breadcrumb>
+        <BreadcrumbItem to="/">
+          <Icon type="ios-home-outline"></Icon>
+          前台首页
+        </BreadcrumbItem>
+        <BreadcrumbItem :to="{name:'repairAdmin'}">
+          <Icon type="ios-build"/>
+          维修订单管理
+        </BreadcrumbItem>
+      </Breadcrumb>
+    </Card>
+    <Card style="margin-top: 20px">
+      <Spin fix v-if="spinShow">
+        <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+        <div>正在加载</div>
+      </Spin>
 
-    <Table highlight-row border :columns="orderColumns" :data="orderList"></Table>
-    <div style="margin: 10px;overflow: hidden">
-      <div style="float: right;">
-        <Page :total="orderTotal" :page-size="pageSize" @on-change="pageChange"></Page>
+      <Table highlight-row border :columns="orderColumns" :data="orderList"></Table>
+      <div style="margin: 10px;overflow: hidden">
+        <div style="float: right;">
+          <Page :total="orderTotal" :page-size="pageSize" @on-change="pageChange"></Page>
+        </div>
       </div>
-    </div>
+    </Card>
   </div>
 </template>
 
