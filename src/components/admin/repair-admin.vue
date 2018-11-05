@@ -333,8 +333,8 @@
         this.$api.repairAdmin.success(orderId).then(
           res => {
             if (res.status == this.$store.state.global.status.OK) {
-              // 刷新当前页面
-              this.$router.go(0);
+              // 重新加载数据
+              this.getOrderList();
             }
           }
         ).catch(
@@ -352,8 +352,8 @@
         this.$api.repairAdmin.accept(orderId).then(
           res => {
             if (res.status == this.$store.state.global.status.OK) {
-              // 刷新当前页面
-              this.$router.go(0);
+              // 重新加载数据
+              this.getOrderList();
             }
           }
         ).catch(

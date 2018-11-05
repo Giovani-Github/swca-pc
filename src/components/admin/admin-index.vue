@@ -92,7 +92,7 @@
     },
     created() {
       // 一到首页，就重新定位到会员管理
-      this.$router.push({name: 'personnelAdmin'})
+    
     }
 
   }
