@@ -19,14 +19,33 @@
         <div>正在加载</div>
       </Spin>
 
-      <Table highlight-row border :columns="orderColumns" :data="userList"></Table>
+      <Table size="large" highlight-row border :columns="orderColumns" :data="userList"></Table>
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
           <Page :total="userTotal" :page-size="pageSize" @on-change="pageChange"></Page>
         </div>
       </div>
     </Card>
+    <Modal
+      title="修改权限"
+      v-model="authModal"
+      class-name="vertical-center-modal">
+      <Spin fix v-if="modalSpinShow">
+        <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+        <div>修改中</div>
+      </Spin>
+      <Select :clearable=true @on-change="optionChange" v-model="selectModel" style="">
+        <Option v-for="auth in authList" :value="auth.roleId" :key="auth.roleId">{{
+          auth.remark }}
+        </Option>
+      </Select>
+
+      <div slot="footer" style="text-align:center">
+        <Button type="primary" @click="onOk">确定</Button>
+      </div>
+    </Modal>
   </div>
+
 </template>
 
 <script>
@@ -41,14 +60,42 @@
         userRoleList: [],
         // 加载中是否显示
         spinShow: true,
+        // 模态框的加载中是否显示
+        modalSpinShow: false,
         // 当前页码
-        pageNum:
-          1,
+        pageNum: 1,
         // 每页条数
-        pageSize:
-          2,
+        pageSize: 6,
         // 订单总数
         userTotal: 1,
+        // 修改权限模态框
+        authModal: false,
+
+        // 修改权限模态框中选择框选中的权限id
+        roleId: 0,
+        // 选中修改权限模态框时的用户id
+        userId: 0,
+        // 选中修改权限模态框时的用户手机号码
+        phoneNum: '',
+
+        // 权限列表
+        authList:
+          [
+            {
+              roleId: '1',
+              remark: '普通用户'
+            },
+            {
+              roleId: '2',
+              remark: '管理员'
+            },
+            {
+              roleId: '3',
+              remark: '超级管理员'
+            }
+          ],
+        selectModel:
+          '',
 
         orderColumns:
           [
@@ -118,13 +165,13 @@
               align: 'center',
               title: '手机号码',
               key: 'phoneNum',
-              width: 120
+              width: 130
             },
             {
               align: 'center',
               title: '学号',
               key: 'stuNum',
-              width: 130,
+              width: 140,
               render: (h, params) => {
                 if (params.row.stuNum) {
                   return h('span', params.row.stuNum)
@@ -193,7 +240,7 @@
                     },
                     on: {
                       click: () => {
-                        this.updateAuth(params.row.userId)
+                        this.authModalPopup(params.row.phoneNum, params.row.userId);
                       }
                     }
                   }, '修改用户权限')
@@ -204,6 +251,61 @@
       }
     },
     methods: {
+
+      /**
+       * 模态框点击了确定按钮
+       * @param value
+       */
+      onOk: function () {
+
+        if (this.phoneNum === sessionStorage.getItem('phoneNum')) {
+          this.$Message.error({
+            content: "不能修改自己的权限",
+            duration: 10,
+            closable: true
+          });
+
+          return;
+        }
+
+        if (this.roleId === 0) {
+
+          this.$Message.error({
+            content: "权限不能为空",
+            duration: 10,
+            closable: true
+          });
+
+        } else {
+
+          this.modalSpinShow = true;
+
+          this.$api.personnelAdmin.updateAuth(this.userId, this.roleId).then(
+            res => {
+              if (res.status == this.$store.state.global.status.OK) {
+                // 重新加载数据
+                this.getUserList();
+                this.modalSpinShow = false;
+                this.authModal = false;
+              }
+            }
+          ).catch(
+            error => {
+              this.modalSpinShow = false;
+            }
+          )
+
+        }
+
+      },
+
+      /**
+       * 权限修改选择列表更改时触发
+       * @param value
+       */
+      optionChange: function (value) {
+        this.roleId = value;
+      },
 
       /**
        * 根据手机号码，从权限列表中获取权限
@@ -224,11 +326,13 @@
       },
 
       /**
-       * 修改用户权限
+       * 修改用户权限模态框弹出
        * @param userId
        */
-      updateAuth: function (userId) {
-        console.log(userId)
+      authModalPopup: function (phoneNum, userId) {
+        this.phoneNum = phoneNum;
+        this.userId = userId;
+        this.authModal = true;
       },
 
       /**
@@ -289,9 +393,24 @@
       // 设置当前侧边栏选择项是1
       this.$store.commit('setAdminMenuActive', '1');
     }
+    ,
+    watch: {
+      // 修改权限模态框一关闭，就清空模态框内容
+      authModal(val) {
+        this.selectModel = '';
+      }
+    }
   }
 </script>
 
-<style scoped>
+<style scoped lang="less">
+  .vertical-center-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
+    .ivu-modal {
+      top: 0;
+    }
+  }
 </style>

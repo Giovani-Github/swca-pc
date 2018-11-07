@@ -16,12 +16,12 @@ const repairAdmin = {
   },
 
   /**
-   * 接受订单
+   * 修改权限
    * @param data
    * @returns {AxiosPromise<any>}
    */
-  accept(data) {
-    return axios.put(BASE_URL + "/admin/accept/" + data);
+  updateAuth(userId, roleId) {
+    return axios.put(BASE_URL + "/admin/user/auth/" + userId + "/" + roleId);
   },
 
   /**
@@ -29,8 +29,8 @@ const repairAdmin = {
    * @param data
    * @returns {AxiosPromise<any>}
    */
-  success(data) {
-    return axios.put(BASE_URL + "/admin/success/" + data);
+  success(userId, roleId) {
+    return axios.put(BASE_URL + "/admin/success/" + userId + "/" + roleId);
   }
 
 };

@@ -90,6 +90,7 @@ const iview = {
     Vue.component('Spin', Spin);
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
+    Vue.prototype.$Select = Select;
   }
 }
 

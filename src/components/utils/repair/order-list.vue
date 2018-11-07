@@ -41,8 +41,8 @@
       <div
         v-if="order.state >= $store.state.global.repairState.ACCEPT && order.state != $store.state.global.repairState.CANCEL">
         <Divider orientation="left">接单信息</Divider>
-        <span>维修人员： <Tag color="primary">{{getAcceptByOrderId(order.acceptId).userName}}</Tag> </span>
-        <span>联系电话： <Tag color="success">{{getAcceptByOrderId(order.acceptId).phoneNum}}</Tag></span>
+        <!--<span>维修人员： <Tag color="primary">{{getAcceptByOrderId(order.acceptId).userName}}</Tag> </span>-->
+        <!--<span>联系电话： <Tag color="success">{{getAcceptByOrderId(order.acceptId).phoneNum}}</Tag></span>-->
 
       </div>
 
