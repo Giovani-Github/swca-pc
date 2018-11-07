@@ -188,7 +188,7 @@
                 if (this.orderList[i].acceptId != '' && this.orderList[i].acceptId != undefined) {
                   this.$api.user.getUserByUserId(this.orderList[i].acceptId).then(
                     res => {
-                      // 保存接单人信息, 数组要用push，否则页面无法检测到数据已经更新，导致书信数据
+                      // 保存接单人信息, 数组要用push，否则页面无法检测到数据已经更新
                       this.acceptList.push(res.data.user)
                     }
                   );

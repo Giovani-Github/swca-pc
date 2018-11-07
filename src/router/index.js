@@ -138,7 +138,7 @@ router.beforeEach((to, from, next) => {
       claims = JSON.parse(Base64.decode(claims));
 
       // 获取该用户的所有权限列表
-      api.user.getUserByPhoneNum(claims.phoneNum).then(
+      api.user.getUserRolesByPhoneNum(claims.phoneNum).then(
         res => {
           let isAdmin = false;
 

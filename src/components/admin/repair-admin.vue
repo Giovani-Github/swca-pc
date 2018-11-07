@@ -208,7 +208,6 @@
                 h('Tooltip', {
                   props: {
                     content: this.userName,
-
                   },
                   on: {
                     // Tooltip显示时调用

@@ -8,11 +8,11 @@ import {BASE_URL, axios} from './base';
 const user = {
 
   /**
-   * 根据手机号码查询用户
+   * 根据手机号码查询用户权限列表
    * @param userId
    * @returns {AxiosPromise<any>}
    */
-  getUserByPhoneNum(phoneNum) {
+  getUserRolesByPhoneNum(phoneNum) {
     return axios.get(BASE_URL + '/users/roles/' + phoneNum);
   },
 
