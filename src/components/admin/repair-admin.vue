@@ -11,7 +11,12 @@
           <Icon type="ios-build"/>
           维修订单管理
         </BreadcrumbItem>
+
+        <Tooltip style="float: right" content="鼠标放到表格中的文字时会出现提示" placement="left">
+          <Icon style="font-size: 20px" type="ios-help-circle"/>
+        </Tooltip>
       </Breadcrumb>
+
     </Card>
     <Card style="margin-top: 20px">
       <Spin fix v-if="spinShow">

@@ -18,7 +18,6 @@
         <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
         <div>正在加载</div>
       </Spin>
-
       <Table size="large" highlight-row border :columns="orderColumns" :data="userList"></Table>
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
@@ -103,22 +102,17 @@
               align: 'center',
               type: 'index',
               title: '#',
-              width: 60,
-              fixed: 'left'
             },
             {
               align: 'center',
               title: '姓名',
               tooltip: true,
               key: 'userName',
-              width: 120,
-              fixed: 'left',
             },
             {
               align: 'center',
               title: '性别',
               key: 'gender',
-              width: 100,
               render: (h, params) => {
                 if (params.row.gender === 'female') {
                   return h('div', [
@@ -152,7 +146,6 @@
               align: 'center',
               title: '邮箱',
               key: 'email',
-              width: 120,
               render: (h, params) => {
                 if (params.row.email) {
                   return h('span', params.row.email)
@@ -164,14 +157,14 @@
             {
               align: 'center',
               title: '手机号码',
+              width: 130,
               key: 'phoneNum',
-              width: 130
             },
             {
               align: 'center',
               title: '学号',
               key: 'stuNum',
-              width: 140,
+              width: 150,
               render: (h, params) => {
                 if (params.row.stuNum) {
                   return h('span', params.row.stuNum)
@@ -184,16 +177,17 @@
               align: 'center',
               title: '用户id',
               key: 'userId',
-              width: 100
             },
             {
               align: 'center',
               title: '用户权限',
-              width: 120,
+
               render: (h, params) => {
 
+                let phoneNum = params.row.phoneNum;
+
                 // 根据手机号码，从权限列表中取出权限
-                let authString = this.getAuthString(params.row.phoneNum);
+                let authString = this.getAuthString(phoneNum);
 
                 if (authString === '普通会员') {
                   return h('Tag', {
@@ -226,8 +220,6 @@
               title: '操作',
               key: 'action',
               align: 'center',
-              fixed: 'right',
-              width: 150,
               render: (h, params) => {
                 return h('div', [
                   h('Button', {
@@ -313,6 +305,7 @@
        */
       getAuthString: function (phoneNum) {
         for (var i = 0; this.userRoleList.length; i++) {
+
           if (this.userRoleList[i].phoneNum === phoneNum) {
             if (this.userRoleList[i].roles.length === 1) {
               return "普通会员";
@@ -346,6 +339,10 @@
       ,
 
       getUserList() {
+        // 每次都清空权限列表。因为如果不刷新的话，权限列表是不会清空的。
+        // 这会导致更新权限后，权限不能第一时间更新出来
+        this.userRoleList = [];
+
 
         this.spinShow = true;
 
@@ -356,20 +353,14 @@
           }
         ).then(
           res => {
-            console.log(res.data[0].list);
             this.userTotal = res.data[0].total;
             this.userList = res.data[0].list;
 
             for (var i = 0; i < this.userList.length; i++) {
 
-              console.log("手机号码：" + this.userList[i].phoneNum);
-
               // 获取该用户的所有权限列表
               this.$api.user.getUserRolesByPhoneNum(this.userList[i].phoneNum).then(
                 res => {
-
-                  console.log(res.data);
-
                   // 向当前的userRoleList中添加
                   // 每条数据包含用户手机号码，和用户权限。可根据用户手机号码获取权限
                   this.userRoleList.push(res.data);

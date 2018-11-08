@@ -7,7 +7,8 @@
         <div class="user-name-admin">
           <span class="userName">{{getUserInfo()}}</span>
         </div>
-        <Tag color="orange">管理员</Tag>
+        <Tag v-if="auth === 3" color="red">超级管理员</Tag>
+        <Tag v-if="auth === 2" color="orange">管理员</Tag>
         <div>
           <Button type="success">个人中心</Button>
           <Button type="error" @click="logout()">退出</Button>
@@ -68,7 +69,10 @@
     name: "admin-index",
     components: {FooterSw},
     data() {
-      return {};
+      return {
+        // 用户权限
+        auth: 0
+      };
     },
     computed: {},
     methods: {
@@ -91,8 +95,23 @@
       },
     },
     created() {
-      // 一到首页，就重新定位到会员管理
-    
+      // 获取登录用户的手机号码
+      let claims = sessionStorage.getItem('token').split(".")[1];
+      claims = JSON.parse(Base64.decode(claims));
+      
+      // 获取该用户的所有权限列表
+      this.$api.user.getUserRolesByPhoneNum(claims.phoneNum).then(
+        res => {
+          // 循环查找是否有admin权限
+          if (res.data.roles.length === 3) {
+            // 超级管理员
+            this.auth = 3;
+          } else if (res.data.roles.length === 2) {
+            // 管理员
+            this.auth = 2;
+          }
+        });
+
     }
 
   }

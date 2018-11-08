@@ -43,6 +43,7 @@ import {
   Divider,
   LoadingBar,
   Spin,
+  Poptip,
 } from 'iview';
 
 const iview = {
@@ -88,6 +89,7 @@ const iview = {
     Vue.component('Divider', Divider);
     Vue.component('LoadingBar', LoadingBar);
     Vue.component('Spin', Spin);
+    Vue.component('Poptip', Poptip);
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
     Vue.prototype.$Select = Select;
