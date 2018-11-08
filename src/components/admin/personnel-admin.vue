@@ -13,15 +13,61 @@
         </BreadcrumbItem>
       </Breadcrumb>
     </Card>
+
     <Card style="margin-top: 20px">
+      <p slot="title">多条件搜索</p>
+      <Row>
+        <Col span="8" style="text-align: center">
+          姓名：
+          <Input v-model="userInfo.userName" placeholder="输入姓名" style="width: 250px"/>
+        </Col>
+        <Col span="8" style="text-align: center">
+          邮箱：
+          <Input v-model="userInfo.email" placeholder="输入邮箱" style="width: 250px"/>
+        </Col>
+        <Col span="8" style="text-align: center">
+          手机号码：
+          <Input v-model="userInfo.phoneNum" placeholder="输入手机号码" style="width: 250px"/>
+        </Col>
+      </Row>
+      <Row style="margin-top: 20px">
+        <Col span="8" style="text-align: center">
+          学号：
+          <Input v-model="userInfo.stuNum" placeholder="输入学号" style="width: 250px"/>
+        </Col>
+        <Col span="8" style="text-align: center">
+          用户id：
+          <Input v-model="userInfo.userId" placeholder="输入用户id" style="width: 250px"/>
+        </Col>
+        <Col span="8" style="text-align: center">
+          用户权限：
+          <Input v-model="userInfo.role" placeholder="输入用户权限" style="width: 250px"/>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <div style="float: right; margin-top: 20px">
+            <Button @click="search" type="primary" icon="ios-search">搜索</Button>
+          </div>
+        </Col>
+      </Row>
+    </Card>
+
+    <Card style="margin-top: 20px">
+      <p slot="title">用户列表</p>
+
       <Spin fix v-if="spinShow">
         <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
         <div>正在加载</div>
       </Spin>
-      <Table size="large" highlight-row border :columns="orderColumns" :data="userList"></Table>
+      <Table size="large" highlight-row border :columns="userColumns" :data="userList"></Table>
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
           <Page :total="userTotal" :page-size="pageSize" @on-change="pageChange"></Page>
+        </div>
+        <div style="margin: 10px">
+          <Icon style="font-size: 18px; color:#2d8cf0; margin-right: 6px" type="md-contacts"/>
+          会员总数：{{userTotal}}
         </div>
       </div>
     </Card>
@@ -53,6 +99,15 @@
 
     data() {
       return {
+        // 多条件搜索
+        userInfo: {
+          userName: '',
+          email: '',
+          phoneNum: '',
+          stuNum: '',
+          userId: '',
+          role: ''
+        },
         // 用户信息列表
         userList: [],
         // 用户权限列表，对应用户手机号码
@@ -64,12 +119,11 @@
         // 当前页码
         pageNum: 1,
         // 每页条数
-        pageSize: 6,
+        pageSize: 2,
         // 订单总数
         userTotal: 1,
         // 修改权限模态框
         authModal: false,
-
         // 修改权限模态框中选择框选中的权限id
         roleId: 0,
         // 选中修改权限模态框时的用户id
@@ -93,10 +147,9 @@
               remark: '超级管理员'
             }
           ],
-        selectModel:
-          '',
+        selectModel: '',
 
-        orderColumns:
+        userColumns:
           [
             {
               align: 'center',
@@ -113,6 +166,25 @@
               align: 'center',
               title: '性别',
               key: 'gender',
+              filters: [
+                {
+                  label: '男',
+                  value: 1
+                },
+                {
+                  label: '女',
+                  value: 2
+                }
+              ],
+              filterMultiple: false,
+              filterMethod(value, row) {
+                if (value === 1) {
+                  return row.gender === 'male';
+
+                } else if (value === 2) {
+                  return row.gender === 'female';
+                }
+              },
               render: (h, params) => {
                 if (params.row.gender === 'female') {
                   return h('div', [
@@ -181,7 +253,6 @@
             {
               align: 'center',
               title: '用户权限',
-
               render: (h, params) => {
 
                 let phoneNum = params.row.phoneNum;
@@ -243,6 +314,10 @@
       }
     },
     methods: {
+      // 多条件搜索
+      search: function () {
+        this.getUserList();
+      },
 
       /**
        * 模态框点击了确定按钮
@@ -343,13 +418,19 @@
         // 这会导致更新权限后，权限不能第一时间更新出来
         this.userRoleList = [];
 
-
         this.spinShow = true;
 
         this.$api.personnelAdmin.findAllUser(
           {
             pageNum: this.pageNum,
             pageSize: this.pageSize,
+            // 多条件
+            userName: this.userInfo.userName,
+            email: this.userInfo.email,
+            phoneNum: this.userInfo.phoneNum,
+            stuNum: this.userInfo.stuNum,
+            userId: this.userInfo.userId,
+            role: this.userInfo.role,
           }
         ).then(
           res => {

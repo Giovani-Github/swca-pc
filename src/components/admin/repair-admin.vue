@@ -18,16 +18,75 @@
       </Breadcrumb>
 
     </Card>
+
     <Card style="margin-top: 20px">
+      <p slot="title">多条件搜索</p>
+      <Row>
+        <Col span="8" style="text-align: center">
+          姓名：
+          <Input v-model="orderInfo.name" placeholder="输入姓名" style="width: 250px"/>
+        </Col>
+        <Col span="8" style="text-align: center">
+          订单状态：
+          <Select v-model="orderInfo.state" style="width: 250px" clearable>
+            <Option v-for="sta in stateList" :value="sta.state" :key="sta.state">
+              {{sta.remark }}
+            </Option>
+          </Select>
+        </Col>
+        <Col span="8" style="text-align: center">
+          地址：
+          <Input v-model="orderInfo.addres" placeholder="输入地址" style="width: 250px"/>
+        </Col>
+      </Row>
+      <Row style="margin-top: 20px">
+        <Col span="8" style="text-align: center">
+          联系电话：
+          <Input v-model="orderInfo.phoneNum" placeholder="输入联系电话" style="width: 250px"/>
+        </Col>
+        <Col span="8" style="text-align: center">
+          问题描述：
+          <Input v-model="orderInfo.remark" placeholder="输入问题描述" style="width: 250px"/>
+        </Col>
+        <Col span="8" style="text-align: center">
+          订单id：
+          <Input v-model="orderInfo.orderId" placeholder="输入订单id" style="width: 250px"/>
+        </Col>
+      </Row>
+      <Row style="margin-top: 20px">
+        <Col span="8" style="text-align: center">
+          申请者id：
+          <Input v-model="orderInfo.userId" placeholder="输入申请者id" style="width: 250px"/>
+        </Col>
+        <Col span="8" style="text-align: center">
+          维修者id：
+          <Input v-model="orderInfo.acceptId" placeholder="输入维修者id" style="width: 250px"/>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <div style="float: right; margin-top: 20px">
+            <Button @click="search" type="primary" icon="ios-search">搜索</Button>
+          </div>
+        </Col>
+      </Row>
+    </Card>
+
+    <Card style="margin-top: 20px">
+      <p slot="title">订单列表</p>
+
       <Spin fix v-if="spinShow">
         <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
         <div>正在加载</div>
       </Spin>
-
       <Table highlight-row border :columns="orderColumns" :data="orderList"></Table>
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
           <Page :total="orderTotal" :page-size="pageSize" @on-change="pageChange"></Page>
+        </div>
+        <div style="margin: 10px">
+          <Icon style="font-size: 18px; color:#2d8cf0; margin-right: 6px" type="md-contacts"/>
+          订单总数：{{orderTotal}}
         </div>
       </div>
     </Card>
@@ -39,6 +98,18 @@
     name: "repair-admin",
     data() {
       return {
+        // 多条件搜索
+        orderInfo: {
+          name: '',
+          state: '',
+          addres: '',
+          phoneNum: '',
+          remark: '',
+          orderId: '',
+          userId: '',
+          acceptId: ''
+        },
+
         // 加载中是否显示
         spinShow: true,
         // 当前页码
@@ -49,6 +120,27 @@
         orderTotal: 1,
         // 根据Userid查询出来的用户名
         userName: '',
+        // 状态列表
+        stateList:
+          [
+            {
+              state: '0',
+              remark: '已提交'
+            },
+            {
+              state: '1',
+              remark: '维修中'
+            },
+            {
+              state: '2',
+              remark: '维修完成'
+            },
+            {
+              state: '3',
+              remark: '已取消'
+            },
+
+          ],
         orderColumns: [
           {
             align: 'center',
@@ -70,6 +162,25 @@
             title: '性别',
             key: 'gender',
             width: 100,
+            filters: [
+              {
+                label: '男',
+                value: 1
+              },
+              {
+                label: '女',
+                value: 2
+              }
+            ],
+            filterMultiple: false,
+            filterMethod(value, row) {
+              if (value === 1) {
+                return row.gender === 'male';
+
+              } else if (value === 2) {
+                return row.gender === 'female';
+              }
+            },
             render: (h, params) => {
               if (params.row.gender === 'female') {
                 return h('div', [
@@ -96,7 +207,6 @@
                   }),
                 ]);
               }
-
             }
           },
           {
@@ -329,6 +439,11 @@
       }
     },
     methods: {
+
+      // 多条件搜索
+      search: function () {
+        this.getOrderList();
+      },
       /**
        * 维修完成
        * @param orderId
@@ -397,6 +512,15 @@
           {
             pageNum: this.pageNum,
             pageSize: this.pageSize,
+            // 多条件
+            name: this.orderInfo.name,
+            state: this.orderInfo.state,
+            addres: this.orderInfo.addres,
+            phoneNum: this.orderInfo.phoneNum,
+            remark: this.orderInfo.remark,
+            orderId: this.orderInfo.orderId,
+            userId: this.orderInfo.userId,
+            acceptId: this.orderInfo.acceptId,
           }
         ).then(
           res => {

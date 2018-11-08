@@ -34,6 +34,16 @@ Axios.interceptors.request.use(
 // 添加响应拦截器
 Axios.interceptors.response.use(
   function (response) {
+
+    if (response.status == store.state.global.status.NO_CONTENT) {
+      console.log(response);
+      Message.error({
+        content: "没有相关数据",
+        duration: 10,
+        closable: true
+      });
+    }
+
     // 对响应数据做点什么
     return response;
   },
@@ -58,12 +68,6 @@ Axios.interceptors.response.use(
         closable: true
       });
     } else if (error.response.status == store.state.global.status.INTERNAL_SERVER_ERROR) {
-      Message.error({
-        content: error.response.data.msg,
-        duration: 10,
-        closable: true
-      });
-    } else if (error.response.status == store.state.global.status.NO_CONTENT) {
       Message.error({
         content: error.response.data.msg,
         duration: 10,
