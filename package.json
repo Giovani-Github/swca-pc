@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "ali-oss": "^6.0.1",
     "animate.css": "^3.7.0",
     "axios": "^0.18.0",
     "iview": "^3.1.3",

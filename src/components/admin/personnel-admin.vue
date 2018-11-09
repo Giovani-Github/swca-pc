@@ -119,7 +119,7 @@
         // 当前页码
         pageNum: 1,
         // 每页条数
-        pageSize: 2,
+        pageSize: 6,
         // 订单总数
         userTotal: 1,
         // 修改权限模态框

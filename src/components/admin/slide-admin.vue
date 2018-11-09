@@ -14,7 +14,19 @@
       </Breadcrumb>
     </Card>
     <Card style="margin-top: 20px">
-      轮播图管理
+      <Upload
+        :before-upload="handleUpload"
+        action="/swca_api/uploadImg">
+        <Button icon="ios-cloud-upload-outline">选择要上传的轮播图</Button>
+      </Upload>
+      <div v-if="file !== null">
+        <p style="margin-top: 10px; margin-bottom: 10px">
+          上传的文件名: {{ file.name }}
+        </p>
+        <Button type="primary" ghost @click="upload" :loading="loadingStatus">{{ loadingStatus ? '上传中' : '上传' }}
+        </Button>
+      </div>
+
     </Card>
   </div>
 </template>
@@ -22,6 +34,45 @@
 <script>
   export default {
     name: "slide-admin",
+    data() {
+      return {
+        file: null,
+        loadingStatus: false
+      }
+    },
+    methods: {
+
+      /**
+       * 上传组件，上传之前调用
+       * @param file
+       * @returns {boolean}
+       */
+      handleUpload(file) {
+        this.file = file;
+        // 表示不继续上传，即不会自动上传
+        return false;
+      },
+      /**
+       * 点击上传
+       */
+      upload() {
+        this.loadingStatus = true;
+
+        var params = new FormData();
+        params.append('file', this.file);
+
+        this.$api.indexAdmin.uploadImg(params).then(
+          res => {
+            this.loadingStatus = false;
+            this.$Message.success('上传成功')
+          }
+        ).catch(
+          error => {
+            this.loadingStatus = false;
+          }
+        );
+      }
+    },
     created() {
       // 设置当前侧边栏选择项是3-1
       this.$store.commit('setAdminMenuActive', '3-1');

@@ -16,6 +16,8 @@ Axios.interceptors.request.use(
     // config.data = qs.stringify(config.data);
 
     config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+    // 都可以
+    // config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
     // 请求时判断vuex中是合法存在token（即jwt），存在就带上
     let token = sessionStorage.getItem('token');

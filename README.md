@@ -52,6 +52,7 @@ npm run build --report
 * axios
 * iview
 * jwt
+* ~~ali-oss~~
 
 
 
