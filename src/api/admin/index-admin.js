@@ -8,6 +8,14 @@ import {BASE_URL, axios} from '../base';
 const indexAdmin = {
 
   /**
+   * 文章发布
+   * @param param
+   */
+  articlePublish(param) {
+    return axios.post(BASE_URL + "/index/article", param);
+  },
+
+  /**
    * 首页轮播图上传
    * @param param
    * @returns {AxiosPromise<any>}

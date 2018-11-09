@@ -14,6 +14,10 @@
       </Breadcrumb>
     </Card>
     <Card style="margin-top: 20px">
+      <Spin fix v-if="spinShow">
+        <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
+        <div>正在加载</div>
+      </Spin>
       <p slot="title">文章发布</p>
       <div id="editor"></div>
       <Button @click="publish" style="margin-top: 20px;" type="primary">发布</Button>
@@ -26,7 +30,10 @@
   export default {
     name: "article-publish-admin",
     data() {
-      return {editor: ''}
+      return {
+        editor: '',
+        spinShow: false
+      }
     },
     created() {
       // 设置当前侧边栏选择项是3-2
@@ -37,7 +44,23 @@
        * 发布文章
        */
       publish: function () {
+        this.spinShow = true;
         console.log(this.editor.txt.html());
+
+        this.$api.indexAdmin.articlePublish(
+          {
+            article: this.editor.txt.html()
+          }
+        ).then(
+          res => {
+            this.spinShow = false;
+            this.$Message.success("发布成功");
+          }
+        ).catch(
+          error => {
+            this.spinShow = false;
+          }
+        )
       },
       /**
        * 初始化富文本编辑器
