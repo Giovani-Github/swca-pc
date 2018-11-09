@@ -53,6 +53,7 @@ npm run build --report
 * iview
 * jwt
 * ~~ali-oss~~
+* wangEditor
 
 
 
