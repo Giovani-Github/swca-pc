@@ -6,9 +6,11 @@
         <Carousel autoplay v-model="value2" loop>
           <CarouselItem>
             <div class="demo-carousel">
+
               <img
                 src="http://swca-file.oss-cn-qingdao.aliyuncs.com/a.jpg?Expires=1541731277&OSSAccessKeyId=TMP.AQHTWovX8q9BUPe7fctY7XKU-JbMk0110lVaoPLHjTG_m1JHSZlKQIMd95x7AAAwLAIUN3bxdna_bwn5ZRX5Vhisugid5zUCFHnJ25tmNaSDX_JwxOn0M0jQDFJu&Signature=u8RL1eoK90HjpJgaOWyKEwJBtnY%3D"
                 alt="">
+
             </div>
           </CarouselItem>
           <CarouselItem>

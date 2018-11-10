@@ -11,6 +11,9 @@
           <Icon type="ios-navigate"></Icon>
           轮播图管理
         </BreadcrumbItem>
+        <Tooltip style="float: right" content="鼠标放到表格中的文字时会出现提示" placement="left">
+          <Icon style="font-size: 20px" type="ios-help-circle"/>
+        </Tooltip>
       </Breadcrumb>
     </Card>
     <Card style="margin-top: 20px">
@@ -54,6 +57,15 @@
 
       <Table highlight-row border :columns="slideColumns" :data="slideLsit"></Table>
     </Card>
+
+    <Modal v-model="bigImgModal" fullscreen title="查看大图">
+      <div style="text-align:center">
+        <img :src="bigImgAddres" alt="" width="1024px">
+      </div>
+      <div slot="footer" style="text-align:center">
+        <Button type="primary" @click="closeBigImg">关闭</Button>
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -62,6 +74,14 @@
     name: "slide-admin",
     data() {
       return {
+        // 大图地址
+        bigImgAddres: '',
+        // 查看大图对话框
+        bigImgModal: false,
+        // 文章标题
+        articleTitle: '',
+        // 轮播图提交者的userName
+        userName: '',
         // 轮播图列表
         slideLsit: [],
         // 关联文章的id，如果为0，则表示没有与文章关联
@@ -89,30 +109,38 @@
             align: 'center',
             type: 'index',
             title: '#',
-            width: 60,
-            fixed: 'left'
           },
           {
             align: 'center',
             title: '轮播图id',
             tooltip: true,
             key: 'slideId',
-            width: 120,
-            fixed: 'left'
           },
           {
             align: 'center',
             title: '提交人ID',
             key: 'userId',
-            width: 100,
+            render: (h, params) => {
+              return h('Tooltip', {
+                props: {
+                  content: this.userName,
+                },
+                on: {
+                  // Tooltip显示时调用
+                  'on-popper-show': (event) => {
+                    this.getUserName(params.row.userId);
+                  }
+                }
+              }, params.row.userId);
+            }
           },
           {
             align: 'center',
             title: '提交时间',
+            width: 170,
             key: 'submitTime',
-            width: 120,
             render: (h, params) => {
-              return h('p', {}, new Date(params.row.submitTime).toLocaleString())
+              return h('p', new Date(params.row.submitTime).toLocaleString())
             }
           },
           {
@@ -120,7 +148,19 @@
             title: '关联文章id',
             tooltip: true,
             key: 'articleId',
-            width: 100
+            render: (h, params) => {
+              return h('Tooltip', {
+                props: {
+                  content: this.userName,
+                },
+                on: {
+                  // Tooltip显示时调用
+                  'on-popper-show': (event) => {
+                    this.getAritcleTitle(params.row.userId);
+                  }
+                }
+              }, params.row.userId);
+            }
           },
           {
             align: 'center',
@@ -128,20 +168,28 @@
             key: 'addres',
             width: 200,
             render: (h, params) => {
-              return h('div', [
+              return h('Tooltip', {
+                props: {
+                  content: '点击查看大图',
+                }
+              }, [
                 h('img', {
                     attrs: {
                       src: params.row.addres,
                     },
                     style:
                       {
-                        width: '200px',
-                      }
+                        width: '160px',
+                        marginTop: '6px'
+                      },
+                  on: {
+                    click: () => {
+                      this.imgClick(params.row.addres);
+                    }
+                  }
                   },
                 )
-
-              ])
-                ;
+              ]);
             }
           },
           {
@@ -149,13 +197,22 @@
             title: '状态',
             key: 'state',
             tooltip: true,
-            width: 100
+            render: (h, params) => {
+              if (params.row.state === 0) {
+                return h('span', "未审核");
+              }
+              if (params.row.state === 1) {
+                return h('span', "已审核");
+              }
+              if (params.row.state === 2) {
+                return h('span', "已删除");
+              }
+            }
           },
           {
             title: '操作',
             key: 'action',
             align: 'center',
-            fixed: 'right',
             width: 150,
             render: (h, params) => {
               return h('div', [
@@ -191,6 +248,46 @@
       }
     },
     methods: {
+      /**
+       * 关闭大图
+       */
+      closeBigImg: function () {
+        this.bigImgModal = false;
+      },
+
+      /**
+       * 图片被点击
+       * @param addres 图片地址
+       */
+      imgClick(addres) {
+        this.bigImgModal = true;
+        this.bigImgAddres = addres;
+      },
+      /**
+       * 获取文章标题
+       * @param articleId
+       */
+      getAritcleTitle(articleId) {
+        this.$api.indexAdmin.getArticleTitleByArticleId(articleId).then(
+          res => {
+            this.articleTitle = res.data.articleTitle;
+          }
+        );
+      }
+      ,
+
+      /**
+       * 获取用户名
+       * @param userId
+       */
+      getUserName(userId) {
+        this.$api.user.getUserNameByUserId(userId).then(
+          res => {
+            this.userName = res.data.userName;
+          }
+        );
+      }
+      ,
 
       /**
        * 上传组件，上传之前调用

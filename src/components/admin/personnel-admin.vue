@@ -464,8 +464,8 @@
       this.getUserList();
       // 设置当前侧边栏选择项是1
       this.$store.commit('setAdminMenuActive', '1');
-    }
-    ,
+    },
+
     watch: {
       // 修改权限模态框一关闭，就清空模态框内容
       authModal(val) {

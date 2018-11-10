@@ -8,6 +8,14 @@ import {BASE_URL, axios} from '../base';
 const indexAdmin = {
 
   /**
+   * 获取文章标题，根据文章id
+   * @param articleId
+   */
+  getArticleTitleByArticleId(articleId) {
+    return axios.get(BASE_URL + "/index/aritcleTitle/" + articleId);
+  },
+
+  /**
    * 获取所有轮播图
    */
   findAllSlideImg() {
