@@ -226,21 +226,38 @@
                   },
                   on: {
                     click: () => {
-                      this.accept(params.row.orderId)
+                      this.checkSlide(params.row.slideId)
                     }
                   }
-                }, '接受'),
-                h('Button', {
+                }, '通过'),
+                h('Poptip', {
                   props: {
-                    type: 'success',
-                    size: 'small'
+                    confirm: true,
+                    title: '是否删除？',
+                  },
+                  style: {
+                    textAlign: 'left'
                   },
                   on: {
-                    click: () => {
-                      this.success(params.row.orderId)
-                    }
+                    'on-ok': (event) => {
+                      this.deletSlide(params.row.slideId);
+                    },
                   }
-                }, '完成维修')
+                }, [
+
+                  h('Button', {
+                    props: {
+                      type: 'error',
+                      size: 'small'
+                    },
+                    on: {
+                      click: () => {
+                        this.success(params.row.orderId)
+                      }
+                    }
+                  }, '删除')
+                ]),
+
               ]);
             }
           }
@@ -248,6 +265,30 @@
       }
     },
     methods: {
+
+      /**
+       * 审核通过
+       */
+      checkSlide(slideId) {
+        this.$api.indexAdmin.checkSlide(slideId).then(
+          res => {
+            // 刷新
+            this.findAllSlideImg();
+          }
+        );
+      },
+
+      /**
+       * 删除轮播图
+       */
+      deletSlide(slideId) {
+        this.$api.indexAdmin.deleteSlide(slideId).then(
+          res => {
+            // 刷新
+            this.findAllSlideImg();
+          }
+        );
+      },
       /**
        * 关闭大图
        */

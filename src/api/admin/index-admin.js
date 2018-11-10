@@ -6,6 +6,21 @@
 import {BASE_URL, axios} from '../base';
 
 const indexAdmin = {
+  /**
+   * 删除轮播图
+   * @param slideId
+   */
+  deleteSlide(slideId) {
+    return axios.delete(BASE_URL + "/index/slideImg/" + slideId);
+  },
+
+  /**
+   * 审核通过
+   * @param slideId
+   */
+  checkSlide(slideId) {
+    return axios.put(BASE_URL + "/index/slideImg/" + slideId);
+  },
 
   /**
    * 获取文章标题，根据文章id
