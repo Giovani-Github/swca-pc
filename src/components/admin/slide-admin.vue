@@ -16,7 +16,7 @@
     <Card style="margin-top: 20px">
       <Upload
         :before-upload="handleUpload"
-        action="/swca_api/uploadImg">
+        action="">
         <Button icon="ios-cloud-upload-outline">选择要上传的轮播图</Button>
       </Upload>
       <div v-if="file !== null">
@@ -61,7 +61,7 @@
         var params = new FormData();
         params.append('file', this.file);
 
-        this.$api.indexAdmin.uploadImg(params).then(
+        this.$api.indexAdmin.uploadSlideImg(params).then(
           res => {
             this.loadingStatus = false;
             this.$Message.success('上传成功')

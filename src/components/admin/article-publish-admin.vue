@@ -27,12 +27,15 @@
 
 <script>
   import Editor from 'wangeditor';
+
   export default {
     name: "article-publish-admin",
     data() {
       return {
         editor: '',
-        spinShow: false
+        spinShow: false,
+        // 图片上传后的url
+        imgUrl: ''
       }
     },
     created() {
@@ -45,22 +48,25 @@
        */
       publish: function () {
         this.spinShow = true;
-        console.log(this.editor.txt.html());
-
-        this.$api.indexAdmin.articlePublish(
-          {
-            article: this.editor.txt.html()
-          }
-        ).then(
-          res => {
-            this.spinShow = false;
-            this.$Message.success("发布成功");
-          }
-        ).catch(
-          error => {
-            this.spinShow = false;
-          }
-        )
+        if (this.editor.txt.text() !== '' && this.editor.txt.text() !== undefined) {
+          this.$api.indexAdmin.articlePublish(
+            {
+              article: this.editor.txt.html()
+            }
+          ).then(
+            res => {
+              this.spinShow = false;
+              this.$Message.success("发布成功");
+            }
+          ).catch(
+            error => {
+              this.spinShow = false;
+            }
+          )
+        } else {
+          this.spinShow = false;
+          this.$Message.error("内容不能为空");
+        }
       },
       /**
        * 初始化富文本编辑器
@@ -68,9 +74,36 @@
       initEditor() {
         /* 括号里面的对应的是html里div的id */
         this.editor = new Editor('#editor');
+        // this.editor.customConfig.uploadImgShowBase64 = true;   // 使用 base64 保存图片
+        // 配置上传图片的地址
+        this.editor.customConfig.uploadImgServer = '/swca_api/index/articleImg';
+        // 上传图片时，可自定义filename，即在使用formdata.append(name, file)添加图片文件时，自定义第一个参数
+        this.editor.customConfig.uploadFileName = 'file';
+        // 限制一次最多上传 5 张图片
+        this.editor.customConfig.uploadImgMaxLength = 5;
+        //  将图片大小限制为 3M 默认为5M
+        this.editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
+
+        // 自定义图片上传
+        this.editor.customConfig.customUploadImg = async (files, insert) => {
+          /* files 是 input 中选中的文件列表 */
+          let formData = new FormData();
+          formData.append('file', files[0]);
+          await this.$api.indexAdmin.uploadArticleImg(formData).then(
+            res => {
+
+              this.$Message.success("上传成功");
+              this.imgUrl = res.data.imgUrl;
+            }
+          );
+
+          /* insert 是编辑器自带的 获取图片 url 后，插入到编辑器的方法 上传代码返回结果之后，将图片插入到编辑器中*/
+          insert(this.imgUrl)
+        };
+
         /* 创建编辑器 */
-        this.editor.create()
-      }
+        this.editor.create();
+      },
     },
     mounted() {
       // 初始化富文本编辑器
@@ -79,6 +112,32 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="less">
+  .w-e-toolbar {
+    flex-wrap: wrap;
+    -webkit-box-lines: multiple;
+  }
 
+  .w-e-toolbar .w-e-menu:hover {
+    z-index: 10002 !important;
+  }
+
+  .w-e-menu a {
+    text-decoration: none;
+  }
+
+  .fullscreen-editor {
+    position: fixed !important;
+    width: 100% !important;
+    height: 100% !important;
+    left: 0px !important;
+    top: 0px !important;
+    background-color: white;
+    z-index: 9999;
+  }
+
+  .fullscreen-editor .w-e-text-container {
+    width: 100% !important;
+    height: 95% !important;
+  }
 </style>

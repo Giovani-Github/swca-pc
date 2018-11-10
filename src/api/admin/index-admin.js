@@ -8,6 +8,19 @@ import {BASE_URL, axios} from '../base';
 const indexAdmin = {
 
   /**
+   * 文章图片上传
+   * @param param
+   * @returns {AxiosPromise<any>}
+   */
+  uploadArticleImg(param) {
+
+    let config = {
+      headers: {'Content-Type': 'multipart/form-data'}
+    };
+    return axios.post(BASE_URL + "/index/articleImg", param, config);
+  },
+
+  /**
    * 文章发布
    * @param param
    */
@@ -20,12 +33,12 @@ const indexAdmin = {
    * @param param
    * @returns {AxiosPromise<any>}
    */
-  uploadImg(param) {
+  uploadSlideImg(param) {
 
     let config = {
       headers: {'Content-Type': 'multipart/form-data'}
     };
-    return axios.post(BASE_URL + "/index/img", param, config);
+    return axios.post(BASE_URL + "/index/slideImg", param, config);
   }
 
 };
