@@ -8,6 +8,13 @@ import {BASE_URL, axios} from '../base';
 const indexAdmin = {
 
   /**
+   * 获取所有轮播图
+   */
+  findAllSlideImg() {
+    return axios.get(BASE_URL + "/index/slideImg");
+  },
+
+  /**
    * 文章图片上传
    * @param param
    * @returns {AxiosPromise<any>}
