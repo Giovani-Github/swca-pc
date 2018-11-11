@@ -11,7 +11,7 @@ const repairAdmin = {
    * @returns {AxiosPromise<any>}
    */
   findAllOrder(data) {
-    return axios.get(BASE_URL + "/admin/repair", {params: data});
+    return axios.get(BASE_URL + "/admin/repair/repair", {params: data});
   },
 
   /**
@@ -20,7 +20,7 @@ const repairAdmin = {
    * @returns {AxiosPromise<any>}
    */
   accept(data) {
-    return axios.put(BASE_URL + "/admin/accept/" + data);
+    return axios.put(BASE_URL + "/admin/repair/accept/" + data);
   },
 
   /**
@@ -29,7 +29,7 @@ const repairAdmin = {
    * @returns {AxiosPromise<any>}
    */
   success(data) {
-    return axios.put(BASE_URL + "/admin/success/" + data);
+    return axios.put(BASE_URL + "/admin/repair/success/" + data);
   }
 
 };

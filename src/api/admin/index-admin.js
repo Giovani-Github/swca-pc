@@ -11,14 +11,14 @@ const indexAdmin = {
    * 获取所有文章id和标题
    */
   findAllAritcleIdAndTitle() {
-    return axios.get(BASE_URL + "/index/articleIdAndTile");
+    return axios.get(BASE_URL + "/admin/index/articleIdAndTile");
   },
   /**
    * 删除文章
    * @param articleId
    */
   deleteArticle(articleId) {
-    return axios.delete(BASE_URL + "/index/article/" + articleId);
+    return axios.delete(BASE_URL + "/admin/index/article/" + articleId);
   },
 
   /**
@@ -26,14 +26,14 @@ const indexAdmin = {
    * @param articleId
    */
   checkArticle(articleId) {
-    return axios.put(BASE_URL + "/index/article/" + articleId);
+    return axios.put(BASE_URL + "/admin/index/article/" + articleId);
   },
 
   /**
    * 获取所有文章
    */
   findAllAritcle(data) {
-    return axios.get(BASE_URL + "/index/article", {params: data});
+    return axios.get(BASE_URL + "/admin/index/article", {params: data});
   },
 
   /**
@@ -41,7 +41,7 @@ const indexAdmin = {
    * @param slideId
    */
   deleteSlide(slideId) {
-    return axios.delete(BASE_URL + "/index/slideImg/" + slideId);
+    return axios.delete(BASE_URL + "/admin/index/slideImg/" + slideId);
   },
 
   /**
@@ -49,7 +49,7 @@ const indexAdmin = {
    * @param slideId
    */
   checkSlide(slideId) {
-    return axios.put(BASE_URL + "/index/slideImg/" + slideId);
+    return axios.put(BASE_URL + "/admin/index/slideImg/" + slideId);
   },
 
   /**
@@ -57,14 +57,14 @@ const indexAdmin = {
    * @param articleId
    */
   getArticleTitleByArticleId(articleId) {
-    return axios.get(BASE_URL + "/index/aritcleTitle/" + articleId);
+    return axios.get(BASE_URL + "/admin/index/aritcleTitle/" + articleId);
   },
 
   /**
    * 获取所有轮播图
    */
   findAllSlideImg() {
-    return axios.get(BASE_URL + "/index/slideImg");
+    return axios.get(BASE_URL + "/admin/index/slideImg");
   },
 
   /**
@@ -77,7 +77,7 @@ const indexAdmin = {
     let config = {
       headers: {'Content-Type': 'multipart/form-data'}
     };
-    return axios.post(BASE_URL + "/index/articleImg", param, config);
+    return axios.post(BASE_URL + "/admin/index/articleImg", param, config);
   },
 
   /**
@@ -85,7 +85,7 @@ const indexAdmin = {
    * @param param
    */
   articlePublish(param) {
-    return axios.post(BASE_URL + "/index/article", param);
+    return axios.post(BASE_URL + "/admin/index/article", param);
   },
 
   /**
@@ -98,7 +98,7 @@ const indexAdmin = {
     let config = {
       headers: {'Content-Type': 'multipart/form-data'}
     };
-    return axios.post(BASE_URL + "/index/slideImg", param, config);
+    return axios.post(BASE_URL + "/admin/index/slideImg", param, config);
   }
 
 };

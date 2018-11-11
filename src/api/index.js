@@ -8,6 +8,7 @@
 import user from './user';
 import demo from './demo';
 import repair from './repair';
+import indexFront from './index-front';
 import repairAdmin from './admin/repair-admin';
 import personnelAdmin from './admin/personnel-admin';
 import indexAdmin from './admin/index-admin';
@@ -21,5 +22,6 @@ export default {
   repairAdmin,
   personnelAdmin,
   indexAdmin,
+  indexFront
 }
 
