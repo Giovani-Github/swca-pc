@@ -25,8 +25,8 @@ const indexAdmin = {
   /**
    * 获取所有文章
    */
-  findAllAritcle() {
-    return axios.get(BASE_URL + "/index/article");
+  findAllAritcle(data) {
+    return axios.get(BASE_URL + "/index/article", {params: data});
   },
 
   /**

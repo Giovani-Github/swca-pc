@@ -36,22 +36,10 @@
             <MenuItem name="3-1">轮播图</MenuItem>
           </router-link>
           <router-link :to="{name:'articlePublishAdmin'}">
-            <MenuItem name="3-2">文章发布</MenuItem>
+            <MenuItem name="3-2">文章或教程发布</MenuItem>
           </router-link>
           <router-link :to="{name:'articleAdmin'}">
-            <MenuItem name="3-3">文章管理</MenuItem>
-          </router-link>
-        </Submenu>
-        <Submenu name="4">
-          <template slot="title">
-            <Icon type="ios-book"/>
-            计算机教程
-          </template>
-          <router-link :to="{name:'courseAdmin'}">
-            <MenuItem name="4-1">教程管理</MenuItem>
-          </router-link>
-          <router-link :to="{name:'coursePublishAdmin'}">
-            <MenuItem name="4-2">教程发布</MenuItem>
+            <MenuItem name="3-3">文章或教程管理</MenuItem>
           </router-link>
         </Submenu>
       </Menu>

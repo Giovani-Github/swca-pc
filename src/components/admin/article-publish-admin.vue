@@ -18,10 +18,18 @@
         <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
         <div>正在加载</div>
       </Spin>
-      <Input maxlength="150" size="large" v-model="title" placeholder="输入文章标题" clearable style="margin-bottom: 20px"/>
+      <Input maxlength="150" size="large" v-model="title" placeholder="输入文章标题" clearable
+             style="width: 800px;margin-bottom: 20px"/>
+
+      <RadioGroup v-model="articleType" type="button" size="large" style="margin-bottom: 20px;margin-left: 10px">
+        <Radio label="0">通知</Radio>
+        <Radio label="1">教程</Radio>
+      </RadioGroup>
+
       <p slot="title">文章发布</p>
       <div id="editor"></div>
       <Button @click="publish" style="margin-top: 20px;" type="primary">发布</Button>
+
     </Card>
   </div>
 </template>
@@ -38,7 +46,10 @@
         editor: '',
         spinShow: false,
         // 图片上传后的url
-        imgUrl: ''
+        imgUrl: '',
+        // 文章类型
+        articleType: "0"
+
       }
     },
     created() {
@@ -55,7 +66,8 @@
           this.$api.indexAdmin.articlePublish(
             {
               content: this.editor.txt.html(),
-              title: this.title
+              title: this.title,
+              articleType: this.articleType
             }
           ).then(
             res => {

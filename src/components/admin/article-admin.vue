@@ -11,11 +11,42 @@
           <Icon type="ios-navigate"></Icon>
           文章管理
         </BreadcrumbItem>
-        
+
         <Tooltip style="float: right" content="鼠标放到表格中的文字时会出现提示" placement="left">
           <Icon style="font-size: 20px" type="ios-help-circle"/>
         </Tooltip>
       </Breadcrumb>
+    </Card>
+    <Card style="margin-top: 20px">
+      <p slot="title">多条件搜索</p>
+      <Row>
+        <Col span="9">
+          标题：
+          <Input v-model="articleInfo.title" placeholder="输入标题" style="width: 330px"/>
+        </Col>
+        <Col span="5">
+          提交人id：
+          <Input v-model="articleInfo.userId" placeholder="输入提交人id" style="width: 100px"/>
+        </Col>
+        <Col span="5">
+          文章id：
+          <Input v-model="articleInfo.articleId" placeholder="输入文章id" style="width: 100px"/>
+        </Col>
+        <Col span="5">
+          类型：
+          <RadioGroup v-model="articleInfo.type" type="button" size="large">
+            <Radio label="0">普通</Radio>
+            <Radio label="1">教程</Radio>
+          </RadioGroup>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <div style="float: right; margin-top: 20px">
+            <Button @click="search" type="primary" icon="ios-search">搜索</Button>
+          </div>
+        </Col>
+      </Row>
     </Card>
     <Card style="margin-top: 20px">
       <Spin fix v-if="spinShow">
@@ -24,6 +55,16 @@
       </Spin>
       <p slot="title">文章列表</p>
       <Table highlight-row border :columns="articleColumns" :data="articleList"></Table>
+
+      <div style="margin: 10px;overflow: hidden">
+        <div style="float: right;">
+          <Page :total="articleTotal" :page-size="pageSize" @on-change="pageChange"></Page>
+        </div>
+        <div style="margin: 10px">
+          <Icon style="font-size: 18px; color:#2d8cf0; margin-right: 6px" type="md-contacts"/>
+          文章总数：{{articleTotal}}
+        </div>
+      </div>
     </Card>
 
     <Modal v-model="contentModal" fullscreen title="查看大图">
@@ -40,6 +81,19 @@
     name: "article-admin",
     data() {
       return {
+        // 多条件搜索
+        articleInfo: {
+          title: '',
+          userId: '',
+          articleId: '',
+          type: ''
+        },
+        // 当前页码
+        pageNum: 1,
+        // 每页条数
+        pageSize: 6,
+        // 文章总数
+        articleTotal: 1,
         // 文章详细内容
         content: '',
         // 内容查看框
@@ -54,7 +108,6 @@
             align: 'center',
             type: 'index',
             title: '#',
-            fixed: 'left',
             width: 60,
           },
           {
@@ -67,33 +120,75 @@
           {
             align: 'center',
             title: '标题',
-            width: 180,
+            width: 200,
             tooltip: true,
             key: 'title',
+          },
+          {
+            align: 'center',
+            title: '类型',
+            width: 120,
+            tooltip: true,
+            key: 'type',
+            render: (h, params) => {
+              if (params.row.type == 0) {
+                return h("Badge", {
+                  props: {
+                    text: "普通",
+                    type: "normal"
+                  },
+                })
+              } else {
+                return h("Badge", {
+                  props: {
+                    text: "教程",
+                    type: "success"
+                  },
+                })
+              }
+            }
           },
           {
             align: 'center',
             title: '点赞量',
             width: 100,
             key: 'parise',
+            render: (h, params) => {
+
+              return h("Badge", {
+                props: {
+                  text: params.row.parise,
+                  type: "warning"
+                },
+              })
+            }
           },
           {
             align: 'center',
             title: '阅读量',
             width: 100,
             key: 'reading',
+            render: (h, params) => {
+
+              return h("Badge", {
+                props: {
+                  text: params.row.reading,
+                  type: "primary"
+                },
+              })
+            }
           },
           {
             align: 'center',
             title: '内容',
-            width: 120,
+            width: 150,
             key: 'content',
             render: (h, params) => {
               return h('Button', {
                 props: {
                   type: 'primary',
                   size: 'small',
-                  ghost: 'true'
+                  ghost: true
                 },
                 style: {
                   marginRight: '5px'
@@ -134,7 +229,7 @@
             title:
               '提交时间',
             width:
-              170,
+              200,
             key:
               'submitTime',
             render:
@@ -147,7 +242,7 @@
             title:
               '发布时间',
             width:
-              170,
+              200,
             key:
               'submitTime',
 
@@ -163,10 +258,8 @@
           },
           {
             align: 'center',
-            title:
-              '状态',
-            width:
-              120,
+            title: '状态',
+            width: 160,
             key:
               'state',
             tooltip:
@@ -207,7 +300,7 @@
             align:
               'center',
             width:
-              150,
+              160,
             render:
               (h, params) => {
                 return h('div', [
@@ -260,6 +353,19 @@
       }
     },
     methods: {
+      // 多条件搜索
+      search: function () {
+        this.findAllArticle();
+      },
+
+      /**
+       * 页码改变
+       * @param orderId
+       */
+      pageChange: function (currentPageNum) {
+        this.pageNum = currentPageNum;
+        this.findAllArticle();
+      },
 
       /**
        * 删除文章
@@ -332,9 +438,19 @@
        */
       findAllArticle() {
         this.spinShow = true;
-        this.$api.indexAdmin.findAllAritcle().then(
+        this.$api.indexAdmin.findAllAritcle({
+          pageNum: this.pageNum,
+          pageSize: this.pageSize,
+          // 多条件搜索
+          title: this.articleInfo.title,
+          userId: this.articleInfo.userId,
+          articleId: this.articleInfo.articleId,
+          type: this.articleInfo.type,
+        }).then(
           res => {
-            this.articleList = res.data[0];
+
+            this.articleTotal = res.data[0].total;
+            this.articleList = res.data[0].list;
             console.log(this.articleList);
             this.spinShow = false;
           }
