@@ -7,6 +7,29 @@ import {BASE_URL, axios} from '../base';
 
 const indexAdmin = {
   /**
+   * 删除文章
+   * @param articleId
+   */
+  deleteArticle(articleId) {
+    return axios.delete(BASE_URL + "/index/article/" + articleId);
+  },
+
+  /**
+   * 审核通过
+   * @param articleId
+   */
+  checkArticle(articleId) {
+    return axios.put(BASE_URL + "/index/article/" + articleId);
+  },
+
+  /**
+   * 获取所有文章
+   */
+  findAllAritcle() {
+    return axios.get(BASE_URL + "/index/article");
+  },
+
+  /**
    * 删除轮播图
    * @param slideId
    */

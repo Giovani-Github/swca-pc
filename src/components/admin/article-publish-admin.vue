@@ -18,6 +18,7 @@
         <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
         <div>正在加载</div>
       </Spin>
+      <Input maxlength="150" size="large" v-model="title" placeholder="输入文章标题" clearable style="margin-bottom: 20px"/>
       <p slot="title">文章发布</p>
       <div id="editor"></div>
       <Button @click="publish" style="margin-top: 20px;" type="primary">发布</Button>
@@ -32,6 +33,8 @@
     name: "article-publish-admin",
     data() {
       return {
+        // 文章标题
+        title: '',
         editor: '',
         spinShow: false,
         // 图片上传后的url
@@ -48,14 +51,17 @@
        */
       publish: function () {
         this.spinShow = true;
-        if (this.editor.txt.text() !== '' && this.editor.txt.text() !== undefined) {
+        if (this.editor.txt.text() !== '' && this.editor.txt.text() !== undefined && this.title !== '' && this.title !== undefined) {
           this.$api.indexAdmin.articlePublish(
             {
-              article: this.editor.txt.html()
+              content: this.editor.txt.html(),
+              title: this.title
             }
           ).then(
             res => {
               this.spinShow = false;
+              this.editor.txt.html('');
+              this.title = '';
               this.$Message.success("发布成功");
             }
           ).catch(
@@ -65,7 +71,7 @@
           )
         } else {
           this.spinShow = false;
-          this.$Message.error("内容不能为空");
+          this.$Message.error("标题和内容不能为空");
         }
       },
       /**
