@@ -118,6 +118,36 @@
           },
           {
             align: 'center',
+            title: '图片',
+            key: 'addres',
+            width: 200,
+            render: (h, params) => {
+              return h('Tooltip', {
+                props: {
+                  content: '点击查看大图',
+                }
+              }, [
+                h('img', {
+                    attrs: {
+                      src: params.row.addres,
+                    },
+                    style:
+                      {
+                        width: '160px',
+                        marginTop: '6px'
+                      },
+                    on: {
+                      click: () => {
+                        this.imgClick(params.row.addres);
+                      }
+                    }
+                  },
+                )
+              ]);
+            }
+          },
+          {
+            align: 'center',
             title: '提交人ID',
             key: 'userId',
             render: (h, params) => {
@@ -149,6 +179,10 @@
             tooltip: true,
             key: 'articleId',
             render: (h, params) => {
+              if (params.row.articleId === 0) {
+                return h('span', "未关联文章");
+              }
+
               return h('Tooltip', {
                 props: {
                   content: this.userName,
@@ -156,42 +190,13 @@
                 on: {
                   // Tooltip显示时调用
                   'on-popper-show': (event) => {
-                    this.getAritcleTitle(params.row.userId);
+                    this.getAritcleTitle(params.row.articleId);
                   }
                 }
-              }, params.row.userId);
+              }, params.row.articleId);
             }
           },
-          {
-            align: 'center',
-            title: '图片',
-            key: 'addres',
-            width: 200,
-            render: (h, params) => {
-              return h('Tooltip', {
-                props: {
-                  content: '点击查看大图',
-                }
-              }, [
-                h('img', {
-                    attrs: {
-                      src: params.row.addres,
-                    },
-                    style:
-                      {
-                        width: '160px',
-                        marginTop: '6px'
-                      },
-                  on: {
-                    click: () => {
-                      this.imgClick(params.row.addres);
-                    }
-                  }
-                  },
-                )
-              ]);
-            }
-          },
+
           {
             align: 'center',
             title: '状态',
@@ -199,13 +204,28 @@
             tooltip: true,
             render: (h, params) => {
               if (params.row.state === 0) {
-                return h('span', "未审核");
+                return h('Badge', {
+                  props: {
+                    status: 'warning',
+                    text: '未审核',
+                  }
+                });
               }
               if (params.row.state === 1) {
-                return h('span', "已审核");
+                return h('Badge', {
+                  props: {
+                    status: 'processing',
+                    text: '已审核',
+                  }
+                });
               }
               if (params.row.state === 2) {
-                return h('span', "已删除");
+                return h('Badge', {
+                  props: {
+                    status: 'error',
+                    text: '已删除',
+                  }
+                });
               }
             }
           },
@@ -270,10 +290,16 @@
        * 审核通过
        */
       checkSlide(slideId) {
+        this.spinShow = true;
         this.$api.indexAdmin.checkSlide(slideId).then(
           res => {
+            this.spinShow = false;
             // 刷新
             this.findAllSlideImg();
+          }
+        ).catch(
+          error => {
+            this.spinShow = false;
           }
         );
       },
@@ -282,10 +308,16 @@
        * 删除轮播图
        */
       deletSlide(slideId) {
+        this.spinShow = true;
         this.$api.indexAdmin.deleteSlide(slideId).then(
           res => {
+            this.spinShow = false;
             // 刷新
             this.findAllSlideImg();
+          }
+        ).catch(
+          error => {
+            this.spinShow = false;
           }
         );
       },
@@ -355,6 +387,8 @@
         this.$api.indexAdmin.uploadSlideImg(params).then(
           res => {
             this.loadingStatus = false;
+            // 刷新
+            this.findAllSlideImg();
             this.$Message.success('上传成功')
           }
         ).catch(

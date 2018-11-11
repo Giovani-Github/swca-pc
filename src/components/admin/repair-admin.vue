@@ -216,73 +216,38 @@
             width: 120,
             render: (h, params) => {
               if (params.row.state === this.$store.state.global.repairState.COMMIT_INIT) {
-                return h('div', [
-                  h('Icon', {
-                    props: {
-                      type: 'ios-radio-button-on',
-                    },
-                    style: {
-                      fontSize: '14px',
-                      color: '#2b85e4'
-                    }
-                  }),
-                  h('span', {
-                    style: {
-                      marginLeft: '6px'
-                    }
-                  }, "已提交")
-                ]);
+
+                return h('Badge', {
+                  props: {
+                    status: 'warning',
+                    text: '已提交',
+                  }
+                });
               } else if (params.row.state === this.$store.state.global.repairState.ACCEPT) {
-                return h('div', [
-                  h('Icon', {
-                    props: {
-                      type: 'ios-radio-button-on',
-                    },
-                    style: {
-                      fontSize: '14px',
-                      color: '#FF9900'
-                    }
-                  }),
-                  h('span', {
-                    style: {
-                      marginLeft: '6px'
-                    }
-                  }, "已接单")
-                ]);
+
+                return h('Badge', {
+                  props: {
+                    status: 'processing',
+                    text: '已接单',
+                  }
+                });
+
               } else if (params.row.state === this.$store.state.global.repairState.SUCCESS) {
-                return h('div', [
-                  h('Icon', {
-                    props: {
-                      type: 'ios-radio-button-on',
-                    },
-                    style: {
-                      fontSize: '14px',
-                      color: '#99CC33'
-                    }
-                  }),
-                  h('span', {
-                    style: {
-                      marginLeft: '6px'
-                    }
-                  }, "已完成")
-                ]);
+
+                return h('Badge', {
+                  props: {
+                    status: 'success',
+                    text: '已完成',
+                  }
+                });
               } else if (params.row.state === this.$store.state.global.repairState.CANCEL) {
-                return h('div', [
-                  h('Icon', {
-                    props: {
-                      type: 'ios-radio-button-on',
-                    },
-                    style: {
-                      fontSize: '14px',
-                      color: '#CC3333'
-                    }
-                  }),
-                  h('span', {
-                    style: {
-                      marginLeft: '6px'
-                    }
-                  }, "已取消")
-                ]);
+
+                return h('Badge', {
+                  props: {
+                    status: 'error',
+                    text: '已取消',
+                  }
+                });
               }
 
             }

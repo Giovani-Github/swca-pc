@@ -45,6 +45,7 @@ import {
   Spin,
   Poptip,
   Upload,
+  Badge,
 } from 'iview';
 
 const iview = {
@@ -92,6 +93,7 @@ const iview = {
     Vue.component('Spin', Spin);
     Vue.component('Poptip', Poptip);
     Vue.component('Upload', Upload);
+    Vue.component('Badge', Badge);
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
     Vue.prototype.$Select = Select;
