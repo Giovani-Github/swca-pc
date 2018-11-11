@@ -38,10 +38,9 @@
 
         <span style="margin-left: 20px">
             关联文章：
-            <Select v-model="articleId" style="width: 250px" clearable>
-              <Option v-for="article in articleList" :value="article.articleId" :key="article.articleId">
-                {{article.title }}
-              </Option>
+            <Select :filterable="true" v-model="articleId" style="width: 250px" clearable>
+              <Option style="max-width: 250px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
+                      v-for="article in articleList" :value="article.articleId" :key="article.articleId">{{article.title }}</Option>
             </Select>
           </span>
         </Col>
@@ -90,17 +89,7 @@
         spinShow: false,
 
         // 文章列表
-        articleList:
-          [
-            {
-              articleId: 0,
-              title: '不关联文章'
-            },
-            {
-              articleId: 1,
-              title: '文章标题'
-            }
-          ],
+        articleList: [],
         file: null,
         loadingStatus: false,
 
@@ -185,7 +174,8 @@
 
               return h('Tooltip', {
                 props: {
-                  content: this.userName,
+                  content: this.articleTitle,
+                  "max-width": "150"
                 },
                 on: {
                   // Tooltip显示时调用
@@ -414,7 +404,19 @@
             this.spinShow = false;
           }
         );
-      }
+      },
+
+      /**
+       * 获得所有文章的id和标题
+       */
+      findAllArticleIdAndTitle() {
+        this.$api.indexAdmin.findAllAritcleIdAndTitle().then(
+          res => {
+            this.articleList = res.data[0];
+          }
+        )
+      },
+
 
     },
     created() {
@@ -423,6 +425,8 @@
 
       // 获取所有轮播图
       this.findAllSlideImg();
+      //  获得所有文章的id和标题
+      this.findAllArticleIdAndTitle();
     }
   }
 </script>

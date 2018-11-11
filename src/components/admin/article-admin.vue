@@ -157,7 +157,7 @@
 
               return h("Badge", {
                 props: {
-                  text: params.row.parise,
+                  text: params.row.parise + "",
                   type: "warning"
                 },
               })
@@ -172,7 +172,7 @@
 
               return h("Badge", {
                 props: {
-                  text: params.row.reading,
+                  text: params.row.reading + "",
                   type: "primary"
                 },
               })

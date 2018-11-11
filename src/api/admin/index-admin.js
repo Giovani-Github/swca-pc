@@ -6,6 +6,13 @@
 import {BASE_URL, axios} from '../base';
 
 const indexAdmin = {
+
+  /**
+   * 获取所有文章id和标题
+   */
+  findAllAritcleIdAndTitle() {
+    return axios.get(BASE_URL + "/index/articleIdAndTile");
+  },
   /**
    * 删除文章
    * @param articleId
