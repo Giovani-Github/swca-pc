@@ -10,6 +10,10 @@ import store from './store'
 import {Base64} from 'js-base64';
 import 'iview/dist/styles/iview.css';
 import animated from 'animate.css';
+import VueAwesomeSwiper from 'vue-awesome-swiper';
+
+// mount with global
+Vue.use(VueAwesomeSwiper);
 
 Vue.use(animated);
 Vue.use(iview);

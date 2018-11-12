@@ -169,12 +169,12 @@
     z-index: 999;
   }
 
-  .menu {
-    background-color: rgba(255, 255, 255, 0.94);
-    -moz-box-shadow: 0px 6px 10px #eee;
-    -webkit-box-shadow: 0px 6px 10px #eee;
-    box-shadow: 0px 4px 6px #eee;
-  }
+  /*.menu {*/
+  /*background-color: rgba(255, 255, 255, 0.94);*/
+  /*-moz-box-shadow: 0px 6px 10px #eee;*/
+  /*-webkit-box-shadow: 0px 6px 10px #eee;*/
+  /*box-shadow: 0px 4px 6px #eee;*/
+  /*}*/
 
   .search {
     height: 60px;
