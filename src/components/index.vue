@@ -51,12 +51,7 @@
        * 文章被点击
        */
       aclik: function (articleId) {
-        this.$api.indexFront.getArticleById(articleId).then(
-          res => {
-            var article = res.data.article;
-            console.log(article);
-          }
-        );
+        this.$router.push({path: `/articleRead/${articleId}`});
       },
 
       /**

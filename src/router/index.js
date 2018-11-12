@@ -6,6 +6,7 @@ import index from '../components/index'
 import course from '../components/course'
 import commit from '../components/utils/repair/commit'
 import orderList from '../components/utils/repair/order-list'
+import articleRead from '../components/article-read'
 import repairAdmin from '../components/admin/repair-admin'
 import articleAdmin from '../components/admin/article-admin'
 import articlePublishAdmin from '../components/admin/article-publish-admin'
@@ -51,6 +52,13 @@ const router = new Router({
           path: '/orderList',
           name: 'orderList',
           component: orderList
+        },
+
+        // 文章阅读，跳转时需携带文章idd
+        {
+          path: "/articleRead/:articleId",
+          name: 'articleRead',
+          component: articleRead
         },
       ]
 
