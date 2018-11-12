@@ -7,7 +7,18 @@
 import {BASE_URL, axios} from './base';
 
 const indexFront = {
+  // 阅读量加1
+  readingAdd(articleId) {
+    return axios.put(BASE_URL + "/index/article/reading/" + articleId);
+  },
 
+  /**
+   * 根据作者id获取作者信息
+   */
+  getAuthorByUserId(userId) {
+    return axios.get(BASE_URL + "/index/user/" + userId);
+  }
+  ,
   /**
    * 根据id获取文章
    */

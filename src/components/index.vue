@@ -24,7 +24,9 @@
     <div style="padding: 0px 30px 10px 30px">
       <Card :bordered="true">
         <p slot="title">教程文章</p>
-
+        <div :key="index" v-for="(courseArticle, index) in hotCourseArticleList">
+          <span @click="aclik(courseArticle.articleId)">{{courseArticle.title}}</span>
+        </div>
       </Card>
     </div>
   </div>
