@@ -15,6 +15,8 @@
     </Card>
 
     <Card style="margin-top: 20px">
+      <span style="font-weight: bold;">{{article.title}}</span>
+      <Divider>正文</Divider>
       <div v-html="article.content"></div>
     </Card>
   </div>

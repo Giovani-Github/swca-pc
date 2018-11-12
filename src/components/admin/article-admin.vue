@@ -20,23 +20,35 @@
     <Card style="margin-top: 20px">
       <p slot="title">多条件搜索</p>
       <Row>
-        <Col span="9">
+        <Col span="10">
           标题：
-          <Input v-model="articleInfo.title" placeholder="输入标题" style="width: 330px"/>
+          <Input v-model="articleInfo.title" placeholder="输入标题" style="width: 360px"/>
         </Col>
-        <Col span="5">
+        <Col span="7">
           提交人id：
-          <Input v-model="articleInfo.userId" placeholder="输入提交人id" style="width: 100px"/>
+          <Input v-model="articleInfo.userId" placeholder="输入提交人id" style="width: 200px"/>
         </Col>
-        <Col span="5">
+        <Col span="7">
           文章id：
-          <Input v-model="articleInfo.articleId" placeholder="输入文章id" style="width: 100px"/>
+          <Input v-model="articleInfo.articleId" placeholder="输入文章id" style="width: 200px"/>
         </Col>
-        <Col span="5">
+
+      </Row>
+      <Row style="margin-top: 20px">
+        <Col span="6">
           类型：
           <RadioGroup v-model="articleInfo.type" type="button" size="large">
+            <Radio label="2">全部</Radio>
             <Radio label="0">普通</Radio>
             <Radio label="1">教程</Radio>
+          </RadioGroup>
+        </Col>
+        <Col span="6">
+          状态：
+          <RadioGroup v-model="articleInfo.state" type="button" size="large">
+            <Radio label="3">全部</Radio>
+            <Radio label="1">已审核</Radio>
+            <Radio label="0">未审核</Radio>
           </RadioGroup>
         </Col>
       </Row>
@@ -86,7 +98,8 @@
           title: '',
           userId: '',
           articleId: '',
-          type: ''
+          type: '',
+          state: ''
         },
         // 当前页码
         pageNum: 1,
@@ -446,6 +459,7 @@
           userId: this.articleInfo.userId,
           articleId: this.articleInfo.articleId,
           type: this.articleInfo.type,
+          state: this.articleInfo.state,
         }).then(
           res => {
 
