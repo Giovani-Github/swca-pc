@@ -139,7 +139,7 @@ router.beforeEach((to, from, next) => {
    */
   if (to.matched.some((r) => r.meta.requireAuth)) {
 
-    if (sessionStorage.getItem('token')) {   //判断是否已经登录
+    if (sessionStorage.getItem('token')) {  //判断是否已经登录
 
       // 获取登录用户的手机号码
       let claims = sessionStorage.getItem('token').split(".")[1];

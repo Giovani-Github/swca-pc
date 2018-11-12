@@ -7,7 +7,46 @@
 import {BASE_URL, axios} from './base';
 
 const indexFront = {
-  // 阅读量加1
+
+  /**
+   * 获取评论
+   * @param params
+   */
+  getComment(articleId) {
+    return axios.get(BASE_URL + "/index/article/comment/" + articleId);
+  },
+
+  /**
+   * 评论
+   * @param params
+   */
+  comment(params) {
+    return axios.post(BASE_URL + "/index/article/comment", params);
+  },
+
+  /**
+   * 取消赞
+   * @param articleId
+   * @returns {AxiosPromise<any>}
+   */
+  cancelParise(articleId) {
+    return axios.put(BASE_URL + "/index/article/cancelParise/" + articleId);
+  },
+
+  /**
+   *点赞
+   * @param articleId
+   * @returns {AxiosPromise<any>}
+   */
+  clickParise(articleId) {
+    return axios.put(BASE_URL + "/index/article/clickParise/" + articleId);
+  },
+
+  /**
+   * 阅读量加1
+   * @param articleId
+   * @returns {AxiosPromise<any>}
+   */
   readingAdd(articleId) {
     return axios.put(BASE_URL + "/index/article/reading/" + articleId);
   },
@@ -15,7 +54,7 @@ const indexFront = {
   /**
    * 根据作者id获取作者信息
    */
-  getAuthorByUserId(userId) {
+  getUserByUserId(userId) {
     return axios.get(BASE_URL + "/index/user/" + userId);
   }
   ,

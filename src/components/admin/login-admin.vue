@@ -107,6 +107,7 @@
                 claims = JSON.parse(Base64.decode(claims));
                 sessionStorage.setItem('userName', claims.userName);
                 sessionStorage.setItem('phoneNum', claims.phoneNum);
+                sessionStorage.setItem('userId', claims.userId);
 
 
                 this.$Message.success("登录成功");
