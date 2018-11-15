@@ -23,7 +23,7 @@ import {
   Carousel,
   CarouselItem,
   Message,
-  // 表单(带验证)组件相关，测试，可删
+  // 表单(带验证)组件相关
   Form,
   FormItem,
   DatePicker,
@@ -46,6 +46,8 @@ import {
   Poptip,
   Upload,
   Badge,
+  Time,
+  Drawer
 } from 'iview';
 
 const iview = {
@@ -94,6 +96,8 @@ const iview = {
     Vue.component('Poptip', Poptip);
     Vue.component('Upload', Upload);
     Vue.component('Badge', Badge);
+    Vue.component('Time', Time);
+    Vue.component('Drawer', Drawer);
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
     Vue.prototype.$Select = Select;

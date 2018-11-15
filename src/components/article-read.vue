@@ -35,13 +35,17 @@
         {{user.userName}}
       </p>
       <p class="assist">阅读量：{{article.reading}}</p>
-      <p class="assist">{{new Date(article.publishTime).toLocaleString()}}</p>
+      <p class="assist">
+        {{(new Date(article.publishTime)).toLocaleString()}}
+      </p>
       <Divider style="margin-top: 40px"/>
       <div v-html="article.content"></div>
-      <a>
-        <Icon class="icon" @click="clickParise" :type="isParise ? 'md-heart' : 'md-heart-outline'"/>
-      </a>
-      <span style="color: rgb(158, 167, 180);">{{pariseNum}}</span>
+      <p style="margin-top: 20px">
+        <a>
+          <Icon class="icon" @click="clickParise" :type="isParise ? 'md-heart' : 'md-heart-outline'"/>
+        </a>
+        <span style="color: rgb(158, 167, 180);">{{pariseNum}}</span>
+      </p>
     </Card>
 
     <Card style="margin-top: 20px">
@@ -54,24 +58,26 @@
         </Col>
       </Row>
     </Card>
-    <Card style="margin-top: 20px">
+    <Card style="margin-top: 20px; padding: 10px">
       <Spin fix v-if="commentSpinShow">
         <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
         <div>正在加载</div>
       </Spin>
 
       <div :key="index" v-for="(comment, index) in commentList">
-        {{comment}}
-        <p>
-          {{getCommentUserByUserId(comment.userId)}}
-        </p>
-        <p>
-          {{comment.content}}
-        </p>
-        <span style="float: right;color: rgb(158, 167, 180);">{{new Date(comment.submitTime).toLocaleString()}}</span>
-        <Divider style="margin-top: 30px"/>
-      </div>
+        <Avatar style="background-color: #87d068" icon="ios-person"/>
 
+        <span class="title" style="margin-left: 6px">{{getCommentUserByUserId(comment.userId)}}：</span>
+        {{comment.content}}
+        <span style="color: rgb(158, 167, 180); margin-left: 6px">
+          {{comment.submitTime}}
+          <Time :time="comment.submitTime"/>
+        </span>
+        <span v-if="commentList.length > 1 && index !== commentList.length-1">
+          <Divider style="margin-top: 20px"/>
+        </span>
+
+      </div>
     </Card>
   </div>
 </template>
@@ -195,11 +201,11 @@
             this.spinShow = false;
 
             // 获取文章发布者信息
-            // this.$api.indexFront.getUserByUserId(this.article.userId).then(
-            //   res => {
-            //     this.user = res.data.user;
-            //   }
-            // );
+            this.$api.indexFront.getUserByUserId(this.article.userId).then(
+              res => {
+                this.user = res.data.user;
+              }
+            );
 
             // 阅读量+1
             this.$api.indexFront.readingAdd(this.$route.params.articleId);
@@ -237,9 +243,9 @@
     },
     created() {
 
-      // 获取评论
-      this.getArticle();
       // 根据路由传过来的文章id，获取文章详情
+      this.getArticle();
+      // 获取评论
       this.getComment();
 
     }

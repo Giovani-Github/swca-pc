@@ -182,6 +182,8 @@ router.beforeEach((to, from, next) => {
 
 // 路由执行后
 router.afterEach(route => {
+  // 回到页面顶部
+  window.scrollTo(0, 0);
   LoadingBar.finish();
 });
 

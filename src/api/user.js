@@ -8,6 +8,15 @@ import {BASE_URL, axios} from './base';
 const user = {
 
   /**
+   * 修改用户信息
+   * @param user
+   * @returns {AxiosPromise<any>}
+   */
+  changeUser(user) {
+    return axios.post(BASE_URL + '/users', user);
+  },
+
+  /**
    * 根据手机号码查询用户权限列表
    * @param userId
    * @returns {AxiosPromise<any>}

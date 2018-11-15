@@ -10,7 +10,7 @@
         <Tag v-if="auth === 3" color="red">超级管理员</Tag>
         <Tag v-if="auth === 2" color="orange">管理员</Tag>
         <div>
-          <Button type="success">个人中心</Button>
+          <Button @click="userCenter" type="success">个人中心</Button>
           <Button type="error" @click="logout()">退出</Button>
         </div>
       </div>
@@ -47,15 +47,19 @@
     <div class="layout" :style="{marginLeft: '200px', padding:'20px'}">
       <router-view></router-view>
     </div>
+
+    <!-- 个人中心-->
+    <user-center></user-center>
   </div>
 </template>
 
 <script>
   import FooterSw from "../footer-sw";
+  import UserCenter from "../user/user-center";
 
   export default {
     name: "admin-index",
-    components: {FooterSw},
+    components: {UserCenter, FooterSw},
     data() {
       return {
         // 用户权限
@@ -64,6 +68,13 @@
     },
     computed: {},
     methods: {
+      /**
+       * 个人中心
+       */
+      userCenter: function () {
+        this.$store.commit('setUserCenter', true);
+      },
+
       // 退出登陆
       logout: function () {
         // 清除token,用户名，和手机号码

@@ -144,6 +144,11 @@
           sessionStorage.clear('phoneNum');
           this.$router.push({name: 'index'})
         }
+
+        // 个人中心
+        if (name == '5-1') {
+          this.$store.commit('setUserCenter', true);
+        }
       },
       onSearch: function () {
 

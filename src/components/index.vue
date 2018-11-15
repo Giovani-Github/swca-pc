@@ -15,8 +15,9 @@
     <div style="padding: 0px 30px 10px 30px;margin-top: 20px">
       <Card :bordered="true">
         <p slot="title">普通文章</p>
-        <div :key="index" v-for="(informArticle, index) in newInformArticleList">
-          <span @click="aclik(informArticle.articleId)">{{informArticle.title}}</span>
+        <div style="margin-bottom: 10px" :key="index" v-for="(informArticle, index) in newInformArticleList">
+          <a class="articletitle" @click="aclik(informArticle.articleId)">{{informArticle.title}}</a>
+          <Time style="color: rgb(158, 167, 180); margin-left: 6px" :time="informArticle.publishTime"></Time>
         </div>
       </Card>
     </div>
@@ -25,7 +26,9 @@
       <Card :bordered="true">
         <p slot="title">教程文章</p>
         <div :key="index" v-for="(courseArticle, index) in hotCourseArticleList">
-          <span @click="aclik(courseArticle.articleId)">{{courseArticle.title}}</span>
+          <a class="articletitle" @click="aclik(courseArticle.articleId)">{{courseArticle.title}}</a>
+
+          <Time style="color: rgb(158, 167, 180); margin-left: 6px" :time="courseArticle.publishTime"></Time>
         </div>
       </Card>
     </div>
@@ -34,9 +37,11 @@
 
 <script>
 
+  import UserCenter from "./user/user-center";
   export default {
 
     name: 'HelloWorld',
+    components: {UserCenter},
     data() {
       return {
         // 轮播图列表
@@ -111,6 +116,12 @@
 <style scoped lang="less">
   @import "../common/less/global";
 
+  .articletitle {
+    font-size: 14px;
+    font-weight: bold;
+    color: rgb(70, 76, 91);
+  }
+
   .banner-img {
     padding-top: 29%;
     background-repeat: no-repeat;
@@ -118,8 +129,5 @@
     background-size: cover;
   }
 
-  .index {
-    /*min-height: 520px;*/
-  }
 
 </style>

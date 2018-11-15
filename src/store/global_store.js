@@ -64,8 +64,23 @@ export default {
      * 后台左侧菜单当前选择项
      */
     adminMenuActive: '1',
+
+    /**
+     * 用户中心抽屉是否打开
+     */
+    userCenter: false
+
   },
   mutations: {
+    /**
+     * 修改userCenter数据，通过this.$store.commit('setUserCenter', 'userCenter')访问
+     * @param state
+     * @param userCenter
+     */
+    setUserCenter(state, userCenter) {
+      state.userCenter = userCenter;
+    },
+
     /**
      * 修改token数据，通过this.$store.commit('setToken', 'token')访问
      * @param state
