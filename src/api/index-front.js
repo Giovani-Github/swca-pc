@@ -7,6 +7,21 @@
 import {BASE_URL, axios} from './base';
 
 const indexFront = {
+  /**
+   * 查询所有普通文章
+   * @returns {AxiosPromise<any>}
+   */
+  getAllInform(data) {
+    return axios.get(BASE_URL + "/index/informArticle/all", {params: data});
+  },
+
+  /**
+   * 查询所有教程文章
+   * @returns {AxiosPromise<any>}
+   */
+  getAllCourse(data) {
+    return axios.get(BASE_URL + "/index/courseArticle/all", {params: data});
+  },
 
   /**
    * 获取评论

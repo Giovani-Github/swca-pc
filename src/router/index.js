@@ -4,6 +4,7 @@ import frontIndex from '../components/front-index'
 import adminIndex from '../components/admin/admin-index'
 import index from '../components/index'
 import course from '../components/course'
+import inform from '../components/inform'
 import commit from '../components/utils/repair/commit'
 import orderList from '../components/utils/repair/order-list'
 import articleRead from '../components/article-read'
@@ -40,6 +41,12 @@ const router = new Router({
           path: '/course',
           name: 'course',
           component: course
+        },
+        // 普通文章
+        {
+          path: '/inform',
+          name: 'inform',
+          component: inform
         },
         // 提交维修订单
         {

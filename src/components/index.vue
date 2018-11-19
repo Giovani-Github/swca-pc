@@ -13,23 +13,46 @@
     </Row>
 
     <div style="padding: 0px 30px 10px 30px;margin-top: 20px">
-      <Card :bordered="true">
+      <Card style="padding: 0px" :bordered="true">
         <p slot="title">普通文章</p>
-        <div style="margin-bottom: 10px" :key="index" v-for="(informArticle, index) in newInformArticleList">
-          <a class="articletitle" @click="aclik(informArticle.articleId)">{{informArticle.title}}</a>
-          <Time style="color: rgb(158, 167, 180); margin-left: 6px" :time="informArticle.publishTime"></Time>
-        </div>
+        <CellGroup>
+          <Cell
+            :to="{path: `/articleRead/${informArticle.articleId}`}"
+            :key="index"
+            v-for="(informArticle, index) in newInformArticleList">
+            <p class="articletitle"><a class="articletitle">{{informArticle.title}}</a></p>
+            <Time style="color: rgb(158, 167, 180)" :time="informArticle.publishTime"></Time>
+            <span style="margin-left: 6px;color: rgb(158, 167, 180)">
+              阅读量：{{informArticle.reading}}
+            </span>
+            <Icon style="color: #2d8cf0;margin-left: 10px" type="md-heart"/>
+            {{informArticle.parise > 0 ? informArticle.parise : 0}}
+          </Cell>
+          <Cell :to="{path: `/inform`}">查看更多</Cell>
+        </CellGroup>
+
       </Card>
     </div>
 
     <div style="padding: 0px 30px 10px 30px">
       <Card :bordered="true">
         <p slot="title">教程文章</p>
-        <div :key="index" v-for="(courseArticle, index) in hotCourseArticleList">
-          <a class="articletitle" @click="aclik(courseArticle.articleId)">{{courseArticle.title}}</a>
+        <CellGroup>
+          <Cell
+            :to="{path: `/articleRead/${courseArticle.articleId}`}"
+            :key="index"
+            v-for="(courseArticle, index) in hotCourseArticleList">
+            <p class="articletitle"><a class="articletitle">{{courseArticle.title}}</a></p>
+            <Time style="color: rgb(158, 167, 180)" :time="courseArticle.publishTime"></Time>
+            <span style="margin-left: 6px;color: rgb(158, 167, 180)">
+              阅读量：{{courseArticle.reading}}
+            </span>
+            <Icon style="color: #2d8cf0;margin-left: 10px" type="md-heart"/>
+            {{courseArticle.parise > 0 ? courseArticle.parise : 0}}
+          </Cell>
+          <Cell :to="{path: `/course`}">查看更多</Cell>
+        </CellGroup>
 
-          <Time style="color: rgb(158, 167, 180); margin-left: 6px" :time="courseArticle.publishTime"></Time>
-        </div>
       </Card>
     </div>
   </div>
@@ -38,6 +61,7 @@
 <script>
 
   import UserCenter from "./user/user-center";
+
   export default {
 
     name: 'HelloWorld',
@@ -120,6 +144,11 @@
     font-size: 14px;
     font-weight: bold;
     color: rgb(70, 76, 91);
+
+    width: 600px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    whitewhite-space: nowrap;
   }
 
   .banner-img {
@@ -128,6 +157,5 @@
     background-position: center;
     background-size: cover;
   }
-
 
 </style>

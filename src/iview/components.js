@@ -47,7 +47,9 @@ import {
   Upload,
   Badge,
   Time,
-  Drawer
+  Drawer,
+  CellGroup,
+  Cell,
 } from 'iview';
 
 const iview = {
@@ -98,6 +100,8 @@ const iview = {
     Vue.component('Badge', Badge);
     Vue.component('Time', Time);
     Vue.component('Drawer', Drawer);
+    Vue.component('CellGroup', CellGroup);
+    Vue.component('Cell', Cell);
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
     Vue.prototype.$Select = Select;
