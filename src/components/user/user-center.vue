@@ -17,8 +17,8 @@
       手机号码：{{user.phoneNum}}
     </p>
     <p style="margin-top: 20px">
-      邮箱：{{user.email ? user.email : '未绑定邮箱'}} <Input v-model="newUser.email" placeholder="输入邮箱" clearable
-                                                      style="width: 200px;margin-left: 20px"/>
+      邮箱：{{user.eamil ? user.eamil : '未绑定邮箱'}} <Input v-model="newUser.eamil" placeholder="输入邮箱" clearable
+                                                      style="width: 160px;margin-left: 10px"/>
     </p>
     <p style="margin-top: 20px">
       性别：
@@ -49,7 +49,7 @@
         // 更改后的用户信息
         newUser: {
           userName: '',
-          email: '',
+          eamil: '',
           gender: '',
           userId: ''
         }
@@ -63,14 +63,14 @@
        */
       changeUser() {
 
-        if (!this.newUser.userName && !this.newUser.email && this.newUser.gender == this.user.gender) {
+        if (!this.newUser.userName && !this.newUser.eamil && this.newUser.gender == this.user.gender) {
           this.$Message.info("信息没有更改");
           return;
         }
 
         this.$api.user.changeUser({
           userName: this.newUser.userName,
-          email: this.newUser.email,
+          eamil: this.newUser.eamil,
           gender: this.newUser.gender,
           userId: this.newUser.userId
         }).then(

@@ -8,6 +8,15 @@ import {BASE_URL, axios} from '../base';
 
 const repairAdmin = {
   /**
+   * 获取所有用户统计数据，用户总数，男性总数，女性总数
+   * @returns {AxiosPromise<any>}
+   */
+  findAllUserStatistics(data) {
+    return axios.get(BASE_URL + "/admin/user/statistics");
+  },
+
+
+  /**
    * 查询所有用户信息
    * @returns {AxiosPromise<any>}
    */

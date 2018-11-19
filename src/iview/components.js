@@ -50,6 +50,7 @@ import {
   Drawer,
   CellGroup,
   Cell,
+  Circle
 } from 'iview';
 
 const iview = {
@@ -102,6 +103,7 @@ const iview = {
     Vue.component('Drawer', Drawer);
     Vue.component('CellGroup', CellGroup);
     Vue.component('Cell', Cell);
+    Vue.component('iCircle', Circle);
     Vue.prototype.$Message = Message;
     Vue.prototype.$Modal = Modal;
     Vue.prototype.$Select = Select;

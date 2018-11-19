@@ -23,7 +23,7 @@
         </Col>
         <Col span="8" style="text-align: center">
           邮箱：
-          <Input v-model="userInfo.email" placeholder="输入邮箱" style="width: 250px"/>
+          <Input v-model="userInfo.eamil" placeholder="输入邮箱" style="width: 250px"/>
         </Col>
         <Col span="8" style="text-align: center">
           手机号码：
@@ -51,6 +51,47 @@
           </div>
         </Col>
       </Row>
+    </Card>
+    <Card style="margin-top: 20px">
+      <p slot="title">统计</p>
+      <!-- 总计 -->
+      <iCircle :size="120"
+               :trail-width="4"
+               :stroke-width="5"
+               :percent="(userTotalCircle / userTotalCircle)*100"
+               stroke-linecap="square"
+               stroke-color="#43a3fb">
+        <div class="demo-Circle-custom">
+          <icon style="font-size: 18px; color:#2b85e4;" type="md-contacts"></icon>
+          <i>{{userTotalCircle}}</i>
+        </div>
+      </iCircle>
+
+      <!-- 男性 -->
+      <iCircle :size="120"
+               :trail-width="4"
+               :stroke-width="5"
+               :percent="(maleTotalCircle / userTotalCircle)*100"
+               stroke-linecap="square"
+               stroke-color="#43a3fb">
+        <div class="demo-Circle-custom">
+          <icon style="font-size: 18px; color:#2b85e4;" type="md-male"></icon>
+          <i>{{((maleTotalCircle / userTotalCircle)*100).toFixed(2)}}% </i>
+        </div>
+      </iCircle>
+
+      <!-- 女性 -->
+      <iCircle :size="120"
+               :trail-width="4"
+               :stroke-width="5"
+               :percent="(femaleTotalCircle / userTotalCircle)*100"
+               stroke-linecap="square"
+               stroke-color="#43a3fb">
+        <div class="demo-Circle-custom">
+          <icon style="font-size: 18px; color:#FF6666;" type="md-female"></icon>
+          <i>{{((femaleTotalCircle / userTotalCircle)*100).toFixed(2)}}% </i>
+        </div>
+      </iCircle>
     </Card>
 
     <Card style="margin-top: 20px">
@@ -99,10 +140,17 @@
 
     data() {
       return {
+        // Circle用的用户总数
+        userTotalCircle: 0,
+        // Circle用的男性用户总数
+        maleTotalCircle: 0,
+        // Circle用的女性用户总数
+        femaleTotalCircle: 0,
+
         // 多条件搜索
         userInfo: {
           userName: '',
-          email: '',
+          eamil: '',
           phoneNum: '',
           stuNum: '',
           userId: '',
@@ -217,10 +265,10 @@
             {
               align: 'center',
               title: '邮箱',
-              key: 'email',
+              key: 'eamil',
               render: (h, params) => {
-                if (params.row.email) {
-                  return h('span', params.row.email)
+                if (params.row.eamil) {
+                  return h('span', params.row.eamil)
                 } else {
                   return h('span', "未绑定邮箱");
                 }
@@ -314,6 +362,17 @@
       }
     },
     methods: {
+      // 获取用户统计信息
+      findAllUserStatistics() {
+        this.$api.personnelAdmin.findAllUserStatistics().then(
+          res => {
+            this.userTotalCircle = res.data[0].total;
+            this.maleTotalCircle = res.data[0].male;
+            this.femaleTotalCircle = res.data[0].female;
+          }
+        )
+      },
+
       // 多条件搜索
       search: function () {
         this.getUserList();
@@ -426,7 +485,7 @@
             pageSize: this.pageSize,
             // 多条件
             userName: this.userInfo.userName,
-            email: this.userInfo.email,
+            eamil: this.userInfo.eamil,
             phoneNum: this.userInfo.phoneNum,
             stuNum: this.userInfo.stuNum,
             userId: this.userInfo.userId,
@@ -449,7 +508,6 @@
                 }
               );
             }
-
             this.spinShow = false;
           }
         ).catch(
@@ -461,6 +519,9 @@
     }
     ,
     created() {
+      // 获取统计信息
+      this.findAllUserStatistics();
+      // 获取用户列表
       this.getUserList();
       // 设置当前侧边栏选择项是1
       this.$store.commit('setAdminMenuActive', '1');
