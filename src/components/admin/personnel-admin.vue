@@ -54,44 +54,72 @@
     </Card>
     <Card style="margin-top: 20px">
       <p slot="title">统计</p>
-      <!-- 总计 -->
-      <iCircle :size="120"
-               :trail-width="4"
-               :stroke-width="5"
-               :percent="(userTotalCircle / userTotalCircle)*100"
-               stroke-linecap="square"
-               stroke-color="#43a3fb">
-        <div class="demo-Circle-custom">
-          <icon style="font-size: 18px; color:#2b85e4;" type="md-contacts"></icon>
-          <i>{{userTotalCircle}}</i>
-        </div>
-      </iCircle>
 
-      <!-- 男性 -->
-      <iCircle :size="120"
-               :trail-width="4"
-               :stroke-width="5"
-               :percent="(maleTotalCircle / userTotalCircle)*100"
-               stroke-linecap="square"
-               stroke-color="#43a3fb">
-        <div class="demo-Circle-custom">
-          <icon style="font-size: 18px; color:#2b85e4;" type="md-male"></icon>
-          <i>{{((maleTotalCircle / userTotalCircle)*100).toFixed(2)}}% </i>
-        </div>
-      </iCircle>
+      <Row>
+        <Col span="8" style="text-align: center">
+          <!-- 总计 -->
+          <iCircle :size="120"
+                   :trail-width="4"
+                   :stroke-width="5"
+                   :percent="(userTotalCircle / userTotalCircle)*100"
+                   stroke-linecap="square"
+                   stroke-color="#5cb85c">
 
-      <!-- 女性 -->
-      <iCircle :size="120"
-               :trail-width="4"
-               :stroke-width="5"
-               :percent="(femaleTotalCircle / userTotalCircle)*100"
-               stroke-linecap="square"
-               stroke-color="#43a3fb">
-        <div class="demo-Circle-custom">
-          <icon style="font-size: 18px; color:#FF6666;" type="md-female"></icon>
-          <i>{{((femaleTotalCircle / userTotalCircle)*100).toFixed(2)}}% </i>
-        </div>
-      </iCircle>
+            <div class="demo-Circle-custom">
+              <p>
+                <icon style="font-size: 18px; color:#5cb85c;" type="md-contacts"></icon>
+                <i>{{userTotalCircle}}</i>
+              </p>
+              <span>
+            总人数
+          </span>
+            </div>
+            <!--<div class="demo-Circle-custom">-->
+
+            <!--</div>-->
+          </iCircle>
+        </Col>
+        <Col span="8" style="text-align: center">
+          <!-- 男性 -->
+          <iCircle :size="120"
+                   :trail-width="4"
+                   :stroke-width="5"
+                   :percent="(maleTotalCircle / userTotalCircle)*100"
+                   stroke-linecap="square"
+                   stroke-color="#2b85e4">
+            <div class="demo-Circle-custom">
+              <p>
+                <icon style="font-size: 18px; color:#2b85e4;" type="md-male"></icon>
+                {{maleTotalCircle}}
+              </p>
+              <span>
+            {{((maleTotalCircle / userTotalCircle)*100).toFixed(2)}}%
+          </span>
+            </div>
+          </iCircle>
+        </Col>
+        <Col span="8" style="text-align: center">
+          <!-- 女性 -->
+          <iCircle :size="120"
+                   :trail-width="4"
+                   :stroke-width="5"
+                   :percent="(femaleTotalCircle / userTotalCircle)*100"
+                   stroke-linecap="square"
+                   stroke-color="#FF6666">
+            <div class="demo-Circle-custom">
+              <p>
+                <icon style="font-size: 18px; color:#FF6666;" type="md-female"></icon>
+                {{femaleTotalCircle}}
+              </p>
+              <span>
+            {{((femaleTotalCircle / userTotalCircle)*100).toFixed(2)}}%
+          </span>
+
+            </div>
+          </iCircle>
+        </Col>
+      </Row>
+
     </Card>
 
     <Card style="margin-top: 20px">
@@ -105,10 +133,6 @@
       <div style="margin: 10px;overflow: hidden">
         <div style="float: right;">
           <Page :total="userTotal" :page-size="pageSize" @on-change="pageChange"></Page>
-        </div>
-        <div style="margin: 10px">
-          <Icon style="font-size: 18px; color:#2d8cf0; margin-right: 6px" type="md-contacts"/>
-          会员总数：{{userTotal}}
         </div>
       </div>
     </Card>
@@ -203,6 +227,7 @@
               align: 'center',
               type: 'index',
               title: '#',
+              width: 60
             },
             {
               align: 'center',
@@ -213,6 +238,7 @@
             {
               align: 'center',
               title: '性别',
+              width: 90,
               key: 'gender',
               filters: [
                 {
@@ -266,6 +292,7 @@
               align: 'center',
               title: '邮箱',
               key: 'eamil',
+              width: 200,
               render: (h, params) => {
                 if (params.row.eamil) {
                   return h('span', params.row.eamil)
@@ -284,7 +311,7 @@
               align: 'center',
               title: '学号',
               key: 'stuNum',
-              width: 150,
+              width: 140,
               render: (h, params) => {
                 if (params.row.stuNum) {
                   return h('span', params.row.stuNum)
@@ -297,6 +324,7 @@
               align: 'center',
               title: '用户id',
               key: 'userId',
+              width: 80
             },
             {
               align: 'center',
@@ -354,7 +382,7 @@
                         this.authModalPopup(params.row.phoneNum, params.row.userId);
                       }
                     }
-                  }, '修改用户权限')
+                  }, '修改权限')
                 ]);
               }
             }
@@ -544,6 +572,32 @@
 
     .ivu-modal {
       top: 0;
+    }
+  }
+
+  .demo-Circle-custom {
+
+    & p {
+      color: #657180;
+      font-size: 14px;
+      margin: 10px 0 15px;
+    }
+    & span {
+      display: block;
+      padding-top: 15px;
+      color: #657180;
+      font-size: 14px;
+      &:before {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 1px;
+        margin: 0 auto;
+        background: #e0e3e6;
+        position: relative;
+        top: -15px;
+      }
+    ;
     }
   }
 </style>

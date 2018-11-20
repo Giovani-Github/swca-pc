@@ -22,7 +22,7 @@
           <Upload
             :before-upload="handleUpload"
             action="">
-            <Button icon="ios-cloud-upload-outline">选择要上传的轮播图</Button>
+            <Button icon="ios-cloud-upload-outline">选择要上传的轮播图（1410px × 556px）</Button>
 
           </Upload>
 
