@@ -4,17 +4,17 @@
 
     <Menu class="menu" mode="horizontal" :active-name="activeName" @on-select="onSelect">
       <Row type="flex" justify="start" class="code-row-bg">
-        <Col :sm="1" offset="1" class="home">
+        <Col :sm="15" offset="1" class="home" :xs="0">
           <router-link :to="{name:'index'}">
             <img @click="homeClick" src="../assets/swca-logo.png" alt="" class="layout-logo">
           </router-link>
         </Col>
 
-        <Col :sm="6" offset="1" class="search">
-          <Input @on-search="onSearch" search enter-button placeholder="Enter something..."/>
-        </Col>
+        <!--<Col :sm="6" offset="1" class="search">-->
+        <!--<Input @on-search="onSearch" search enter-button placeholder="Enter something..."/>-->
+        <!--</Col>-->
 
-        <Col :sm="7" offset="7" :xs="0">
+        <Col :sm="7">
           <div class="layout-nav">
             <router-link :to="{name: 'course'}">
               <MenuItem name="2">
