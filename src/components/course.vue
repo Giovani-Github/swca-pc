@@ -67,7 +67,6 @@
 
         }).then(
           res => {
-            console.log(res.data[0]);
             this.courseList = res.data[0].list;
             this.courseTotal = res.data[0].total;
           }

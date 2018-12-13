@@ -150,7 +150,6 @@
 
             }).then(
               res => {
-                console.log(res.data);
                 this.$Message.success('注册成功');
                 this.myPanelPopup = false;
                 this.spinShow = false;

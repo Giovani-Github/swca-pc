@@ -67,7 +67,6 @@
 
         }).then(
           res => {
-            console.log(res.data[0]);
             this.informList = res.data[0].list;
             this.informTotal = res.data[0].total;
           }

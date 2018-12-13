@@ -423,7 +423,6 @@
           }
         ).catch(
           error => {
-            console.log(error);
           }
         )
       },
@@ -442,7 +441,6 @@
           }
         ).catch(
           error => {
-            console.log(error);
           }
         )
       },
@@ -489,7 +487,6 @@
           }
         ).then(
           res => {
-            console.log(res.data[0].list);
             this.orderTotal = res.data[0].total;
             this.orderList = res.data[0].list;
 

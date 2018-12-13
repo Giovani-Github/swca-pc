@@ -18,7 +18,7 @@
         <Icon type="ios-loading" size=18 class="demo-spin-icon-load"></Icon>
         <div>正在加载</div>
       </Spin>
-      <Input maxlength="150" size="large" v-model="title" placeholder="输入文章标题" clearable
+      <Input :maxlength=150 size="large" v-model="title" placeholder="输入文章标题" clearable
              style="width: 800px;margin-bottom: 20px"/>
 
       <RadioGroup v-model="articleType" type="button" size="large" style="margin-bottom: 20px;margin-left: 10px">

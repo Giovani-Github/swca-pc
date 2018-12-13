@@ -41,13 +41,18 @@
       <div
         v-if="order.state >= $store.state.global.repairState.ACCEPT && order.state != $store.state.global.repairState.CANCEL">
         <Divider orientation="left">接单信息</Divider>
+        <Button @click="openAccept(order.acceptId)" type="primary" ghost>点击查看</Button>
+
         <!--<span>维修人员： <Tag color="primary">{{getAcceptByOrderId(order.acceptId).userName}}</Tag> </span>-->
         <!--<span>联系电话： <Tag color="success">{{getAcceptByOrderId(order.acceptId).phoneNum}}</Tag></span>-->
-
+        <Modal v-model="acceptModel">
+          <p>姓名：{{acceptUser.userName}}</p>
+          <p>性别：<span v-if="acceptUser.gender === 'male'">男</span> <span v-else> 女</span></p>
+          <p>联系方式：{{acceptUser.phoneNum}}</p>
+        </Modal>
       </div>
 
-      <p>
-      </p>
+
     </Card>
     <Page :total="orderTotal" :page-size="pageSize" @on-change="pageChange"/>
   </div>
@@ -70,9 +75,35 @@
         orderTotal: 1,
         // 加载中是否显示
         spinShow: false,
+        // 接单信息模态框
+        acceptModel: false,
+        // 接单人信息
+        acceptUser: ''
       }
     },
     methods: {
+
+      /**
+       * 显示接单信息模态框
+       */
+      openAccept: function (acceptId) {
+        this.acceptModel = true;
+        this.getAcceptByOrderId(acceptId);
+      },
+
+      /**
+       * 获取接单信息
+       * @param acceptId
+       */
+      getAcceptByOrderId(acceptId) {
+        this.$api.user.getUserByUserId(acceptId).then(
+          res => {
+            // 保存接单人信息
+            this.acceptUser = res.data.user;
+          }
+        );
+      },
+
       /**
        * 取消订单
        * @param orderId
@@ -96,17 +127,7 @@
         this.pageNum = currentPageNum;
         this.getOrderList();
       },
-      /**
-       * 根据订单状态获取接单步骤的标题内容
-       * @param orderId
-       */
-      getAcceptByOrderId(acceptId) {
-        for (var i = 0; i < this.acceptList.length; i++) {
-          if (this.acceptList[i].userId == acceptId) {
-            return this.acceptList[i];
-          }
-        }
-      },
+
       /**
        * 根据订单状态获取接单步骤的标题内容
        * @param state
@@ -178,22 +199,10 @@
 
               this.spinShow = false;
 
-              console.log(res.data[0]);
               // 保存订单信息
               this.orderList = res.data[0].list;
               // 保存订单总条数
               this.orderTotal = res.data[0].total;
-              for (var i = 0; i < this.orderList.length; i++) {
-                // 如果是已经被接单的订单，获取到接单人的信息
-                if (this.orderList[i].acceptId != '' && this.orderList[i].acceptId != undefined) {
-                  this.$api.user.getUserByUserId(this.orderList[i].acceptId).then(
-                    res => {
-                      // 保存接单人信息, 数组要用push，否则页面无法检测到数据已经更新
-                      this.acceptList.push(res.data.user)
-                    }
-                  );
-                }
-              }
 
             } else {
               this.$Message.info({

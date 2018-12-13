@@ -5,7 +5,13 @@
       <Col :sm="24" :xs="0">
         <Carousel autoplay loop :autoplay-speed=7000>
           <CarouselItem :key="index" v-for="(slide, index) in slideList">
-            <div class="banner-img" :style="{background: 'url(' + slide.addres + ')'}"></div>
+            <router-link :to="{path: `/articleRead/${slide.articleId}`}" v-if="slide.articleId !== 0">
+              <div class="banner-img"
+                   :style="{background: 'url(' + slide.addres + ')'}"></div>
+            </router-link>
+            <div v-else>
+              <div class="banner-img" :style="{background: 'url(' + slide.addres + ')'}"></div>
+            </div>
             <!--<img class="f" style="width: 1024px;height: 600px" :src="slide.addres" alt="">-->
           </CarouselItem>
         </Carousel>
@@ -92,7 +98,6 @@
         this.$api.indexFront.getAllSlide().then(
           res => {
             this.slideList = res.data[0];
-            console.log(this.slideList);
           }
         );
       },
@@ -101,11 +106,9 @@
        * 获取前20篇普通文章
        */
       getNewInformArticle() {
-        console.log("执行");
         this.$api.indexFront.getNewInformArticle().then(
           res => {
             this.newInformArticleList = res.data[0].list;
-            console.log(this.newInformArticleList);
           }
         );
       },
@@ -117,7 +120,6 @@
         this.$api.indexFront.getHotCourseArticle().then(
           res => {
             this.hotCourseArticleList = res.data[0].list;
-            console.log(this.hotCourseArticleList);
           }
         );
       },

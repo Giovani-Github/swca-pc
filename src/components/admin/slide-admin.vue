@@ -396,7 +396,6 @@
         this.$api.indexAdmin.findAllSlideImg().then(
           res => {
             this.slideLsit = res.data[0];
-            console.log(this.slideLsit);
             this.spinShow = false;
           }
         ).catch(

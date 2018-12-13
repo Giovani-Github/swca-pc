@@ -465,7 +465,6 @@
 
             this.articleTotal = res.data[0].total;
             this.articleList = res.data[0].list;
-            console.log(this.articleList);
             this.spinShow = false;
           }
         ).catch(

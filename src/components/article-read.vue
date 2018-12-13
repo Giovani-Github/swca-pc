@@ -228,7 +228,6 @@
             for (var i = 0; i < this.commentList.length; i++) {
               this.$api.indexFront.getUserByUserId(this.commentList[i].userId).then(
                 res => {
-                  console.log(res.data.user);
                   this.commentUserInfoList.push(res.data.user);
                 }
               );
